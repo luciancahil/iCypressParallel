@@ -16,7 +16,7 @@ conda activate cypress-env
 sed -i 's/\r$//' install.sh
 bash install.sh
 ````
-
+*If you see "ERROR: No matching distribution found for matplotlib==3.7.0", just ignore it. The library will still work fine*
 
 ## Testing
 
@@ -88,7 +88,7 @@ Parallization is handled automatically by this library. The last command above d
 
 ````
 cd run
-bash custom.sh ESET PATIENTS CCL2 False
+bash custom.sh ESET PATIENTS CCL2 True
 ````
 
 
