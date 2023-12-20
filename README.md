@@ -8,7 +8,7 @@ It is a graph neural network library that analyzes gene expression data in the c
 ## Installation and Setup
 To Install iCYPRESS, git clone this repository. Then, enter this project's main directory, and run the following commands to create the conda environment needed to make the project run.
 
-
+On linux, use the following commands.
 ````
 sed -i 's/\r$//' environment.yml
 conda env create -f environment.yml -n cypress-env
@@ -16,6 +16,17 @@ conda activate cypress-env
 sed -i 's/\r$//' install.sh
 bash install.sh
 ````
+
+On windows, open git bash, and type the following commands:
+
+````
+sed -i 's/\r$//' windows.yml
+conda env create -f windows.yml -n cypress-env
+conda activate cypress-env
+sed -i 's/\r$//' install.sh
+bash install.sh
+````
+
 *If you see "ERROR: No matching distribution found for matplotlib==3.7.0", just ignore it. The library will still work fine*
 
 ## Testing
