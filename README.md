@@ -9,7 +9,7 @@ It is a graph neural network library that analyzes gene expression data in the c
 To Install iCYPRESS, git clone this repository. Then, enter this project's main directory, and run the following commands to create the conda environment needed to make the project run.
 
 ````
-conda create -n cypress-duplicate python=3.7 -y
+conda create -n cypress-env python=3.7 -y
 conda activate cypress-env
 pip install torch==1.8.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 CUDA=cu101
