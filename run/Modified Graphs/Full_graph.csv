@@ -1,0 +1,674 @@
+classical monocyte,CCL13
+CCL13,eosinophil
+classical monocyte,CCL13
+CCL13,plasmacytoid DC
+classical monocyte,CCL13
+CCL13,NK-cell
+classical monocyte,CCL13
+CCL13,basophil
+classical monocyte,CCL13
+CCL13,MAIT T-cell
+myeloid DC,CCL17
+CCL17,eosinophil
+myeloid DC,CCL17
+CCL17,T-reg
+memory B-cell,CCL17
+CCL17,T-reg
+memory B-cell,CCL17
+CCL17,NK-cell
+memory B-cell,CCL17
+CCL17,eosinophil
+myeloid DC,CCL17
+CCL17,NK-cell
+intermediate monocyte,CCL19
+CCL19,naive CD4 T-cell
+intermediate monocyte,CCL19
+CCL19,plasmacytoid DC
+intermediate monocyte,CCL19
+CCL19,NK-cell
+intermediate monocyte,CCL19
+CCL19,basophil
+intermediate monocyte,CCL19
+CCL19,eosinophil
+intermediate monocyte,CCL19
+CCL19,T-reg
+intermediate monocyte,CCL1
+CCL1,T-reg
+classical monocyte,CCL1
+CCL1,T-reg
+MAIT T-cell,CCL20
+CCL20,T-reg
+MAIT T-cell,CCL20
+CCL20,naive B-cell
+MAIT T-cell,CCL20
+CCL20,memory CD4 T-cell
+MAIT T-cell,CCL20
+CCL20,memory B-cell
+MAIT T-cell,CCL20
+CCL20,plasmacytoid DC
+eosinophil,CCL23
+CCL23,NK-cell
+intermediate monocyte,CCL24
+CCL24,eosinophil
+intermediate monocyte,CCL24
+CCL24,NK-cell
+intermediate monocyte,CCL24
+CCL24,basophil
+memory B-cell,CCL25
+CCL25,basophil
+NK-cell,CCL25
+CCL25,eosinophil
+memory B-cell,CCL25
+CCL25,naive B-cell
+memory B-cell,CCL25
+CCL25,T-reg
+NK-cell,CCL25
+CCL25,naive B-cell
+memory B-cell,CCL25
+CCL25,NK-cell
+memory B-cell,CCL25
+CCL25,eosinophil
+NK-cell,CCL25
+CCL25,memory B-cell
+NK-cell,CCL25
+CCL25,T-reg
+NK-cell,CCL25
+CCL25,basophil
+intermediate monocyte,CCL26
+CCL26,eosinophil
+intermediate monocyte,CCL26
+CCL26,basophil
+intermediate monocyte,CCL26
+CCL26,MAIT T-cell
+T-reg,CCL27
+CCL27,eosinophil
+T-reg,CCL27
+CCL27,NK-cell
+classical monocyte,CCL2
+CCL2,eosinophil
+classical monocyte,CCL2
+CCL2,NK-cell
+eosinophil,CCL2
+CCL2,T-reg
+eosinophil,CCL2
+CCL2,basophil
+eosinophil,CCL2
+CCL2,MAIT T-cell
+classical monocyte,CCL2
+CCL2,basophil
+classical monocyte,CCL2
+CCL2,MAIT T-cell
+eosinophil,CCL2
+CCL2,NK-cell
+classical monocyte,CCL2
+CCL2,T-reg
+bone marrow,CCL3L1
+CCL3L1,NK-cell
+neutrophil,CCL3L1
+CCL3L1,MAIT T-cell
+neutrophil,CCL3L1
+CCL3L1,NK-cell
+eosinophil,CCL3L1
+CCL3L1,basophil
+bone marrow,CCL3L1
+CCL3L1,basophil
+neutrophil,CCL3L1
+CCL3L1,basophil
+eosinophil,CCL3L1
+CCL3L1,MAIT T-cell
+eosinophil,CCL3L1
+CCL3L1,NK-cell
+bone marrow,CCL3L1
+CCL3L1,eosinophil
+bone marrow,CCL3L1
+CCL3L1,MAIT T-cell
+neutrophil,CCL3L1
+CCL3L1,eosinophil
+bone marrow,CCL3
+CCL3,NK-cell
+bone marrow,CCL3
+CCL3,memory B-cell
+bone marrow,CCL3
+CCL3,naive B-cell
+gdT-cell,CCL3
+CCL3,NK-cell
+gdT-cell,CCL3
+CCL3,memory B-cell
+gdT-cell,CCL3
+CCL3,basophil
+bone marrow,CCL3
+CCL3,basophil
+gdT-cell,CCL3
+CCL3,MAIT T-cell
+bone marrow,CCL3
+CCL3,eosinophil
+bone marrow,CCL3
+CCL3,MAIT T-cell
+bone marrow,CCL3
+CCL3,T-reg
+gdT-cell,CCL3
+CCL3,eosinophil
+gdT-cell,CCL3
+CCL3,naive B-cell
+gdT-cell,CCL3
+CCL3,T-reg
+bone marrow,CCL4L2
+CCL4L2,NK-cell
+eosinophil,CCL4L2
+CCL4L2,T-reg
+eosinophil,CCL4L2
+CCL4L2,basophil
+bone marrow,CCL4L2
+CCL4L2,basophil
+eosinophil,CCL4L2
+CCL4L2,MAIT T-cell
+eosinophil,CCL4L2
+CCL4L2,NK-cell
+bone marrow,CCL4L2
+CCL4L2,eosinophil
+bone marrow,CCL4L2
+CCL4L2,MAIT T-cell
+bone marrow,CCL4L2
+CCL4L2,T-reg
+MAIT T-cell,CCL4
+CCL4,T-reg
+naive CD8 T-cell,CCL4
+CCL4,MAIT T-cell
+gdT-cell,CCL4
+CCL4,basophil
+MAIT T-cell,CCL4
+CCL4,basophil
+MAIT T-cell,CCL4
+CCL4,eosinophil
+memory CD8 T-cell,CCL4
+CCL4,T-reg
+MAIT T-cell,CCL4
+CCL4,NK-cell
+naive CD8 T-cell,CCL4
+CCL4,basophil
+memory CD8 T-cell,CCL4
+CCL4,MAIT T-cell
+naive CD8 T-cell,CCL4
+CCL4,eosinophil
+gdT-cell,CCL4
+CCL4,NK-cell
+naive CD8 T-cell,CCL4
+CCL4,T-reg
+naive CD8 T-cell,CCL4
+CCL4,NK-cell
+memory CD8 T-cell,CCL4
+CCL4,NK-cell
+gdT-cell,CCL4
+CCL4,MAIT T-cell
+memory CD8 T-cell,CCL4
+CCL4,basophil
+gdT-cell,CCL4
+CCL4,eosinophil
+gdT-cell,CCL4
+CCL4,T-reg
+memory CD8 T-cell,CCL4
+CCL4,eosinophil
+memory CD8 T-cell,CCL5
+CCL5,MAIT T-cell
+memory CD8 T-cell,CCL5
+CCL5,plasmacytoid DC
+gdT-cell,CCL5
+CCL5,NK-cell
+gdT-cell,CCL5
+CCL5,basophil
+memory CD8 T-cell,CCL5
+CCL5,NK-cell
+gdT-cell,CCL5
+CCL5,MAIT T-cell
+memory CD8 T-cell,CCL5
+CCL5,T-reg
+gdT-cell,CCL5
+CCL5,plasmacytoid DC
+memory CD8 T-cell,CCL5
+CCL5,basophil
+gdT-cell,CCL5
+CCL5,eosinophil
+gdT-cell,CCL5
+CCL5,T-reg
+memory CD8 T-cell,CCL5
+CCL5,eosinophil
+bone marrow,CCL7
+CCL7,NK-cell
+classical monocyte,CCL7
+CCL7,eosinophil
+classical monocyte,CCL7
+CCL7,MAIT T-cell
+bone marrow,CCL7
+CCL7,MAIT T-cell
+bone marrow,CCL7
+CCL7,T-reg
+classical monocyte,CCL7
+CCL7,T-reg
+classical monocyte,CCL7
+CCL7,plasmacytoid DC
+classical monocyte,CCL7
+CCL7,NK-cell
+bone marrow,CCL7
+CCL7,basophil
+classical monocyte,CCL7
+CCL7,basophil
+bone marrow,CCL7
+CCL7,eosinophil
+bone marrow,CCL7
+CCL7,plasmacytoid DC
+classical monocyte,CCL8
+CCL8,eosinophil
+classical monocyte,CCL8
+CCL8,NK-cell
+classical monocyte,CCL8
+CCL8,basophil
+classical monocyte,CCL8
+CCL8,MAIT T-cell
+naive CD4 T-cell,CD40LG
+CD40LG,naive B-cell
+MAIT T-cell,CD40LG
+CD40LG,naive B-cell
+memory CD4 T-cell,CD40LG
+CD40LG,memory B-cell
+memory CD4 T-cell,CD40LG
+CD40LG,naive B-cell
+naive CD4 T-cell,CD40LG
+CD40LG,memory B-cell
+MAIT T-cell,CD40LG
+CD40LG,memory B-cell
+gdT-cell,CD40LG
+CD40LG,memory B-cell
+gdT-cell,CD40LG
+CD40LG,naive B-cell
+memory B-cell,CD70
+CD70,T-reg
+neutrophil,CKLF
+CKLF,T-reg
+basophil,CSF1
+CSF1,intermediate monocyte
+eosinophil,CSF1
+CSF1,intermediate monocyte
+NK-cell,CSF2
+CSF2,plasmacytoid DC
+NK-cell,CSF2
+CSF2,neutrophil
+NK-cell,CSF2
+CSF2,classical monocyte
+NK-cell,CSF2
+CSF2,myeloid DC
+NK-cell,CSF2
+CSF2,basophil
+NK-cell,CSF2
+CSF2,eosinophil
+NK-cell,CSF2
+CSF2,intermediate monocyte
+classical monocyte,CXCL10
+CXCL10,eosinophil
+classical monocyte,CXCL10
+CXCL10,plasmacytoid DC
+intermediate monocyte,CXCL10
+CXCL10,plasmacytoid DC
+intermediate monocyte,CXCL10
+CXCL10,eosinophil
+classical monocyte,CXCL10
+CXCL10,basophil
+intermediate monocyte,CXCL10
+CXCL10,basophil
+classical monocyte,CXCL11
+CXCL11,eosinophil
+classical monocyte,CXCL11
+CXCL11,plasmacytoid DC
+classical monocyte,CXCL11
+CXCL11,basophil
+intermediate monocyte,CXCL12
+CXCL12,myeloid DC
+intermediate monocyte,CXCL12
+CXCL12,classical monocyte
+intermediate monocyte,CXCL12
+CXCL12,naive CD4 T-cell
+intermediate monocyte,CXCL12
+CXCL12,plasmacytoid DC
+intermediate monocyte,CXCL12
+CXCL12,memory CD4 T-cell
+intermediate monocyte,CXCL12
+CXCL12,bone marrow
+intermediate monocyte,CXCL12
+CXCL12,T-reg
+memory CD8 T-cell,CXCL13
+CXCL13,plasmacytoid DC
+memory CD8 T-cell,CXCL13
+CXCL13,T-reg
+memory CD8 T-cell,CXCL13
+CXCL13,basophil
+memory CD8 T-cell,CXCL13
+CXCL13,memory B-cell
+memory CD8 T-cell,CXCL13
+CXCL13,naive B-cell
+myeloid DC,CXCL14
+CXCL14,bone marrow
+intermediate monocyte,CXCL2
+CXCL2,myeloid DC
+intermediate monocyte,CXCL2
+CXCL2,neutrophil
+bone marrow,CXCL8
+CXCL8,neutrophil
+intermediate monocyte,CXCL9
+CXCL9,plasmacytoid DC
+intermediate monocyte,CXCL9
+CXCL9,basophil
+intermediate monocyte,CXCL9
+CXCL9,eosinophil
+neutrophil,EGF
+EGF,gdT-cell
+neutrophil,EGF
+EGF,NK-cell
+neutrophil,EGF
+EGF,plasmacytoid DC
+gdT-cell,FASLG
+FASLG,neutrophil
+memory CD8 T-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+naive CD4 T-cell,FLT3LG
+FLT3LG,myeloid DC
+MAIT T-cell,FLT3LG
+FLT3LG,myeloid DC
+memory CD4 T-cell,FLT3LG
+FLT3LG,myeloid DC
+naive CD8 T-cell,FLT3LG
+FLT3LG,myeloid DC
+T-reg,FLT3LG
+FLT3LG,plasmacytoid DC
+memory CD4 T-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+MAIT T-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+naive CD8 T-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+gdT-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+naive CD4 T-cell,FLT3LG
+FLT3LG,plasmacytoid DC
+T-reg,FLT3LG
+FLT3LG,myeloid DC
+gdT-cell,FLT3LG
+FLT3LG,myeloid DC
+memory CD8 T-cell,FLT3LG
+FLT3LG,myeloid DC
+basophil,HGF
+HGF,neutrophil
+basophil,HGF
+HGF,MAIT T-cell
+basophil,HGF
+HGF,NK-cell
+basophil,HGF
+HGF,plasmacytoid DC
+memory CD4 T-cell,IFNG
+IFNG,neutrophil
+naive CD8 T-cell,IFNG
+IFNG,neutrophil
+gdT-cell,IFNG
+IFNG,neutrophil
+bone marrow,IFNG
+IFNG,neutrophil
+memory CD8 T-cell,IFNG
+IFNG,neutrophil
+memory CD8 T-cell,IFNL1
+IFNL1,plasmacytoid DC
+MAIT T-cell,IFNL1
+IFNL1,plasmacytoid DC
+naive CD8 T-cell,IFNL1
+IFNL1,plasmacytoid DC
+gdT-cell,IFNL1
+IFNL1,plasmacytoid DC
+myeloid DC,IFNL1
+IFNL1,plasmacytoid DC
+NK-cell,IFNL1
+IFNL1,plasmacytoid DC
+memory CD4 T-cell,IFNL1
+IFNL1,plasmacytoid DC
+neutrophil,IL11
+IL11,naive CD4 T-cell
+naive B-cell,IL12A
+IL12A,T-reg
+naive B-cell,IL12A
+IL12A,NK-cell
+neutrophil,IL12B
+IL12B,MAIT T-cell
+neutrophil,IL12B
+IL12B,NK-cell
+myeloid DC,IL18
+IL18,bone marrow
+myeloid DC,IL18
+IL18,NK-cell
+basophil,IL19
+IL19,memory CD4 T-cell
+bone marrow,IL1B
+IL1B,neutrophil
+classical monocyte,IL1RN
+IL1RN,neutrophil
+myeloid DC,IL1RN
+IL1RN,neutrophil
+memory CD8 T-cell,IL23A
+IL23A,MAIT T-cell
+memory B-cell,IL23A
+IL23A,MAIT T-cell
+T-reg,IL23A
+IL23A,MAIT T-cell
+naive CD8 T-cell,IL23A
+IL23A,MAIT T-cell
+memory CD4 T-cell,IL23A
+IL23A,MAIT T-cell
+naive B-cell,IL23A
+IL23A,MAIT T-cell
+naive CD4 T-cell,IL23A
+IL23A,MAIT T-cell
+T-reg,IL26
+IL26,memory CD4 T-cell
+memory CD8 T-cell,IL26
+IL26,memory CD4 T-cell
+MAIT T-cell,IL26
+IL26,memory CD4 T-cell
+memory CD4 T-cell,IL2
+IL2,basophil
+memory CD4 T-cell,IL2
+IL2,plasmacytoid DC
+memory CD4 T-cell,IL2
+IL2,NK-cell
+memory CD4 T-cell,IL2
+IL2,gdT-cell
+memory CD4 T-cell,IL2
+IL2,T-reg
+eosinophil,IL34
+IL34,intermediate monocyte
+bone marrow,IL3
+IL3,basophil
+bone marrow,IL3
+IL3,neutrophil
+bone marrow,IL3
+IL3,plasmacytoid DC
+basophil,IL4
+IL4,classical monocyte
+basophil,IL4
+IL4,eosinophil
+basophil,IL4
+IL4,myeloid DC
+basophil,IL4
+IL4,neutrophil
+basophil,IL4
+IL4,naive B-cell
+memory B-cell,IL5
+IL5,basophil
+memory B-cell,IL5
+IL5,neutrophil
+memory B-cell,IL5
+IL5,eosinophil
+naive B-cell,IL6
+IL6,naive CD4 T-cell
+memory B-cell,IL6
+IL6,neutrophil
+naive B-cell,IL6
+IL6,neutrophil
+memory B-cell,IL6
+IL6,naive CD4 T-cell
+memory B-cell,IL7
+IL7,MAIT T-cell
+memory B-cell,IL7
+IL7,memory CD4 T-cell
+memory B-cell,IL7
+IL7,naive CD8 T-cell
+memory B-cell,IL7
+IL7,naive CD4 T-cell
+memory B-cell,IL7
+IL7,NK-cell
+memory B-cell,IL7
+IL7,memory CD8 T-cell
+memory B-cell,IL7
+IL7,gdT-cell
+NK-cell,LIF
+LIF,naive CD4 T-cell
+neutrophil,OSM
+OSM,naive CD4 T-cell
+bone marrow,OSM
+OSM,naive CD4 T-cell
+basophil,OSM
+OSM,naive CD4 T-cell
+MAIT T-cell,PDGFB
+PDGFB,intermediate monocyte
+MAIT T-cell,PDGFB
+PDGFB,gdT-cell
+MAIT T-cell,PDGFB
+PDGFB,myeloid DC
+MAIT T-cell,PDGFB
+PDGFB,classical monocyte
+neutrophil,PF4
+PF4,basophil
+bone marrow,PF4
+PF4,neutrophil
+basophil,PF4
+PF4,neutrophil
+bone marrow,PF4
+PF4,basophil
+basophil,PF4
+PF4,plasmacytoid DC
+neutrophil,PF4
+PF4,plasmacytoid DC
+bone marrow,PF4
+PF4,plasmacytoid DC
+bone marrow,PPBP
+PPBP,neutrophil
+basophil,PPBP
+PPBP,neutrophil
+neutrophil,SPP1
+SPP1,gdT-cell
+neutrophil,SPP1
+SPP1,basophil
+basophil,TGFA
+TGFA,gdT-cell
+neutrophil,TGFA
+TGFA,gdT-cell
+eosinophil,TGFA
+TGFA,gdT-cell
+eosinophil,TGFB1
+TGFB1,basophil
+eosinophil,TGFB1
+TGFB1,myeloid DC
+eosinophil,TGFB1
+TGFB1,neutrophil
+eosinophil,TGFB1
+TGFB1,bone marrow
+eosinophil,TGFB1
+TGFB1,classical monocyte
+naive CD4 T-cell,TGFB3
+TGFB3,myeloid DC
+naive CD4 T-cell,TGFB3
+TGFB3,gdT-cell
+naive CD4 T-cell,TGFB3
+TGFB3,classical monocyte
+naive CD4 T-cell,TGFB3
+TGFB3,naive CD8 T-cell
+naive CD4 T-cell,TGFB3
+TGFB3,MAIT T-cell
+naive CD4 T-cell,TGFB3
+TGFB3,memory CD4 T-cell
+naive CD4 T-cell,TGFB3
+TGFB3,memory CD8 T-cell
+naive CD4 T-cell,TGFB3
+TGFB3,NK-cell
+classical monocyte,TNFSF10
+TNFSF10,neutrophil
+intermediate monocyte,TNFSF10
+TNFSF10,naive CD4 T-cell
+classical monocyte,TNFSF10
+TNFSF10,naive CD4 T-cell
+neutrophil,TNFSF10
+TNFSF10,naive CD4 T-cell
+intermediate monocyte,TNFSF10
+TNFSF10,neutrophil
+basophil,TNFSF10
+TNFSF10,neutrophil
+basophil,TNFSF10
+TNFSF10,naive CD4 T-cell
+NK-cell,TNFSF11
+TNFSF11,plasmacytoid DC
+neutrophil,TNFSF13B
+TNFSF13B,naive B-cell
+neutrophil,TNFSF13B
+TNFSF13B,plasmacytoid DC
+neutrophil,TNFSF13B
+TNFSF13B,memory B-cell
+plasmacytoid DC,TNFSF13
+TNFSF13,memory B-cell
+intermediate monocyte,TNFSF13
+TNFSF13,memory B-cell
+myeloid DC,TNFSF13
+TNFSF13,memory B-cell
+classical monocyte,TNFSF13
+TNFSF13,naive B-cell
+classical monocyte,TNFSF13
+TNFSF13,memory B-cell
+plasmacytoid DC,TNFSF13
+TNFSF13,neutrophil
+eosinophil,TNFSF13
+TNFSF13,naive B-cell
+intermediate monocyte,TNFSF13
+TNFSF13,naive B-cell
+classical monocyte,TNFSF13
+TNFSF13,neutrophil
+eosinophil,TNFSF13
+TNFSF13,neutrophil
+myeloid DC,TNFSF13
+TNFSF13,naive B-cell
+intermediate monocyte,TNFSF13
+TNFSF13,neutrophil
+plasmacytoid DC,TNFSF13
+TNFSF13,naive B-cell
+myeloid DC,TNFSF13
+TNFSF13,neutrophil
+eosinophil,TNFSF13
+TNFSF13,memory B-cell
+neutrophil,TNFSF14
+TNFSF14,intermediate monocyte
+neutrophil,TNFSF14
+TNFSF14,myeloid DC
+neutrophil,TNFSF14
+TNFSF14,classical monocyte
+memory CD8 T-cell,TNFSF9
+TNFSF9,T-reg
+memory CD8 T-cell,TNFSF9
+TNFSF9,neutrophil
+memory CD8 T-cell,TNFSF9
+TNFSF9,NK-cell
+bone marrow,TNF
+TNF,myeloid DC
+bone marrow,TNF
+TNF,neutrophil
+bone marrow,TNF
+TNF,classical monocyte
+bone marrow,TNF
+TNF,intermediate monocyte
+bone marrow,TNF
+TNF,plasmacytoid DC
+NK-cell,XCL1
+XCL1,myeloid DC
+NK-cell,XCL2
+XCL2,myeloid DC
