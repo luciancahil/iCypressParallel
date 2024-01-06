@@ -8,22 +8,18 @@ It is a graph neural network library that analyzes gene expression data in the c
 ## Installation and Setup
 To Install iCYPRESS, git clone this repository. Then, enter this project's main directory, and run the following commands to create the conda environment needed to make the project run.
 
-On linux, use the following commands.
 ````
-sed -i 's/\r$//' environment.yml
-conda env create -f environment.yml -n cypress-env
+conda create -n cypress-env python=3.7 -y
 conda activate cypress-env
-sed -i 's/\r$//' install.sh
-bash install.sh
-````
-
-On windows, open git bash, and type the following commands:
-
-````
-sed -i 's/\r$//' windows.yml
-conda env create -f windows.yml -n cypress-env
-conda activate cypress-env
-sed -i 's/\r$//' install.sh
+pip install torch==1.8.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+CUDA=cu101
+TORCH=1.8.0
+pip install torch-scatter==2.0.8 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-sparse==0.6.12 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-cluster==1.5.9 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-geometric==2.2.0
+pip install -r requirements.txt
 bash install.sh
 ````
 
