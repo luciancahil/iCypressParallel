@@ -83,22 +83,34 @@ def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp,
     return name + ".yaml"
 
 
-
-def create_cyto_database(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
+"""
+    Creates the raw dataset that is saved in datasets/raw
+"""
+def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
                             patient_dict, gene_to_patient, cyto_adjacency_dict):
 
     # creates graphname
     graphName = cyto + "_" + eset
-
     #create patientArray
     patientArray = []
+    tissues = []
+
+    if cyto == "all":
+
+        for cyto in cyto_tissue_dict.keys():
+            tissues += cyto_tissue_dict[cyto]
+        
+    else:
+        tissues = cyto_tissue_dict[cyto]
+
 
     # count the number of active genes in each tissue.
-    tissues = cyto_tissue_dict[cyto]
-
     gene_count = []
     for tissue in tissues:
-        count = len(active_tissue_gene_dict[tissue])
+        if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
+            count = 1
+        else:
+            count = len(active_tissue_gene_dict[tissue])
         
         gene_count.append(count)
     
@@ -112,19 +124,22 @@ def create_cyto_database(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, 
 
 
         data = []
-        # create the information that goes into each node
+        # create the information matrix that goes into each node
         for i, tissue in enumerate(tissues):
-            tissue_data = [0]*total_genes
-            start = sum(gene_count[:i])
+            tissue_data = [0]*total_genes # initialize an empty vector
+            start = sum(gene_count[:i]) # count number of genes before this tissue.
 
-            tissue_genes = active_tissue_gene_dict[tissue]
-            
+            if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
+                continue                  # we want everything to just be 0 here.
+
+            tissue_genes = active_tissue_gene_dict[tissue]  # get the list of genes that affect the give tissue.
+
             offset = 0
             for gene in tissue_genes:                        
                 tissue_data[start + offset] = gene_to_patient[gene][patient] / 20
                 offset +=  1
             
-            data.append(tissue_data)
+            data.append(tissue_data) # add the vector to the matrix.
 
         patient_data["data"] = data
         patientArray.append(patient_data)
@@ -206,7 +221,10 @@ def process_tissues(blood_only):
 
     return tissue_gene_dict, gene_set
 
-def process_eset(eset, gene_set, patient_dict, tissue_gene_dict):
+"""
+processes eset to retrieve data from patients
+"""
+def process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict):
     eset_file = open(eset, 'r')
 
     eset_lines = eset_file.read().splitlines()
@@ -264,6 +282,7 @@ def process_eset(eset, gene_set, patient_dict, tissue_gene_dict):
                     gene_array.append(gene)
             
             active_tissue_gene_dict[tissue] = gene_array
+    
     return (gene_to_patient, active_tissue_gene_dict)
 
 def process_graphs(blood_only):
@@ -280,7 +299,7 @@ def process_graphs(blood_only):
         cyto_name = filename[:-10]
         cyto_list.append(cyto_name) # drop the _graph.csv
         graph_file_path = os.path.join(graph_folder_path, filename)
-        if (filename == '__pycache__'):
+        if (filename == '__pycache__' or filename == 'All_graph.py'):
             continue
         graphAdjacency = []
         tissue_set = set()
@@ -290,11 +309,11 @@ def process_graphs(blood_only):
         
         for line in graphLines:
             parts = line.upper().split(",") # remove newline, capitalize, and remove spaces
+            tissue_set.update(parts)
             graphAdjacency.append(parts)
-            newParts = [parts[1], parts[0]]
-            tissue_set.update(newParts)
-
-            graphAdjacency.append(newParts)
+            if sys.argv[3] != "all":
+                newParts = [parts[1], parts[0]]
+                graphAdjacency.append(newParts)
         
 
         # put the tissues into a list, and then sort them
@@ -408,11 +427,13 @@ cyto_list,cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(blood_only) # l
 tissue_gene_dict, gene_set = process_tissues(blood_only) # dict that matches tissues to the genes associated with them, a set of all genes we have
 
 
-gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_dict, tissue_gene_dict) # 2 layer deep dict. First layer maps gene name to a dict. Second layer matches patient code to gene expresion data of the given gene.
+#process eset data
+gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict) # 2 layer deep dict. First layer maps gene name to a dict. Second layer matches patient code to gene expresion data of the given gene.
 
 eset_name = sys.argv[1]
 
-create_cyto_database(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
+# turns the information above into the dataset in the dataset/raw directory.
+create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
                             patient_dict, gene_to_patient, cyto_adjacency_dict)
 
 name = cyto + "_" + eset_name
