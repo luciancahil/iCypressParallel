@@ -3,35 +3,11 @@ import torch
 import numpy as np
 from CytokinesDataSet import CytokinesDataSet
 import sys
+from AnnDataProcessor import AnnDataProcessor
 
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
-# things we need to be provided
 
-eset = sys.argv[1]
-eset = os.path.join("rawData", eset + ".csv")
-
-patients = sys.argv[2]
-
-patients = os.path.join("rawData", patients + ".csv")
-cyto = sys.argv[3]
-grid = sys.argv[4]
-
-if grid[0] == "F":
-    grid = False
-else:
-    grid = bool(grid)
-
-
-# general configs that we can keep as they are, unless changed.
-blood_only=True
-batch_size = 80
-eval_period = 20
-layers_pre_mp = 2
-layers_mp = 6
-layers_post_mp = 2
-dim_inner = 137
-max_epoch = 400
 
 def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp, 
                     layers_post_mp, dim_inner, max_epoch):
@@ -225,9 +201,11 @@ def process_tissues(blood_only):
 processes eset to retrieve data from patients
 """
 def process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict):
-    eset_file = open(eset, 'r')
-
-    eset_lines = eset_file.read().splitlines()
+    if(AnnData):
+        eset_lines = adp.esetLines()
+    else:
+        eset_file = open(eset, 'r')
+        eset_lines = eset_file.read().splitlines()
 
     
     # read the first line, and see if it matches with the patient file provided
@@ -329,12 +307,20 @@ def process_graphs(blood_only):
 
     return cyto_list,cyto_adjacency_dict,cyto_tissue_dict
 
+"""
+Processes Patients to get the list and dictionary of patients
+"""
 def process_patients(patients):
-        patient_file = open(patients, 'r')
+        if(AnnData):
+            patient_lines = adp.patientLines()
+        else:
+            patient_file = open(patients, 'r')
+            patient_lines = patient_file.read().splitlines()
+
         patient_dict = dict()
         patient_list = []
 
-        for line in patient_file.read().splitlines():
+        for line in patient_lines:
             parts = line.split(",")
             patient_dict[parts[0]] = int(parts[1])
             patient_list.append(parts[0])
@@ -380,7 +366,8 @@ def make_grid(name):
         file.write("gnn.agg agg ['add','mean']\n")
 
 def make_grid_sh(eset_name, cyto, name):
-    with open("run_custom_batch_" + eset_name + "_" + cyto + ".sh", 'w') as file:
+    grid_sh_path = os.path.join("customScripts", "run_custom_batch_" + eset_name + "_" + cyto + ".sh")
+    with open(grid_sh_path, 'w') as file:
         file.write("#!/usr/bin/env bash\n")
         file.write("\n")
         file.write("CONFIG=" + name + "\n")
@@ -409,14 +396,48 @@ def make_grid_sh(eset_name, cyto, name):
 
 def make_single_sh(eset_name, cyto, config_name):
     # using with statement
-    with open("run_custom_" + eset_name + "_" + cyto + ".sh", 'w') as file:
+    path = os.path.join("customScripts", "run_custom_" + eset_name + "_" + cyto + ".sh")
+    with open(path, 'w') as file:
         file.write('#!/usr/bin/env bash\n')
         file.write('\n')
         escaped_path = os.path.join("configs",config_name).replace("\\", "/")
         file.write('python main.py --cfg ' + escaped_path + ' --repeat 1')
 
 #MAIN
+# things we need to be provided
 
+eset = sys.argv[1]
+eset = os.path.join("rawData", eset + ".csv")
+
+patients = sys.argv[2]
+patients = os.path.join("rawData", patients + ".csv")
+
+cyto = sys.argv[3]
+grid = sys.argv[4]
+
+if grid[0] == "F":
+    grid = False
+else:
+    grid = bool(grid)
+
+
+# general configs that we can keep as they are, unless changed.
+blood_only=True
+batch_size = 80
+eval_period = 20
+layers_pre_mp = 2
+layers_mp = 6
+layers_post_mp = 2
+dim_inner = 137
+max_epoch = 400
+
+#check to see if we have the csv or AnnData Files by looking at the first input
+if sys.argv[1] == "ANN": # we have AnnData
+    AnnData = True
+    annPath = os.path.join("rawData", sys.argv[2]+".h5ad")
+    adp = AnnDataProcessor(annPath)
+else:
+    AnnData = False
 
 #get patient data
 patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification

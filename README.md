@@ -83,11 +83,33 @@ cd run
 bash custom.sh ESET PATIENTS CCL2 False
 ````
 
+## Using anndata
+
+To use Anndata files (.h5ad files) instead of .csv files, ensure the following rules are followed:
+
+- All Data Should be in a single .h5ad file.
+- The .h5ad file should contain a single AnnData object of dimensions n_obs × n_vars, where n_obs is the number of patients, and n_vars is the number of genes you have data on.
+- The list of gene names should be in the .var element.
+- The classification of each patient should be in .y variable, accessible by y.iloc
+- The data for each patient in each gene should be stored in the .X variable
+
+To use anndata, place the .h5ad file in the rawData folder, and use the following command. (Replace ann_data_file_name with the actual name of the file)
+
+````
+bash custom.sh ANN ann_data_file_name CCL2 False
+````
+
 ### Cytokines
 
 There are 70 different cytokines that this network can use to build the Graph in its Graph Neural Network.
 
-The example above uses CCL1, but you can also use CCL2, CD70, or many others.
+The example above uses CCL1, but you can also use CCL2, CD70, or many others. Replace CCL2 with the name of the cytokine you want to observe.
+
+If you instead want to use a giant network containing all cytokines, use the following command:
+
+````
+bash custom.sh ESET PATIENTS all False
+````
 
 ## Parallelization
 
