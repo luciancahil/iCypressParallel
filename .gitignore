@@ -8,6 +8,13 @@ results/
 datasets/
 configs/
 
+# Ignore everything in the folder
+rawData/*
+
+# But not these files...
+!rawData/file1.ext
+!rawData/file2.ext
+
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt
