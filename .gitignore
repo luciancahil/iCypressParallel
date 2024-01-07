@@ -15,6 +15,12 @@ run/rawData/*
 !run/rawData/GSE40240_eset.csv
 !run/rawData/GSE40240_patients.csv
 
+# Ignore everything in the folder
+run/customScripts/*
+
+# But not these files...
+!run/customScripts/dummy.txt
+
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt

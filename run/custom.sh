@@ -8,7 +8,7 @@ wait
 
 
 if [ $GRID = "True" ]; then
-    bash run_custom_batch_${ESET}_${CYTO}.sh
+    bash ./customScripts/run_custom_batch_${ESET}_${CYTO}.sh
 elif [ $GRID = "False" ]; then
-    bash run_custom_${ESET}_${CYTO}.sh
+    bash ./customScripts/run_custom_${ESET}_${CYTO}.sh
 fi
