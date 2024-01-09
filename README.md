@@ -24,6 +24,7 @@ pip install torch-cluster==1.5.9 -f https://pytorch-geometric.com/whl/torch-${TO
 pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
 pip install torch-geometric==2.2.0
 pip install -r requirements.txt
+pip install anndata
 bash install.sh
 ````
 
