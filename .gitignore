@@ -21,6 +21,12 @@ run/customScripts/*
 # But not these files...
 !run/customScripts/dummy.txt
 
+# Ignore everything in the folder
+run/customGrids/*
+
+# But not these files...
+!run/customGrids/dummy.txt
+
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt

@@ -348,11 +348,11 @@ def write_lines_to_file(self, input_file, output_file_name):
 
 
 def make_grid(name):
-    if (not os.path.exists(os.path.abspath("grids"))):
-        os.makedirs(os.path.abspath("grids"))
+    if (not os.path.exists(os.path.abspath("customGrids"))):
+        os.makedirs(os.path.abspath("customGrids"))
 
     # using with statement
-    with open(os.path.join('grids', name + ".txt"), 'w') as file:
+    with open(os.path.join('customGrids', name + ".txt"), 'w') as file:
         file.write("dataset.format format ['PyG']\n")
         file.write("dataset.name dataset ['Custom," + name + ",','Custom," + name + ",']\n")
         file.write("dataset.task task ['graph']\n")
