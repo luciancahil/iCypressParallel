@@ -8,7 +8,11 @@ It is a graph neural network library that analyzes gene expression data in the c
 ## Installation and Setup
 To Install iCYPRESS, git clone this repository. Then, enter this project's main directory, and run the following commands to create the conda environment needed to make the project run.
 
+Alternatively, run the following commands in the folder where you want the project to live:
+
 ````
+git clone https://github.com/luciancahil/iCypressParallel.git
+cd iCypressParallel
 conda create -n cypress-env python=3.7 -y
 conda activate cypress-env
 pip install torch==1.8.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
@@ -20,6 +24,7 @@ pip install torch-cluster==1.5.9 -f https://pytorch-geometric.com/whl/torch-${TO
 pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
 pip install torch-geometric==2.2.0
 pip install -r requirements.txt
+pip install anndata
 bash install.sh
 ````
 
@@ -98,17 +103,28 @@ To use anndata, place the .h5ad file in the rawData folder, and use the followin
 ````
 bash custom.sh ANN ann_data_file_name CCL2 False
 ````
+For example, if you want to use CCL2 and you had an anndata file called info.h5ad, use the following command:
+
+````
+bash custom.sh ANN info CCL2 False
+````
 
 ### Cytokines
 
 There are 70 different cytokines that this network can use to build the Graph in its Graph Neural Network.
 
-The example above uses CCL1, but you can also use CCL2, CD70, or many others. Replace CCL2 with the name of the cytokine you want to observe.
+The example above uses CCL2, but you can also use CCL1, CD70, or many others. Replace CCL2 with the name of the cytokine you want to observe.
 
 If you instead want to use a giant network containing all cytokines, use the following command:
 
 ````
 bash custom.sh ESET PATIENTS all False
+````
+
+If you had an anndata file called "data.h5ad", use the following command:
+
+````
+bash custom.sh ANN info all False
 ````
 
 ## Parallelization

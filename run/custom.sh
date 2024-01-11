@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ESET=$1
 PATIENT=$2
 CYTO=$3
