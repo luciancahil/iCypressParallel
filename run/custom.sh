@@ -4,8 +4,9 @@ ESET=$1
 PATIENT=$2
 CYTO=$3
 GRID=$4
+HYPERPARAM=$5
 
-python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID}
+python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${HYPERPARAM}
 wait
 
 

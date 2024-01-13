@@ -416,7 +416,7 @@ cyto = sys.argv[3]
 grid = sys.argv[4]
 
 try:
-    parameter_file = sys.argv[5]
+    parameter_file = sys.argv[5] + ".yaml"
 except(IndexError):
     if(grid):
         parameter_file = "Default Grid.yaml"
@@ -424,6 +424,7 @@ except(IndexError):
         parameter_file = "Default Config.yaml"
 
 
+print(parameter_file)
 if grid[0] == "F":
     grid = False
 else:
