@@ -1,0 +1,8 @@
+blood_only : True
+batch_size : 80
+eval_period : 20
+layers_pre_mp : 2
+layers_mp : 6
+layers_post_mp : 2
+dim_inner : 137
+max_epoch : 400

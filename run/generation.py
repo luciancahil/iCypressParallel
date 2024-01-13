@@ -4,13 +4,13 @@ import numpy as np
 from CytokinesDataSet import CytokinesDataSet
 import sys
 from AnnDataProcessor import AnnDataProcessor
+import yaml
 
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
 
 
-def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp, 
-                    layers_post_mp, dim_inner, max_epoch):
+def makeConfigFile(name, configs):
     if (not os.path.exists(os.path.abspath("configs"))):
         os.makedirs(os.path.abspath("configs"))
 
@@ -31,8 +31,8 @@ def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp,
         file.write(' augment_label_dims: 0\n')
         file.write(' transform: none\n')
         file.write('train:\n')
-        file.write(' batch_size: ' + str(batch_size) + '\n' )
-        file.write(' eval_period: ' + str(eval_period) + '\n')
+        file.write(' batch_size: ' + str(configs['batch_size']) + '\n' )
+        file.write(' eval_period: ' + str(configs['eval_period']) + '\n')
         file.write(' ckpt_period: 100\n')
         file.write('model:\n')
         file.write(' type: gnn\n')
@@ -40,10 +40,10 @@ def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp,
         file.write(' edge_decoding: dot\n')
         file.write(' graph_pooling: add\n')
         file.write('gnn:\n')
-        file.write(' layers_pre_mp: ' + str(layers_pre_mp) + '\n')
-        file.write(' layers_mp: ' + str(layers_mp) + '\n')
-        file.write(' layers_post_mp: ' + str(layers_post_mp) + '\n')
-        file.write(' dim_inner: ' + str(dim_inner) + '\n')
+        file.write(' layers_pre_mp: ' + str(configs['layers_pre_mp']) + '\n')
+        file.write(' layers_mp: ' + str(configs['layers_mp']) + '\n')
+        file.write(' layers_post_mp: ' + str(configs['layers_post_mp']) + '\n')
+        file.write(' dim_inner: ' + str(configs['dim_inner']) + '\n')
         file.write(' layer_type: generalconv\n')
         file.write(' stage_type: skipsum\n')
         file.write(' batchnorm: True\n')
@@ -54,7 +54,7 @@ def makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp,
         file.write('optim:\n')
         file.write(' optimizer: adam\n')
         file.write(' base_lr: 0.01\n')
-        file.write(' max_epoch: ' +  str(max_epoch) + '\n')
+        file.write(' max_epoch: ' +  str(configs['max_epoch']) + '\n')
     
     return name + ".yaml"
 
@@ -415,21 +415,23 @@ patients = os.path.join("rawData", patients + ".csv")
 cyto = sys.argv[3]
 grid = sys.argv[4]
 
+try:
+    parameterFile = sys.argv[5]
+except(IndexError):
+    parameterFile = "Default Config.yaml"
+
+
 if grid[0] == "F":
     grid = False
 else:
     grid = bool(grid)
 
+config_path = os.path.join("Hyperparameters", parameterFile)
+with open(config_path, 'r') as file:
+    configs = yaml.safe_load(file)
+    print(configs)
 
 # general configs that we can keep as they are, unless changed.
-blood_only=True
-batch_size = 80
-eval_period = 20
-layers_pre_mp = 2
-layers_mp = 6
-layers_post_mp = 2
-dim_inner = 137
-max_epoch = 400
 
 #check to see if we have the csv or AnnData Files by looking at the first input
 if sys.argv[1] == "ANN": # we have AnnData
@@ -443,9 +445,9 @@ else:
 patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification
 
 # process graph data
-cyto_list,cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(blood_only) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
+cyto_list,cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(configs['blood_only']) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
 
-tissue_gene_dict, gene_set = process_tissues(blood_only) # dict that matches tissues to the genes associated with them, a set of all genes we have
+tissue_gene_dict, gene_set = process_tissues(configs['blood_only']) # dict that matches tissues to the genes associated with them, a set of all genes we have
 
 
 #process eset data
@@ -460,8 +462,7 @@ create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, 
 name = cyto + "_" + eset_name
 
 
-config_name = makeConfigFile(name, batch_size, eval_period, layers_pre_mp, layers_mp, 
-                             layers_post_mp, dim_inner, max_epoch)
+config_name = makeConfigFile(name, configs)
 
 
 

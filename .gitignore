@@ -27,6 +27,12 @@ run/customGrids/*
 # But not these files...
 !run/customGrids/dummy.txt
 
+# Ignore everything in the folder
+run/Hyperparameters/*
+
+# But not these files...
+!run/Hyperparameters/Default Config.yaml
+
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt
