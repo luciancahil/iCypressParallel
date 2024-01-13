@@ -347,7 +347,7 @@ def write_lines_to_file(self, input_file, output_file_name):
         print(f"Error: An unexpected error occurred - {e}")
 
 
-def make_grid(name):
+def make_grid(name, configs):
     if (not os.path.exists(os.path.abspath("customGrids"))):
         os.makedirs(os.path.abspath("customGrids"))
 
@@ -359,11 +359,11 @@ def make_grid(name):
         file.write("dataset.transductive trans [False]\n")
         file.write("dataset.augment_feature feature [[]]\n")
         file.write("dataset.augment_label label ['']\n")
-        file.write("gnn.layers_pre_mp l_pre [1,2]\n")
-        file.write("gnn.layers_mp l_mp [2,4,6,8]\n")
-        file.write("gnn.layers_post_mp l_post [2,3]\n")
-        file.write("gnn.stage_type stage ['skipsum','skipconcat']\n")
-        file.write("gnn.agg agg ['add','mean']\n")
+        file.write("gnn.layers_pre_mp l_pre " + str(configs['l_pre']) + "\n")
+        file.write("gnn.layers_mp l_mp " + str(configs['l_mp']) + "\n")
+        file.write("gnn.layers_post_mp l_post " + str(configs['l_mp']) + "\n")
+        file.write("gnn.stage_type stage " + str(configs['stage']) + "\n")
+        file.write("gnn.agg agg " + str(configs['agg']) + "\n")
 
 def make_grid_sh(eset_name, cyto, name):
     grid_sh_path = os.path.join("customScripts", "run_custom_batch_" + eset_name + "_" + cyto + ".sh")
@@ -416,9 +416,12 @@ cyto = sys.argv[3]
 grid = sys.argv[4]
 
 try:
-    parameterFile = sys.argv[5]
+    parameter_file = sys.argv[5]
 except(IndexError):
-    parameterFile = "Default Config.yaml"
+    if(grid):
+        parameter_file = "Default Grid.yaml"
+    else:
+        parameter_file = "Default Config.yaml"
 
 
 if grid[0] == "F":
@@ -426,10 +429,9 @@ if grid[0] == "F":
 else:
     grid = bool(grid)
 
-config_path = os.path.join("Hyperparameters", parameterFile)
+config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
     configs = yaml.safe_load(file)
-    print(configs)
 
 # general configs that we can keep as they are, unless changed.
 
@@ -462,13 +464,13 @@ create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, 
 name = cyto + "_" + eset_name
 
 
-config_name = makeConfigFile(name, configs)
 
 
 
 if (grid) :
     make_grid_sh(sys.argv[1], cyto, name)
-    make_grid(name)
+    make_grid(name, configs)
 else:
+    config_name = makeConfigFile(name, configs)
     make_single_sh(sys.argv[1], cyto, config_name)
 #also need to make the grid file and the sh file
