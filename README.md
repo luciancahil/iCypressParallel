@@ -136,6 +136,82 @@ cd run
 bash custom.sh ESET PATIENTS CCL2 True
 ````
 
+## Custom Hyperparameters
 
-### Repo Setup on HPC (UBC ARC Sockeye)
+Hyperparameters specify the structures of the Neural network. Things like how many epochs to train for, how many neurons in a hidden layer, etc. this library allows one to play around with the hyperparameters of the network by making simple changes to yaml files.
+
+The default hyperparameters are in the "run/Hyperparameters" directory. Any custom hyperparameter configs should be added to that folder.
+
+### Single Run
+
+For a single run, the hyperparameters stickly handle the structure of the Graph Neural network. The default values, found in "run/Hyperparameters/Default Configs.yaml" are as follows:
+
+"""
+blood_only : True       # Whether we use tissue types that come from blood when building the networks
+batch_size : 80         # When training, how many instances should we have at once
+eval_period : 20        # After how many training rounds we do an evaluation
+layers_pre_mp : 2       # How many layers exist before the message passing phase
+layers_mp : 6           # How many rounds of message passing do we do
+layers_post_mp : 2      # HOw many layers deep is the neural network after we do all the message passing
+dim_inner : 137         # How many neurons are in the hidden layers
+max_epoch : 400         # How many epochs we train for
+"""
+
+If you wish to change these hyperparameters, it is recommended that you make a new file. The new file must be of .yaml type. For instance, if you wanted to train for 500 epochs, you could make a new file called "Train_500.yaml" with the following content:
+
+"""
+blood_only : True       # Whether we use tissue types that come from blood when building the networks
+batch_size : 80         # When training, how many instances should we have at once
+eval_period : 20        # After how many training rounds we do an evaluation
+layers_pre_mp : 2       # How many layers exist before the message passing phase
+layers_mp : 6           # How many rounds of message passing do we do
+layers_post_mp : 2      # HOw many layers deep is the neural network after we do all the message passing
+dim_inner : 137         # How many neurons are in the hidden layers
+max_epoch : 500         # How many epochs we train for
+"""
+
+To run the network with the new hyperparameter, place that file in the "run/Hyperparameters" directory, and run the following command from the run directory:
+
+"""
+bash custom.sh ESET PATIENTS CCL2 False Train_500
+"""
+
+Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the configs folder should resolve this issue.
+
+### Parallel Runs
+
+Parallel runs work a little differently. Since they by design try mupltiple different configurations for the network, hyperparameters here specify the search space.
+
+The default search space is specified in "run/Hyperparameters/Default Grid.yaml":
+
+"""
+l_pre : [1,2]                           # How many layers exist before the message passing phase
+l_mp : [2,4,6,8]                        # How many rounds of message passing do we do
+l_post : [2,3]                          # How many layers deep is the neural network after we do all the message passing
+stage : ['skipsum','skipconcat']        # How Staging is achieved
+agg : ['add','mean']                    # How data in each hidden layer is pooled after message passing is finished
+
+"""
+
+If you wish to change these hyperparameters, it is recommended that you make a new file. The new file must be of .yaml type. For instance, if you wanted to only try adding as the agg function, you could make a new file called "add_only.yaml" with the following content:
+
+"""
+l_pre : [1,2]                           # How many layers exist before the message passing phase
+l_mp : [2,4,6,8]                        # How many rounds of message passing do we do
+l_post : [2,3]                          # How many layers deep is the neural network after we do all the message passing
+stage : ['skipsum','skipconcat']        # How Staging is achieved
+agg : ['add']                           # How data in each hidden layer is pooled after message passing is finished
+"""
+To run the network with the new hyperparameter, place that file in the "run/Hyperparameters" directory, and run the following command from the run directory:
+
+"""
+bash custom.sh ESET PATIENTS CCL2 True add_only
+"""
+
+Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the grid folder should resolve this issue.
+
+
+
+"""
+## Repo Setup on HPC (UBC ARC Sockeye)
 To run this library on UBC Sockeye, enter a scratch folder, clone this library, enter the main directory, and then follow the same steps as in installation
