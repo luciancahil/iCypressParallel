@@ -1,8 +1,8 @@
-blood_only : True
-batch_size : 80
-eval_period : 20
-layers_pre_mp : 2
-layers_mp : 6
-layers_post_mp : 2
-dim_inner : 137
-max_epoch : 400
+blood_only : True       # Whether we use tissue types that come from blood when building the networks
+batch_size : 80         # When training, how many instances should we have at once
+eval_period : 20        # After how many training rounds we do an evaluation
+layers_pre_mp : 2       # How many layers exist before the message passing phase
+layers_mp : 6           # How many rounds of message passing do we do
+layers_post_mp : 2      # HOw many layers deep is the neural network after we do all the message passing
+dim_inner : 137         # How many neurons are in the hidden layers
+max_epoch : 400         # How many epochs we train for
