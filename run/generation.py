@@ -424,7 +424,6 @@ except(IndexError):
         parameter_file = "Default Config.yaml"
 
 
-print(parameter_file)
 if grid[0] == "F":
     grid = False
 else:

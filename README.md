@@ -201,7 +201,7 @@ l_mp : [2,4,6,8]                        # How many rounds of message passing do 
 l_post : [2,3]                          # How many layers deep is the neural network after we do all the message passing
 stage : ['skipsum','skipconcat']        # How Staging is achieved
 agg : ['add']                           # How data in each hidden layer is pooled after message passing is finished
-
+"""
 To run the network with the new hyperparameter, place that file in the "run/Hyperparameters" directory, and run the following command from the run directory:
 
 """
