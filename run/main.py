@@ -21,6 +21,7 @@ from graphgym.models.layer import GeneralMultiLayer, Linear, GeneralConv
 from graphgym.models.gnn import GNNStackStage
 import numpy as np
 
+from Visualization import Visualize
 
 if __name__ == '__main__':
     # Load cmd line args
@@ -78,9 +79,50 @@ if __name__ == '__main__':
             train_dict[cfg.train.mode](loggers, loaders, model, optimizer,
                                         scheduler)
         
-        agg_runs(cfg.out_dir, cfg.metric_best)
-        # When being launched in batch mode, mark a yaml as done
-        if args.mark_done:
-            os.rename(args.cfg_file, f'{args.cfg_file}_done')
+# Aggregate results from different seeds
+    agg_runs(cfg.out_dir, cfg.metric_best)
+    # When being launched in batch mode, mark a yaml as done
+    if args.mark_done:
+        os.rename(args.cfg_file, f'{args.cfg_file}_done')
+    
+    name = cfg.dataset.name.split(",")[1]
+    last_layers_pooled = []
+    truths = []
+    for loader in loaders:
+        for batch in loader:
+            last_layer_pooled, truth = model.get_last_hidden_layer_pooled(batch) # first one gives me the vector output of the neural network. 
+            last_layers_pooled += last_layer_pooled
+            truths.append(truth)
+    last_layer_tensor = torch.stack(last_layers_pooled)
+    truths_tensor = torch.cat(truths)
+    numpy_matrix = last_layer_tensor.numpy()
+    numpy_truth = truths_tensor.numpy()
+    Visualize.visualize_PCA(numpy_matrix, numpy_truth)
+    
+    correlations = []
+    for loader in loaders:
+        for batch in loader:
+            correlation = model.get_correlations(batch) # first one gives me the vector output of the neural network. 
+            correlations += correlation
+    for child in model.children(): # We are at the network level.
+        if(isinstance(child, GeneralMultiLayer)): 
+            for grandchild in child.children(): # we are at the MultiLayer object
+                for object in grandchild.children(): # we are at the GeneralLayer object
+                    if(isinstance(object, Linear)):
+                        for layer in object.children(): # we are at the Linear object
+                            colorWeights = layer.weight
+    Visualize.visualize_graph(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
+    
 
+"""
 
+    for child in model.children(): # We are at the network level.
+        if(isinstance(child, GeneralMultiLayer)): 
+            for grandchild in child.children(): # we are at the MultiLayer object
+                for object in grandchild.children(): # we are at the GeneralLayer object
+                    if(isinstance(object, Linear)):
+                        for layer in object.children(): # we are at the Linear object
+                            colorWeights = layer.weight
+    Visualize.visualize_graph(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
+
+"""
