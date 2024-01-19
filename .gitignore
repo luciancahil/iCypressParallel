@@ -35,6 +35,14 @@ run/Hyperparameters/*
 !run/Hyperparameters/Default Grid.yaml
 
 
+# Ignore everything in the folder
+run/Visuals/*
+
+
+# But not these files...
+!run/Visuals/dummy.txt
+
+
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt

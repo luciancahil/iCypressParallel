@@ -4,9 +4,12 @@ import networkx as nx
 from torch_geometric.utils import to_networkx
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
+import os
 
 
 class Visualize:
+    folder = "Visuals"
+
     def visualize_correlations(name, graph, correlationMatrix):
         nodeNameLocation = "datasets\\" + name + "\\processed\\nodeNames.pt"
         nodeNames = torch.load(nodeNameLocation)
@@ -53,7 +56,30 @@ class Visualize:
         plt.scatter(embedded_matrix[:, 0], embedded_matrix[:, 1], c=classification)
         plt.colorbar()
         plt.show()
-        return
+
+    def save_PCA(matrix, classification, name):
+        # Apply PCA to the matrix
+        pca = PCA(n_components=2)
+        embedded_matrix = pca.fit_transform(matrix)
+
+        # Plot the points based on the classification array
+        plt.scatter(embedded_matrix[:, 0], embedded_matrix[:, 1], c=classification)
+        plt.colorbar()
+        path = os.path.join(Visualize.folder, name + "_pca_plt")
+        plt.savefig(path)
+
+    def save_TSNE(matrix, classification, name):
+        # Apply t-SNE to the matrix
+        tsne = TSNE(n_components=2)
+        embedded_matrix = tsne.fit_transform(matrix)
+
+        # Plot the points based on the classification array
+        plt.scatter(embedded_matrix[:, 0], embedded_matrix[:, 1], c=classification)
+        plt.colorbar()
+        path = os.path.join(Visualize.folder, name + "_tsne_plt")
+        plt.savefig(path)
+
+
 
     def visualize_graph(colorWeights, graph, name, edge_weights):
         nodeNameLocation = "datasets\\" + name + "\\processed\\nodeNames.pt"

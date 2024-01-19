@@ -97,8 +97,13 @@ if __name__ == '__main__':
     truths_tensor = torch.cat(truths)
     numpy_matrix = last_layer_tensor.numpy()
     numpy_truth = truths_tensor.numpy()
-    Visualize.visualize_PCA(numpy_matrix, numpy_truth)
+    Visualize.save_PCA(numpy_matrix, numpy_truth, name)
+    Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
+
+
     
+
+"""
     correlations = []
     for loader in loaders:
         for batch in loader:
@@ -112,9 +117,7 @@ if __name__ == '__main__':
                         for layer in object.children(): # we are at the Linear object
                             colorWeights = layer.weight
     Visualize.visualize_graph(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
-    
 
-"""
 
     for child in model.children(): # We are at the network level.
         if(isinstance(child, GeneralMultiLayer)): 
