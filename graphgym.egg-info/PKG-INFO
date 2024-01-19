@@ -39,6 +39,7 @@ pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-
 pip install torch-geometric==2.2.0
 pip install -r requirements.txt
 pip install anndata
+pip install matplotlib==3.5.3
 bash install.sh
 ````
 
