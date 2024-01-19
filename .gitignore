@@ -39,7 +39,7 @@ run/Hyperparameters/*
 run/Visuals/*
 
 
-# But not these files...
+# Except these files...
 !run/Visuals/dummy.txt
 
 
