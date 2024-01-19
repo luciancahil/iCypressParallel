@@ -13,7 +13,6 @@ import yaml
 def makeConfigFile(name, configs):
     if (not os.path.exists(os.path.abspath("configs"))):
         os.makedirs(os.path.abspath("configs"))
-
     # using with statement
     with open(os.path.join('configs', name + ".yaml"), 'w') as file:
         file.write('out_dir: results\n')
@@ -413,7 +412,12 @@ patients = sys.argv[2]
 patients = os.path.join("rawData", patients + ".csv")
 
 cyto = sys.argv[3]
+
 grid = sys.argv[4]
+if grid[0] == "F":
+    grid = False
+else:
+    grid = True
 
 try:
     parameter_file = sys.argv[5] + ".yaml"
@@ -424,15 +428,14 @@ except(IndexError):
         parameter_file = "Default Config.yaml"
 
 
-if grid[0] == "F":
-    grid = False
-else:
-    grid = bool(grid)
-
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
     configs = yaml.safe_load(file)
 
+
+print("1")
+print(configs)
+print(config_path)
 # general configs that we can keep as they are, unless changed.
 
 #check to see if we have the csv or AnnData Files by looking at the first input
