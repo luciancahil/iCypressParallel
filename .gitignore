@@ -4,10 +4,6 @@ run/datasets/data/
 **/.ipynb_checkpoints
 .idea/
 
-results/
-datasets/
-configs/
-
 # Ignore everything in the folder
 run/rawData/*
 
@@ -43,7 +39,28 @@ run/Visuals/*
 # Except these files...
 !run/Visuals/dummy.txt
 
+# Ignore everything in the folder
+run/datasets/*
 
+
+# Except these files...
+!run/datasets/dummy.txt
+
+# Ignore everything in the folder
+run/results/*
+
+
+# Except these files...
+!run/results/dummy.txt
+
+# Ignore everything in the folder
+run/configs/*
+
+
+# Except these files...
+!run/configs/dummy.txt
+
+Dockerfile
 example_custom.yaml
 run_custom.sh
 Custom Loader.txt
