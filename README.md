@@ -23,8 +23,9 @@ pip install torch-sparse==0.6.12 -f https://pytorch-geometric.com/whl/torch-${TO
 pip install torch-cluster==1.5.9 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
 pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-${TORCH}+${CUDA}.html
 pip install torch-geometric==2.2.0
-pip install anndata
+pip install anndata==0.8.0
 pip install matplotlib==3.5.3
+pip install jupyter==1.0.0
 bash install.sh
 ````
 
