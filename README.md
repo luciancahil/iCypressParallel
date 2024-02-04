@@ -25,6 +25,7 @@ pip install torch-spline-conv==1.2.1 -f https://pytorch-geometric.com/whl/torch-
 pip install torch-geometric==2.2.0
 pip install anndata==0.8.0
 pip install matplotlib==3.5.3
+pip install jupyter==1.0.0
 bash install.sh
 ````
 
