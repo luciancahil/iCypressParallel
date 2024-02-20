@@ -258,3 +258,78 @@ Enter either, and you will see "stats.json". The folder will contain all the inf
 
 ## Repo Setup on HPC (UBC ARC Sockeye)
 To run this library on UBC Sockeye, enter a scratch folder, clone this library, enter the main directory, and then follow the same steps as in installation
+
+
+## Jupyter Notebook on Sockeye
+
+To use Jupyter Notebook on sockey, first, pull a custom docker image into your project file. Then, clone the follwing docker image from docker hub:
+
+````
+module load gcc
+module load apptainer
+cd /arc/project/<st-alloc-1>/jupyter
+apptainer pull --force --name cypress-docker.sif docker://royhe62/cypress-docker
+````
+
+Then, create a folder in the stack folder. Write this script into your scratch project folder, and then start a job using sbatch.
+
+````
+#!/bin/bash
+ 
+#SBATCH --job-name=my_jupyter_notebook
+#SBATCH --account=<st-alloc-1>
+#SBATCH --time=03:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem=128G
+ 
+################################################################################
+ 
+# Change directory into the job dir
+ 
+# Load software environment
+module load gcc
+module load apptainer
+ 
+
+export TMPDIR=/scratch/<st-alloc-1>/jupyter
+ 
+
+# Set RANDFILE location to writeable dir
+export RANDFILE=$TMPDIR/.rnd
+  
+# Generate a unique token (password) for Jupyter Notebooks
+export APPTAINERENV_JUPYTER_TOKEN=$(openssl rand -base64 15)
+ 
+# Find a unique port for Jupyter Notebooks to listen on
+readonly PORT=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
+ 
+# Print connection details to file
+cat > connection_${SLURM_JOB_ID}.txt <<END
+ 
+1. Create an SSH tunnel to Jupyter Notebooks from your local workstation using the following command:
+ 
+ssh -N -L 8888:${HOSTNAME}:${PORT} ${USER}@sockeye.arc.ubc.ca
+ 
+2. Point your web browser to http://localhost:8888
+ 
+3. Login to Jupyter Notebooks using the following token (password):
+ 
+${APPTAINERENV_JUPYTER_TOKEN}
+ 
+When done using Jupyter Notebooks, terminate the job by:
+ 
+1. Quit or Logout of Jupyter Notebooks
+2. Issue the following command on the login node (if you did Logout instead of Quit):
+ 
+scancel ${SLURM_JOB_ID}
+
+END
+
+apptainer exec --home /scratch/<st-alloc-1>/my_jupyter --env XDG_CACHE_HOME=/scratch/<st-alloc-1>/my_jupyter /arc/project/<st-alloc-1>/jupyter/cypress-docker.sif jupyter notebook --no-browser --port=${PORT} --ip=0.0.0.0 --notebook-dir=$SLURM_SUBMIT_DIR
+
+````
+
+Once the job starts, a txt file with instructions on how to connect to the Jupyter server will be generated. Follow those instructions to connect.
+
+Once a connection has been made, you may use Jupyter anyway you wish. See run/demonstration.pynb for several examples of what can be done.
