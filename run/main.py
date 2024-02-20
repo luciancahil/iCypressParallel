@@ -97,6 +97,13 @@ if __name__ == '__main__':
     truths_tensor = torch.cat(truths)
     numpy_matrix = last_layer_tensor.numpy()
     numpy_truth = truths_tensor.numpy()
+    # save data
+    visualization_data = {}
+    visualization_data['latent'] = numpy_matrix
+    visualization_data['truth'] = numpy_truth
+    visual_path = os.path.join("Visuals", name + "_visuals.pt")
+    torch.save(visualization_data, visual_path)
+    print("Visualization data stored at: " + visual_path)
     Visualize.save_PCA(numpy_matrix, numpy_truth, name)
     Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
 
