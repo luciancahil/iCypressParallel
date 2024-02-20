@@ -402,6 +402,10 @@ def make_single_sh(eset_name, cyto, config_name):
         escaped_path = os.path.join("configs",config_name).replace("\\", "/")
         file.write('python main.py --cfg ' + escaped_path + ' --repeat 1')
 
+        if(save_model):
+            file.write(' --save 1')
+
+
 #MAIN
 # things we need to be provided
 
@@ -420,6 +424,8 @@ else:
     grid = True
 
 try:
+    if(sys.argv[5].upper() == "NULL"):
+        raise IndexError
     parameter_file = sys.argv[5] + ".yaml"
 except(IndexError):
     if(grid):
@@ -428,14 +434,16 @@ except(IndexError):
         parameter_file = "Default Config.yaml"
 
 
+try:
+    save_model = sys.argv[6][0].upper()=="T"
+except(IndexError):
+    save_model = False
+
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
     configs = yaml.safe_load(file)
 
 
-print("1")
-print(configs)
-print(config_path)
 # general configs that we can keep as they are, unless changed.
 
 #check to see if we have the csv or AnnData Files by looking at the first input

@@ -32,7 +32,6 @@ if __name__ == '__main__':
     # Set Pytorch environment
     torch.set_num_threads(cfg.num_threads)
     dump_cfg(cfg)
-    print("wonder")
     # Repeat for different random seeds
     for i in range(args.repeat):
         set_run_dir(cfg.out_dir)
@@ -106,6 +105,12 @@ if __name__ == '__main__':
     print("Visualization data stored at: " + visual_path)
     Visualize.save_PCA(numpy_matrix, numpy_truth, name)
     Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
+
+    print(args.save)
+    print(args.save == '1')
+    if(args.save == '1'):
+        model_path = os.path.join("models", name + "_model.pt")
+        torch.save(model, model_path)
 
 
     

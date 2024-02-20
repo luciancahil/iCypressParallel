@@ -5,8 +5,9 @@ PATIENT=$2
 CYTO=$3
 GRID=$4
 HYPERPARAM=$5
+SAVE=$6
 
-python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${HYPERPARAM}
+python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${HYPERPARAM} ${SAVE}
 wait
 
 

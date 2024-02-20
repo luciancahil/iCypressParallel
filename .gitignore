@@ -56,9 +56,16 @@ run/results/*
 # Ignore everything in the folder
 run/configs/*
 
-
 # Except these files...
 !run/configs/dummy.txt
+
+
+# Ignore everything in the folder
+run/models/*
+
+# Except these files...
+!run/models/dummy.txt
+
 
 Dockerfile
 example_custom.yaml

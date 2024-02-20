@@ -17,9 +17,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--mark_done',
                         action='store_true',
                         help='Mark yaml as done after a job has finished.')
+    parser.add_argument('--save',
+                        default=0,
+                        help='Whether or not we save the model after training') 
     parser.add_argument('opts',
-                        default=None,
-                        nargs=argparse.REMAINDER,
-                        help='See graphgym/config.py for remaining options.')
+                    default=None,
+                    nargs=argparse.REMAINDER,
+                    help='See graphgym/config.py for remaining options.')
+    
+
 
     return parser.parse_args()

@@ -211,6 +211,15 @@ bash custom.sh ESET PATIENTS CCL2 True add_only
 
 Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the grid folder should resolve this issue.
 
+## Saving
+
+To save, simply pass "True" as the sixth parameter. If you wish to use custom hyperparameters, simply add "True" to the end of the command.
+
+If you wish to use default hyperparameters, insert "NULL" in place of the hyperparameter command.
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL True
+````
 
 ## Results
 
