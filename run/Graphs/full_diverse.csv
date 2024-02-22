@@ -1,0 +1,505 @@
+lung,CSF3
+CSF3,placenta
+CSF3,bone marrow
+CSF3,neutrophil
+neutrophil,CXCL
+CXCL,adipose tissue
+salivary gland,CCL2
+CCL2,NK-cell
+CCL2,placenta
+CCL2,eosinophil
+CCL2,T-reg
+CCL2,basophil
+bone marrow,CXCL
+lung,CXCL
+CXCL,liver
+CXCL,neutrophil
+CXCL,thyroid gland
+brain,IFNA
+IFNA,memory B-cell
+urinary bladder,IFNA
+IFNA,naive B-cell
+memory CD8 T-cell,CXCL
+CXCL,plasmacytoid DC
+CXCL,salivary gland
+CXCL,T-reg
+CXCL,intestine
+CXCL,basophil
+CXCL,memory B-cell
+CXCL,naive B-cell
+intestine,CCL1
+CCL1,basophil
+liver,CCL1
+CCL1,eosinophil
+kidney,SPP1
+SPP1,basophil
+SPP1,gdT-cell
+gallbladder,SPP1
+neutrophil,SPP1
+SPP1,thyroid gland
+SPP1,neutrophil
+placenta,SPP1
+neutrophil,TNFS
+TNFS,naive B-cell
+TNFS,skeletal muscle
+TNFS,plasmacytoid DC
+TNFS,memory B-cell
+TNFS,intestine
+intestine,IL7_
+IL7_,memory CD8 T-cell
+IL7_,naive CD4 T-cell
+memory B-cell,IL7_
+IL7_,MAIT T-cell
+IL7_,memory CD4 T-cell
+IL7_,naive CD8 T-cell
+IL7_,NK-cell
+IL7_,gdT-cell
+IL7_,lung
+IL7_,intestine
+naive B-cell,IL12
+IL12,T-reg
+esophagus,IL12
+IL12,NK-cell
+IL12,pancreas
+intestine,CCL2
+lung,CCL2
+intermediate monocyte,CCL2
+CCL2,salivary gland
+bone marrow,CCL4
+CCL4,NK-cell
+eosinophil,CCL4
+CCL4,placenta
+lung,CCL4
+CCL4,T-reg
+CCL4,eosinophil
+CCL4,salivary gland
+CCL4,MAIT T-cell
+CCL4,basophil
+CCL4,urinary bladder
+tongue,IL36
+IL36,skin 1
+seminal vesicle,IL20
+IL20,pancreas
+IL20,memory CD4 T-cell
+IL20,esophagus
+IL20,skin 1
+classical monocyte,CXCL
+CXCL,eosinophil
+thyroid gland,CXCL
+basophil,IL4_
+IL4_,classical monocyte
+IL4_,eosinophil
+IL4_,myeloid DC
+IL4_,testis
+IL4_,neutrophil
+IL4_,naive B-cell
+myeloid DC,CXCL
+CXCL,bone marrow
+skin 1,CXCL
+naive B-cell,IL6_
+IL6_,skeletal muscle
+adipose tissue,IL6_
+IL6_,naive CD4 T-cell
+memory B-cell,IL6_
+IL6_,neutrophil
+naive CD4 T-cell,TGFB
+TGFB,myeloid DC
+TGFB,gdT-cell
+TGFB,lung
+TGFB,classical monocyte
+TGFB,naive CD8 T-cell
+TGFB,MAIT T-cell
+TGFB,memory CD4 T-cell
+TGFB,memory CD8 T-cell
+TGFB,NK-cell
+salivary gland,TMPR
+TMPR,intestine
+placenta,TMPR
+TMPR,MAIT T-cell
+TMPR,gallbladder
+skin 1,TMPR
+TMPR,skin 1
+tongue,IL1A
+IL1A,neutrophil
+esophagus,IL1A
+TNFS,intermediate monocyte
+TNFS,non-classical monocyte
+liver,TNFS
+TNFS,neutrophil
+TNFS,classical monocyte
+TNFS,myeloid DC
+basophil,HGF_
+HGF_,thyroid gland
+placenta,HGF_
+HGF_,liver
+HGF_,MAIT T-cell
+HGF_,gallbladder
+HGF_,skin 1
+HGF_,intestine
+HGF_,esophagus
+HGF_,neutrophil
+HGF_,plasmacytoid DC
+HGF_,pancreas
+HGF_,NK-cell
+liver,THPO
+THPO,neutrophil
+bone marrow,IL1B
+IL1B,neutrophil
+NK-cell,XCL2
+XCL2,myeloid DC
+skin 1,IL37
+IL37,lung
+IL37,NK-cell
+IL37,brain
+NK-cell,IL37
+testis,IL31
+IL31,tongue
+IL31,brain
+IL31,classical monocyte
+IL31,myeloid DC
+brain,IL11
+IL11,naive CD4 T-cell
+neutrophil,IL11
+classical monocyte,CCL8
+CCL8,eosinophil
+CCL8,placenta
+placenta,CCL8
+CCL8,MAIT T-cell
+CCL8,intestine
+CCL8,NK-cell
+CCL8,salivary gland
+CCL8,adipose tissue
+CCL8,basophil
+tongue,IL17
+IL17,neutrophil
+urinary bladder,IL17
+IL17,myeloid DC
+IL17,classical monocyte
+bone marrow,PPBP
+PPBP,adipose tissue
+neutrophil,PPBP
+PPBP,neutrophil
+basophil,PPBP
+CCL1,urinary bladder
+CCL1,MAIT T-cell
+CCL1,T-reg
+tongue,IL1R
+IL1R,neutrophil
+classical monocyte,IL1R
+esophagus,IL1R
+myeloid DC,IL1R
+basophil,PF4_
+PF4_,thyroid gland
+neutrophil,PF4_
+PF4_,adipose tissue
+bone marrow,PF4_
+PF4_,placenta
+PF4_,basophil
+heart muscle,PF4_
+PF4_,neutrophil
+PF4_,liver
+PF4_,plasmacytoid DC
+non-classical monocyte,TNFS
+kidney,TNFS
+TNFS,naive CD4 T-cell
+classical monocyte,TNFS
+intermediate monocyte,TNFS
+basophil,TNFS
+plasmacytoid DC,TNFS
+eosinophil,TNFS
+TNFS,liver
+TNFS,thyroid gland
+myeloid DC,TNFS
+salivary gland,TNFS
+T-reg,IL26
+IL26,memory CD4 T-cell
+IL26,skin 1
+memory CD8 T-cell,IL26
+MAIT T-cell,IL26
+memory CD4 T-cell,IL26
+urinary bladder,IL26
+tongue,IL26
+intermediate monocyte,CXCL
+CXCL,myeloid DC
+CXCL,classical monocyte
+CXCL,naive CD4 T-cell
+CXCL,memory CD4 T-cell
+CXCL,non-classical monocyte
+esophagus,IL17
+non-classical monocyte,CXCL
+intermediate monocyte,CCL1
+CCL1,naive CD4 T-cell
+CCL1,plasmacytoid DC
+CCL1,NK-cell
+CCL1,placenta
+CCL1,intestine
+CCL1,salivary gland
+CCL1,adipose tissue
+bone marrow,CCL3
+CCL3,NK-cell
+CCL3,memory B-cell
+CCL3,naive B-cell
+CCL3,placenta
+gdT-cell,CCL3
+CCL3,salivary gland
+CCL3,basophil
+CCL3,MAIT T-cell
+CCL3,eosinophil
+CCL3,T-reg
+skin 1,IL9_
+IL9_,eosinophil
+brain,IL9_
+IL9_,urinary bladder
+lung,CCL1
+heart muscle,CCL1
+lung,CSF2
+CSF2,eosinophil
+CSF2,liver
+CSF2,placenta
+NK-cell,CSF2
+CSF2,plasmacytoid DC
+CSF2,neutrophil
+CSF2,classical monocyte
+pancreas,CSF2
+CSF2,myeloid DC
+CSF2,basophil
+CSF2,intermediate monocyte
+CSF2,thyroid gland
+CSF2,breast
+salivary gland,CXCL
+esophagus,IL19
+IL19,skin 1
+salivary gland,IL19
+IL19,esophagus
+basophil,IL19
+IL19,memory CD4 T-cell
+skin 1,CCL2
+T-reg,CCL2
+gallbladder,LIF_
+LIF_,naive CD4 T-cell
+NK-cell,LIF_
+memory B-cell,IL5_
+IL5_,placenta
+IL5_,basophil
+testis,IL5_
+IL5_,eosinophil
+IL5_,neutrophil
+testis,IL13
+IL13,eosinophil
+IL13,classical monocyte
+IL13,myeloid DC
+IL13,neutrophil
+prostate,CXCL
+neutrophil,CKLF
+CKLF,T-reg
+salivary gland,IFNL
+IFNL,plasmacytoid DC
+brain,IFNL
+skin 1,IFNL
+testis,IFNL
+classical monocyte,CCL1
+memory CD4 T-cell,IFNG
+IFNG,neutrophil
+naive CD8 T-cell,IFNG
+gdT-cell,IFNG
+bone marrow,IFNG
+memory CD8 T-cell,IFNG
+lung,IFNG
+MAIT T-cell,CCL4
+naive CD8 T-cell,CCL4
+memory CD8 T-cell,CCL4
+gdT-cell,CCL4
+neutrophil,GDF1
+GDF1,adipose tissue
+placenta,GDF1
+GDF1,liver
+GDF1,neutrophil
+tongue,CCL1
+naive CD4 T-cell,CD40
+CD40,naive B-cell
+MAIT T-cell,CD40
+memory CD4 T-cell,CD40
+CD40,memory B-cell
+intestine,CD40
+gdT-cell,CD40
+non-classical monocyte,TNF_
+TNF_,intermediate monocyte
+bone marrow,TNF_
+TNF_,myeloid DC
+TNF_,neutrophil
+TNF_,plasmacytoid DC
+TNF_,brain
+TNF_,non-classical monocyte
+TNF_,classical monocyte
+basophil,CSF1
+CSF1,non-classical monocyte
+eosinophil,CSF1
+CSF1,intermediate monocyte
+intestine,IL2_
+IL2_,basophil
+memory CD4 T-cell,IL2_
+IL2_,adipose tissue
+IL2_,T-reg
+IL2_,plasmacytoid DC
+IL2_,NK-cell
+IL2_,gdT-cell
+IL2_,placenta
+memory B-cell,CCL2
+NK-cell,CCL2
+CCL2,naive B-cell
+CCL2,intestine
+CCL2,memory B-cell
+bone marrow,CCL7
+CCL7,NK-cell
+classical monocyte,CCL7
+CCL7,eosinophil
+adipose tissue,CCL7
+CCL7,placenta
+CCL7,MAIT T-cell
+CCL7,salivary gland
+CCL7,adipose tissue
+CCL7,T-reg
+CCL7,intestine
+CCL7,plasmacytoid DC
+CCL7,basophil
+gdT-cell,FASL
+FASL,neutrophil
+neutrophil,OSM_
+OSM_,naive CD4 T-cell
+bone marrow,OSM_
+basophil,OSM_
+esophagus,IL18
+IL18,brain
+skin 1,IL18
+IL18,lung
+myeloid DC,IL18
+IL18,skin 1
+IL18,bone marrow
+IL18,NK-cell
+NK-cell,XCL1
+XCL1,myeloid DC
+CCL2,adipose tissue
+gallbladder,CCL2
+MAIT T-cell,CCL2
+CCL2,MAIT T-cell
+CCL2,memory CD4 T-cell
+CCL2,plasmacytoid DC
+retina,CCL2
+CCL2,brain
+ovary,CCL2
+CCL2,non-classical monocyte
+myeloid DC,CCL1
+memory B-cell,CCL1
+memory CD8 T-cell,TNFS
+TNFS,T-reg
+TNFS,NK-cell
+memory CD8 T-cell,IL23
+IL23,MAIT T-cell
+memory B-cell,IL23
+testis,IL23
+T-reg,IL23
+naive CD8 T-cell,IL23
+memory CD4 T-cell,IL23
+naive B-cell,IL23
+naive CD4 T-cell,IL23
+pancreas,IFNL
+memory CD8 T-cell,CCL5
+CCL5,MAIT T-cell
+CCL5,plasmacytoid DC
+CCL5,salivary gland
+gdT-cell,CCL5
+CCL5,NK-cell
+CCL5,brain
+CCL5,intestine
+CCL5,placenta
+CCL5,basophil
+CCL5,T-reg
+CCL5,adipose tissue
+CCL5,eosinophil
+memory CD8 T-cell,IFNL
+MAIT T-cell,IFNL
+naive CD8 T-cell,IFNL
+gdT-cell,IFNL
+myeloid DC,IFNL
+NK-cell,IFNL
+memory CD4 T-cell,IFNL
+basophil,TGFA
+TGFA,gdT-cell
+neutrophil,TGFA
+eosinophil,TGFA
+eosinophil,CCL2
+skin 1,IL1F
+IL1F,liver
+IL1F,brain
+memory B-cell,CD70
+CD70,T-reg
+breast,CCL1
+testis,TNFS
+TNFS,adipose tissue
+TNFS,memory CD4 T-cell
+skeletal muscle,PDGF
+PDGF,gdT-cell
+PDGF,ovary
+PDGF,non-classical monocyte
+liver,CXCL
+endometrium 1,EPO_
+EPO_,classical monocyte
+non-classical monocyte,EPO_
+EPO_,neutrophil
+liver,EPO_
+memory CD8 T-cell,FLT3
+FLT3,plasmacytoid DC
+memory CD4 T-cell,FLT3
+FLT3,brain
+naive CD4 T-cell,FLT3
+FLT3,myeloid DC
+naive CD8 T-cell,FLT3
+MAIT T-cell,FLT3
+T-reg,FLT3
+gdT-cell,FLT3
+brain,TNFS
+TNFS,skin 1
+tongue,TNFS
+eosinophil,IL34
+IL34,non-classical monocyte
+skin 1,IL34
+IL34,intermediate monocyte
+urinary bladder,IL22
+IL22,pancreas
+IL22,skin 1
+IL22,memory CD4 T-cell
+eosinophil,TGFB
+TGFB,basophil
+TGFB,neutrophil
+TGFB,liver
+TGFB,thyroid gland
+TGFB,bone marrow
+TGFB,kidney
+pancreas,EGF_
+EGF_,NK-cell
+kidney,EGF_
+EGF_,gdT-cell
+EGF_,esophagus
+neutrophil,EGF_
+skeletal muscle,EGF_
+EGF_,plasmacytoid DC
+neutrophil,IL12
+IL12,MAIT T-cell
+MAIT T-cell,PDGF
+PDGF,intermediate monocyte
+PDGF,myeloid DC
+PDGF,classical monocyte
+classical monocyte,CCL2
+bone marrow,IL3_
+IL3_,basophil
+IL3_,placenta
+IL3_,breast
+IL3_,neutrophil
+IL3_,plasmacytoid DC
+brain,CCL3
+eosinophil,CCL3
+neutrophil,CCL3
+NK-cell,TNFS
+TNFS,salivary gland
+TNFS,gallbladder
+TNFS,kidney
