@@ -10,6 +10,8 @@ def list_files_in_directory():
             if(filename == "__init__.py" or filename== "All_graph.py"):
                 continue
             under_index = filename.index("_")
-            print(filename[0:under_index])
+            name = (filename[0:under_index])
+            new_name = name + "_diverse_graph.csv"
+            os.rename("run/Graphs/" + filename,"run/Graphs/" + new_name)
 
 list_files_in_directory()

@@ -170,7 +170,7 @@ def normalize_vector(vector):
     normalized_vector = (vector - min_val) / (max_val - min_val)
     return normalized_vector    
 
-def process_tissues(blood_only):
+def process_tissues():
     tissue_gene_dict = dict() # maps tissues to the genes associated with them
 
     gene_set = set()
@@ -184,13 +184,12 @@ def process_tissues(blood_only):
         
         tissue_line_arr = tissue_line.split(",")
 
-        if (blood_only and (tissue_line_arr[1] == "N")):
-            continue
-
         tissue = tissue_line_arr[0]
-        genes_array = tissue_lines[i + 1].split(',')
-
-        tissue_gene_dict[tissue] = genes_array
+        if(len(tissue_lines[i + 1]) > 0):
+            genes_array = tissue_lines[i + 1].split(',')
+            tissue_gene_dict[tissue] = genes_array
+        else:
+            tissue_gene_dict[tissue] = []
 
         gene_set.update(genes_array)
 
