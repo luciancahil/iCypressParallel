@@ -151,6 +151,40 @@ cd run
 bash custom.sh ESET PATIENTS CCL2 True
 ````
 
+## Custom Mapping
+
+The mapping command specifies what kind of data goes into a node. By default, the library uses the file "GenesToTissues.csv".
+
+Here is a sample:
+
+````
+PLASMACYTOID DC
+ALOX5AP,APP,BCL11A,BDCA2,BDCA4,C10ORF118,C12ORF75,...
+T-REG
+AB22510,ABCAM,AIRE,ARID5B,BACH2,BATF,CAPG,CCR10,...
+CCL26
+````
+
+Here, Plasmacytoid DC and T-Reg are potential names for nodes that a graph might have, and ALOX5AP and CAPG are names for the types of data that may go into them.
+
+If you want to make your own file, follow the structure of alternating Node names in one line and data point name array in another. Each element in the array must be seperated by a comma.
+
+If you want a node to have one space dedicated to it in the vectors the graph creates, have a data point name "N/A". This way, one space will be allocated just for that node, but it won't have any data.
+
+Any node name must appear in this graph. It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
+
+To build a dataset using your custom mapping, simply use the following command, which adds a parameter onto the command:
+
+````
+bash custom.sh ESET PATIENTS all False MAP_FILE
+````
+
+Include the suffix. For example, the following will just use the default mapping file:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients all False GenesToTissues.csv
+````
+
 ## Custom Hyperparameters
 
 Hyperparameters specify the structures of the Neural network. Things like how many epochs to train for, how many neurons in a hidden layer, etc. this library allows one to play around with the hyperparameters of the network by making simple changes to yaml files.
@@ -162,7 +196,6 @@ The default hyperparameters are in the "run/Hyperparameters" directory. Any cust
 For a single run, the hyperparameters stickly handle the structure of the Graph Neural network. The default values, found in "run/Hyperparameters/Default Configs.yaml" are as follows:
 
 ````
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 batch_size : 80         # When training, how many instances should we have at once
 eval_period : 20        # After how many training rounds we do an evaluation
 layers_pre_mp : 2       # How many layers exist before the message passing phase
@@ -175,7 +208,6 @@ max_epoch : 400         # How many epochs we train for
 If you wish to change these hyperparameters, it is recommended that you make a new file. The new file must be of .yaml type. For instance, if you wanted to train for 500 epochs, you could make a new file called "Train_500.yaml" with the following content:
 
 ````
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 batch_size : 80         # When training, how many instances should we have at once
 eval_period : 20        # After how many training rounds we do an evaluation
 layers_pre_mp : 2       # How many layers exist before the message passing phase
@@ -188,8 +220,11 @@ max_epoch : 500         # How many epochs we train for
 To run the network with the new hyperparameter, place that file in the "run/Hyperparameters" directory, and run the following command from the run directory:
 
 ````
-bash custom.sh ESET PATIENTS CCL2 False Train_500
+bash custom.sh ESET PATIENTS CCL2 False MAP_FILE Train_500
 ````
+If you wish to just use the default mapping file, write "null" (case-insensitive) into the MAP_FILE argument. 
+
+
 
 Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the configs folder should resolve this issue.
 
@@ -225,6 +260,15 @@ bash custom.sh ESET PATIENTS CCL2 True add_only
 
 Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the grid folder should resolve this issue.
 
+## Saving
+
+To save, simply pass "True" as the sixth parameter. If you wish to use custom hyperparameters, simply add "True" to the end of the command.
+
+If you wish to use default hyperparameters and mapping, insert "NULL" in place of the hyperparameter command.
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL True
+````
 
 ## Results
 
@@ -263,3 +307,78 @@ Enter either, and you will see "stats.json". The folder will contain all the inf
 
 ## Repo Setup on HPC (UBC ARC Sockeye)
 To run this library on UBC Sockeye, enter a scratch folder, clone this library, enter the main directory, and then follow the same steps as in installation
+
+
+## Jupyter Notebook on Sockeye
+
+To use Jupyter Notebook on sockey, first, pull a custom docker image into your project file. Then, clone the follwing docker image from docker hub:
+
+````
+module load gcc
+module load apptainer
+cd /arc/project/<st-alloc-1>/jupyter
+apptainer pull --force --name cypress-docker.sif docker://royhe62/cypress-docker
+````
+
+Then, create a folder in the stack folder. Write this script into your scratch project folder, and then start a job using sbatch.
+
+````
+#!/bin/bash
+ 
+#SBATCH --job-name=my_jupyter_notebook
+#SBATCH --account=<st-alloc-1>
+#SBATCH --time=03:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem=128G
+ 
+################################################################################
+ 
+# Change directory into the job dir
+ 
+# Load software environment
+module load gcc
+module load apptainer
+ 
+
+export TMPDIR=/scratch/<st-alloc-1>/jupyter
+ 
+
+# Set RANDFILE location to writeable dir
+export RANDFILE=$TMPDIR/.rnd
+  
+# Generate a unique token (password) for Jupyter Notebooks
+export APPTAINERENV_JUPYTER_TOKEN=$(openssl rand -base64 15)
+ 
+# Find a unique port for Jupyter Notebooks to listen on
+readonly PORT=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
+ 
+# Print connection details to file
+cat > connection_${SLURM_JOB_ID}.txt <<END
+ 
+1. Create an SSH tunnel to Jupyter Notebooks from your local workstation using the following command:
+ 
+ssh -N -L 8888:${HOSTNAME}:${PORT} ${USER}@sockeye.arc.ubc.ca
+ 
+2. Point your web browser to http://localhost:8888
+ 
+3. Login to Jupyter Notebooks using the following token (password):
+ 
+${APPTAINERENV_JUPYTER_TOKEN}
+ 
+When done using Jupyter Notebooks, terminate the job by:
+ 
+1. Quit or Logout of Jupyter Notebooks
+2. Issue the following command on the login node (if you did Logout instead of Quit):
+ 
+scancel ${SLURM_JOB_ID}
+
+END
+
+apptainer exec --home /scratch/<st-alloc-1>/my_jupyter --env XDG_CACHE_HOME=/scratch/<st-alloc-1>/my_jupyter /arc/project/<st-alloc-1>/jupyter/cypress-docker.sif jupyter notebook --no-browser --port=${PORT} --ip=0.0.0.0 --notebook-dir=$SLURM_SUBMIT_DIR
+
+````
+
+Once the job starts, a txt file with instructions on how to connect to the Jupyter server will be generated. Follow those instructions to connect.
+
+Once a connection has been made, you may use Jupyter anyway you wish. See run/demonstration.pynb for several examples of what can be done.

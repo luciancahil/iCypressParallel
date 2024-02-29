@@ -81,6 +81,7 @@ graphgym/utils/tools.py
 run/AnnDataProcessor.py
 run/Cypress.py
 run/CytokinesDataSet.py
+run/Process CSV.py
 run/Visualization.py
 run/__init__.py
 run/agg_batch.py
@@ -88,6 +89,5 @@ run/configs_gen.py
 run/generation.py
 run/main.py
 run/main_pyg.py
+run/Graphs/ALL_graph.py
 run/Graphs/__init__.py
-run/Modified Graphs/All_graph.py
-run/Modified Graphs/__init__.py
