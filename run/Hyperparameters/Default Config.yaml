@@ -1,4 +1,3 @@
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 batch_size : 80         # When training, how many instances should we have at once
 eval_period : 20        # After how many training rounds we do an evaluation
 layers_pre_mp : 2       # How many layers exist before the message passing phase

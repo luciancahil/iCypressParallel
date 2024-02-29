@@ -1,4 +1,3 @@
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 l_pre : [1,2]                           # How many layers exist before the message passing phase
 l_mp : [2,4,6,8]                        # How many rounds of message passing do we do
 l_post : [2,3]                          # How many layers deep is the neural network after we do all the message passing

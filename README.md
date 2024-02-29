@@ -148,7 +148,6 @@ The default hyperparameters are in the "run/Hyperparameters" directory. Any cust
 For a single run, the hyperparameters stickly handle the structure of the Graph Neural network. The default values, found in "run/Hyperparameters/Default Configs.yaml" are as follows:
 
 ````
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 batch_size : 80         # When training, how many instances should we have at once
 eval_period : 20        # After how many training rounds we do an evaluation
 layers_pre_mp : 2       # How many layers exist before the message passing phase
@@ -161,7 +160,6 @@ max_epoch : 400         # How many epochs we train for
 If you wish to change these hyperparameters, it is recommended that you make a new file. The new file must be of .yaml type. For instance, if you wanted to train for 500 epochs, you could make a new file called "Train_500.yaml" with the following content:
 
 ````
-blood_only : True       # Whether we use tissue types that come from blood when building the networks
 batch_size : 80         # When training, how many instances should we have at once
 eval_period : 20        # After how many training rounds we do an evaluation
 layers_pre_mp : 2       # How many layers exist before the message passing phase
