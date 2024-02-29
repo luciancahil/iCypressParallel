@@ -1,11 +1,8 @@
 bone marrow,NK-cell
 bone marrow,memory B-cell
 bone marrow,naive B-cell
-bone marrow,placenta
 gdT-cell,NK-cell
-bone marrow,salivary gland
 gdT-cell,memory B-cell
-gdT-cell,salivary gland
 gdT-cell,basophil
 bone marrow,basophil
 gdT-cell,MAIT T-cell
@@ -15,4 +12,3 @@ bone marrow,T-reg
 gdT-cell,eosinophil
 gdT-cell,naive B-cell
 gdT-cell,T-reg
-gdT-cell,placenta
