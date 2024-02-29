@@ -87,6 +87,9 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         else:
             count = len(active_tissue_gene_dict[tissue])
         
+        if(tissue == "CCL26"):
+            print(count)
+        
         gene_count.append(count)
     
     total_genes = sum(gene_count)
@@ -99,7 +102,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
 
 
         data = []
-        # create the information matrix that goes into each node
+        # create the information vector that goes into each node
         for i, tissue in enumerate(tissues):
             tissue_data = [0]*total_genes # initialize an empty vector
             start = sum(gene_count[:i]) # count number of genes before this tissue.
@@ -110,7 +113,9 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
             tissue_genes = active_tissue_gene_dict[tissue]  # get the list of genes that affect the give tissue.
 
             offset = 0
-            for gene in tissue_genes:                        
+            for gene in tissue_genes: # set a part of vector data here to data we read, the rest is left as 0
+                if(gene == "N/A"): # N/A means "placeholder". We want a slot, but don't have any data for it.
+                    continue
                 tissue_data[start + offset] = gene_to_patient[gene][patient] / 20
                 offset +=  1
             
@@ -244,66 +249,57 @@ def process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_
 
         gene_to_patient[new_gene] = patient_gene_data_dict
         
-    # make a new tissue_gene_dict
+    # make a new tissue_gene_dict of active tisues. If a tissue is in the tissues array, but not in data, do not include it.
 
     active_tissue_gene_dict = dict()
 
     for tissue in tissue_gene_dict.keys():
             gene_array = []
-
             original_genes = tissue_gene_dict[tissue]
 
             for gene in original_genes:
-                if gene in gene_to_patient.keys():
+                if (gene in gene_to_patient.keys() or gene == "N/A"):
                     gene_array.append(gene)
             
             active_tissue_gene_dict[tissue] = gene_array
     
     return (gene_to_patient, active_tissue_gene_dict)
 
-def process_graphs(blood_only):
-    if(blood_only):
-        graph_folder_path = "Modified Graphs"
-    else:
-        graph_folder_path = "Graphs"
+def process_graphs(cyto):
+    graph_folder_path = "Graphs"
     
-    cyto_list = []
     cyto_adjacency_dict = dict() # maps a cytokine's name to their adjacency matrix
     cyto_tissue_dict = dict() # maps a cytokine's name to the tissues they need
 
-    for filename in os.listdir(graph_folder_path):
-        cyto_name = filename[:-10]
-        cyto_list.append(cyto_name) # drop the _graph.csv
-        graph_file_path = os.path.join(graph_folder_path, filename)
-        if (filename == '__pycache__' or filename == 'All_graph.py'):
-            continue
-        graphAdjacency = []
-        tissue_set = set()
+    filename = cyto.upper() + "_graph.csv"
+    graph_file_path = os.path.join(graph_folder_path, filename)
 
-        f = open(graph_file_path, 'r')
-        graphLines = f.read().splitlines()
-        
-        for line in graphLines:
-            parts = line.upper().split(",") # remove newline, capitalize, and remove spaces
-            tissue_set.update(parts)
-            graphAdjacency.append(parts)
-            if sys.argv[3] != "all":
-                newParts = [parts[1], parts[0]]
-                graphAdjacency.append(newParts)
-        
+    graphAdjacency = []
+    tissue_set = set()
 
-        # put the tissues into a list, and then sort them
-        tissue_list = []
-        for tissue in tissue_set:
-            tissue_list.append(tissue)
-        
-        tissue_list.sort()
+    f = open(graph_file_path, 'r')
+    graphLines = f.read().splitlines()
+    
+    for line in graphLines:
+        parts = line.upper().split(",") # remove newline, capitalize, and remove spaces
+        tissue_set.update(parts)
+        graphAdjacency.append(parts)
+        if sys.argv[3] != "all":
+            newParts = [parts[1], parts[0]]
+            graphAdjacency.append(newParts)
+    
 
-        cyto_adjacency_dict[cyto_name] = graphAdjacency
-        cyto_tissue_dict[cyto_name] = tissue_list
+    # put the tissues into a list, and then sort them
+    tissue_list = []
+    for tissue in tissue_set:
+        tissue_list.append(tissue)
+    
+    tissue_list.sort()
 
+    cyto_adjacency_dict[cyto] = graphAdjacency
+    cyto_tissue_dict[cyto] = tissue_list
 
-    return cyto_list,cyto_adjacency_dict,cyto_tissue_dict
+    return cyto_adjacency_dict,cyto_tissue_dict
 
 """
 Processes Patients to get the list and dictionary of patients
@@ -457,9 +453,9 @@ else:
 patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification
 
 # process graph data
-cyto_list,cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(configs['blood_only']) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
+cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(cyto) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
 
-tissue_gene_dict, gene_set = process_tissues(configs['blood_only']) # dict that matches tissues to the genes associated with them, a set of all genes we have
+tissue_gene_dict, gene_set = process_tissues() # dict that matches tissues to the genes associated with them, a set of all genes we have
 
 
 #process eset data
