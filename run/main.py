@@ -110,6 +110,7 @@ if __name__ == '__main__':
     print(args.save == '1')
     if(args.save == '1'):
         model_path = os.path.join("models", name + "_model.pt")
+        print("Model saved at " + model_path)
         torch.save(model, model_path)
 
 
