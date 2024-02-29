@@ -359,6 +359,8 @@ def make_grid(name, configs):
         file.write("gnn.stage_type stage " + str(configs['stage']) + "\n")
         file.write("gnn.agg agg " + str(configs['agg']) + "\n")
 
+
+
 def make_grid_sh(eset_name, cyto, name):
     grid_sh_path = os.path.join("customScripts", "run_custom_batch_" + eset_name + "_" + cyto + ".sh")
     with open(grid_sh_path, 'w') as file:
@@ -373,7 +375,7 @@ def make_grid_sh(eset_name, cyto, name):
         file.write("# please remove --config_budget, if don't control computational budget\n")
         file.write("python configs_gen.py --config configs/${CONFIG}.yaml \\\n")
         file.write(" --config_budget configs/${CONFIG}.yaml \\\n")
-        file.write(" --grid grids/${GRID}.txt \\\n")
+        file.write(" --grid customGrids/${GRID}.txt \\\n")
         file.write(" --out_dir configs\n")
         file.write("#python configs_gen.py --config configs/ChemKG/${CONFIG}.yaml --config_budget configs/ChemKG/${CONFIG}.yaml --grid grids/ChemKG/${GRID}.txt --out_dir configs\n")
         file.write("# run batch of configs\n")
@@ -419,9 +421,9 @@ else:
     grid = True
 
 
-MAP_FILE = sys.argv[5]
 
 try:
+    MAP_FILE = sys.argv[5]
     if(MAP_FILE.upper() == "NULL"):
         raise IndexError
     MAP_FILE = sys.argv[5]
@@ -449,6 +451,11 @@ except(IndexError):
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
     configs = yaml.safe_load(file)
+
+if(grid):
+    single_config_path = os.path.join("Hyperparameters", "Default Config.yaml")
+    with open(single_config_path, 'r') as file:
+        single_configs = yaml.safe_load(file)
 
 
 # general configs that we can keep as they are, unless changed.
@@ -488,6 +495,7 @@ name = cyto + "_" + eset_name
 if (grid) :
     make_grid_sh(sys.argv[1], cyto, name)
     make_grid(name, configs)
+    makeConfigFile(name, single_configs)
 else:
     config_name = makeConfigFile(name, configs)
     make_single_sh(sys.argv[1], cyto, config_name)
