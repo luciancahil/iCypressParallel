@@ -137,6 +137,40 @@ cd run
 bash custom.sh ESET PATIENTS CCL2 True
 ````
 
+## Custom Mapping
+
+The mapping command specifies what kind of data goes into a node. By default, the library uses the file "GenesToTissues.csv".
+
+Here is a sample:
+
+````
+PLASMACYTOID DC
+ALOX5AP,APP,BCL11A,BDCA2,BDCA4,C10ORF118,C12ORF75,...
+T-REG
+AB22510,ABCAM,AIRE,ARID5B,BACH2,BATF,CAPG,CCR10,...
+CCL26
+````
+
+Here, Plasmacytoid DC and T-Reg are potential names for nodes that a graph might have, and ALOX5AP and CAPG are names for the types of data that may go into them.
+
+If you want to make your own file, follow the structure of alternating Node names in one line and data point name array in another. Each element in the array must be seperated by a comma.
+
+If you want a node to have one space dedicated to it in the vectors the graph creates, have a data point name "N/A". This way, one space will be allocated just for that node, but it won't have any data.
+
+Any node name must appear in this graph. It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
+
+To build a dataset using your custom mapping, simply use the following command, which adds a parameter onto the command:
+
+````
+bash custom.sh ESET PATIENTS all False MAP_FILE
+````
+
+Include the suffix. For example, the following will just use the default mapping file:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients all False GenesToTissues.csv
+````
+
 ## Custom Hyperparameters
 
 Hyperparameters specify the structures of the Neural network. Things like how many epochs to train for, how many neurons in a hidden layer, etc. this library allows one to play around with the hyperparameters of the network by making simple changes to yaml files.
@@ -172,8 +206,11 @@ max_epoch : 500         # How many epochs we train for
 To run the network with the new hyperparameter, place that file in the "run/Hyperparameters" directory, and run the following command from the run directory:
 
 ````
-bash custom.sh ESET PATIENTS CCL2 False Train_500
+bash custom.sh ESET PATIENTS CCL2 False MAP_FILE Train_500
 ````
+If you wish to just use the default mapping file, write "null" (case-insensitive) into the MAP_FILE argument. 
+
+
 
 Note: If you don't see the new hyperparameters taking affect, it may because there is already a config file with the same name as the one the library is trying to generate. Clearing the configs folder should resolve this issue.
 
@@ -213,10 +250,10 @@ Note: If you don't see the new hyperparameters taking affect, it may because the
 
 To save, simply pass "True" as the sixth parameter. If you wish to use custom hyperparameters, simply add "True" to the end of the command.
 
-If you wish to use default hyperparameters, insert "NULL" in place of the hyperparameter command.
+If you wish to use default hyperparameters and mapping, insert "NULL" in place of the hyperparameter command.
 
 ````
-bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL True
+bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL True
 ````
 
 ## Results

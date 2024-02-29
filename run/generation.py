@@ -180,7 +180,7 @@ def process_tissues():
 
     gene_set = set()
 
-    tissue_file = open("GenesToTissues.csv")
+    tissue_file = open(MAP_FILE)
 
     tissue_lines = tissue_file.read().splitlines()
 
@@ -418,21 +418,33 @@ if grid[0] == "F":
 else:
     grid = True
 
+
+MAP_FILE = sys.argv[5]
+
 try:
-    if(sys.argv[5].upper() == "NULL"):
+    if(MAP_FILE.upper() == "NULL"):
         raise IndexError
-    parameter_file = sys.argv[5] + ".yaml"
+    MAP_FILE = sys.argv[5]
+except(IndexError):
+    MAP_FILE = "GenesToTissues.csv"
+
+try:
+    if(sys.argv[6].upper() == "NULL"):
+        raise IndexError
+    parameter_file = sys.argv[6] + ".yaml"
 except(IndexError):
     if(grid):
         parameter_file = "Default Grid.yaml"
     else:
         parameter_file = "Default Config.yaml"
 
-
+# do we save the model
 try:
-    save_model = sys.argv[6][0].upper()=="T"
+    save_model = sys.argv[7][0].upper()=="T"
 except(IndexError):
     save_model = False
+
+
 
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
