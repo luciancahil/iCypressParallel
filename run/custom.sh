@@ -8,6 +8,10 @@ MAP=$5
 HYPERPARAM=$6
 SAVE=$7
 
+STARTTIME=`date +"%Y-%m-%d %T"`
+
+
+
 python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${MAP} ${HYPERPARAM} ${SAVE} 
 wait
 
@@ -17,3 +21,9 @@ if [ $GRID = "True" ]; then
 elif [ $GRID = "False" ]; then
     bash ./customScripts/run_custom_${ESET}_${CYTO}.sh
 fi
+
+
+ENDTIME=`date +"%Y-%m-%d %T"`
+
+echo Start Time is: ${STARTTIME}
+echo End Time is: ${ENDTIME}
