@@ -1,7 +1,8 @@
 CONFIG_DIR=$1
 REPEAT=$2
 MAX_JOBS=${3:-2}
-MAIN=${4:-main}
+SAVE=${4:-0}
+MAIN=${5:-main}
 
 (
   trap 'kill 0' SIGINT
@@ -10,7 +11,7 @@ MAIN=${4:-main}
     if [ "$CONFIG" != "$CONFIG_DIR/*.yaml" ]; then
       ((CUR_JOBS >= MAX_JOBS)) && wait -n
       echo "Job launched: $CONFIG"
-      python $MAIN.py --cfg $CONFIG --repeat $REPEAT --mark_done &
+      python $MAIN.py --cfg $CONFIG --repeat $REPEAT --save $SAVE --mark_done &
       ((CUR_JOBS < MAX_JOBS)) && sleep 1
       ((++CUR_JOBS))
     fi
