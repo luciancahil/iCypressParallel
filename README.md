@@ -128,6 +128,21 @@ If you had an anndata file called "data.h5ad", use the following command:
 bash custom.sh ANN info all False
 ````
 
+### Custom Graphs
+
+To use a custom graph, add a csv file with the suffix "_graph.csv" to the run/graphs folder. For example. If you want to add a graph called "DUMMY", add a csv file into the graphs folder called "DUMMY_graphs.csv". The format is important. It must end with _graphs.csv, and all letters before that must be capitalized. Otherwise, it will not show up.
+
+The csv should be structured with 2 collumns. The first collumn will be the source of a connection, and the second the destination of a particular connection. For example, see CCL1_graph.csv:
+
+`````
+intermediate monocyte,T-reg
+classical monocyte,T-reg
+`````
+
+This graph has 3 nodes and 2 edges; one edge starts at intermediate monocyte and the other starts at classical monocyte, while both end at T-reg.
+
+Make sure that any node name you have in your graph file shows up in your mapping file (see "Custom Mapping" below for more details).
+
 ## Parallelization
 
 Parallization is handled automatically by this library. The last command above dictates wether a single run will be done, or wether a grid search over many possible hyperparameters will be done. To run the library with parallel data using the supplied files, use the following command.
@@ -157,7 +172,9 @@ If you want to make your own file, follow the structure of alternating Node name
 
 If you want a node to have one space dedicated to it in the vectors the graph creates, have a data point name "N/A". This way, one space will be allocated just for that node, but it won't have any data.
 
-Any node name must appear in this graph. It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
+Any node name must appear in this file. If you deleted the 2 lines corresponding to T-REG, and then tried to use a cytokine that involves T-REG, the progam will throw an error. 
+
+It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
 
 To build a dataset using your custom mapping, simply use the following command, which adds a parameter onto the command:
 
