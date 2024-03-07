@@ -13,8 +13,8 @@ Alternatively, run the following commands in the folder where you want the proje
 ````
 git clone https://github.com/luciancahil/iCypressParallel.git
 cd iCypressParallel
-conda create -n cypress-env python=3.7 -y
-conda activate cypress-env
+conda create -n cypress python=3.7 -y
+conda activate cypress
 pip install torch==1.8.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 CUDA=cu101
 TORCH=1.8.0
