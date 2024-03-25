@@ -20,6 +20,7 @@ from CytokinesDataSet import CytokinesDataSet
 from graphgym.models.layer import GeneralMultiLayer, Linear, GeneralConv
 from graphgym.models.gnn import GNNStackStage
 import numpy as np
+import time
 
 from Visualization import Visualize
 
@@ -123,8 +124,10 @@ if __name__ == '__main__':
     print(args.save)
     print(args.save == '1')
     if(args.save == '1'):
-        model_path = os.path.join("models", name + "_model.pt")
+        now = time.time() # unix time stamp, to save anohter if need be
+        model_path = os.path.join("models", name + "_" + str(now) +"_model.pt")
         print("Model saved at " + model_path)
+        model.edge_weights = edge_weights
         torch.save(model, model_path)
 
 

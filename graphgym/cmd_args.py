@@ -20,6 +20,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--save',
                         default=0,
                         help='Whether or not we save the model after training') 
+    parser.add_argument('--model_path',
+                        default="",
+                        help='Where the model we want to retrieve comes from') 
     parser.add_argument('opts',
                     default=None,
                     nargs=argparse.REMAINDER,

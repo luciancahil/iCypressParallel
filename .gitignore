@@ -32,7 +32,11 @@ run/Hyperparameters/*
 !run/Hyperparameters/Default Grid.yaml
 !run/Hyperparameters/SINGLE_GRID.yaml
 
+# Ignore everything in the folder
+run/replications/*
 
+# But not these files...
+!run/replications/dummy.txt
 
 # Ignore everything in the folder
 run/Visuals/*

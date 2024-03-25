@@ -304,6 +304,40 @@ If you wish to use default hyperparameters and mapping, insert "NULL" in place o
 bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL True
 ````
 
+## Replication
+
+To use a model you've saved, do the following.
+
+1. Note the path the model is saved to by looking at the terminal. You should see a message "Model saved at [PATH]".
+1. Write a new command with the same 4 parameters as your custom.sh command, but with "custom.sh" replaced with "replication.sh".
+1. Add the path you copied as a 5th parameter to the command. Paste that command in terminal, and you should see the output of the network on each data point.
+
+If you wanted to try the code on new input data, simply replace the first 2 parameters with what you wanted. However, the structure must be the same; same number of elements in each vector, same graph structure, etc.
+
+
+### Example
+
+Let's say you started by running the following command:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL2 False NULL NULL True
+````
+
+Then, you got the following message at the end of the runtime:
+
+````
+Model saved at models/CCL2_GSE40240_eset_1711341524.4664948_model.pt
+````
+
+You would then run the following command to try a replication:
+
+````
+bash replication.sh GSE40240_eset GSE40240_patients CCL2 False models/CCL2_GSE40240_eset_1711341524.4664948_model.pt
+````
+
+If you wanted to try the code on new input data, simply replace the first 2 parameters with what you wanted. However, the structure must be the same; same number of elements in each vector, same graph structure, etc.
+
+
 ## Results
 
 

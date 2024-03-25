@@ -407,6 +407,17 @@ def make_single_sh(eset_name, cyto, config_name):
             file.write(' --save 1')
 
 
+def make_replication(eset_name, cyto, config_name):
+    # using with statement
+    path = os.path.join("replications", "run_replication_" + eset_name + "_" + cyto + ".sh")
+    with open(path, 'w') as file:
+        file.write('#!/usr/bin/env bash\n')
+        file.write('\n')
+        file.write("MODEL_PATH=$1\n")
+        escaped_path = os.path.join("configs",config_name).replace("\\", "/")
+        file.write('python replication.py --cfg ' + escaped_path + ' --repeat 1 --model_path $MODEL_PATH')
+
+
 #MAIN
 # things we need to be provided
 
@@ -503,4 +514,8 @@ if (grid) :
 else:
     config_name = makeConfigFile(name, configs)
     make_single_sh(sys.argv[1], cyto, config_name)
+
+    # write a replication script if we save the model
+    if(save_model):
+        make_replication(sys.argv[1], cyto, config_name)
 #also need to make the grid file and the sh file
