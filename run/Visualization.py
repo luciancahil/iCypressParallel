@@ -78,17 +78,14 @@ class Visualize:
         plt.colorbar()
         path = os.path.join(Visualize.folder, name + "_tsne_plt")
         plt.savefig(path)
-
-
-
-    def visualize_graph(colorWeights, graph, name, edge_weights):
+    
+    def save_graph_pic(colourWeights, graph, name, edge_weights):
         nodeNameLocation = os.path.join("datasets",name,"processed","nodeNames.pt")
         divisionsLocation = os.path.join("datasets",name,"processed","divisions.pt")
         nodeNames = torch.load(nodeNameLocation)
         divisions = torch.load(divisionsLocation)
         plt.clf()
 
-        print(nodeNames)
 
         largest_edge = max(edge_weights).item()
         smallest_edge = min(edge_weights).item()
@@ -124,12 +121,65 @@ class Visualize:
         
         # get labels
         labels = {}
-        print(type(nodeNames))
         for node in nodeNames:
             labels[node] = node
 
         pos = nx.shell_layout(graph)
-        print(pos)
+        nx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'),  node_size = 1000)
+        nx.draw_networkx_labels(graph, pos, labels, font_size=10, font_color="red")
+        #nx.draw_networkx_labels(graph, pos, font_color = "red")
+        nx.draw_networkx_edges(graph, pos, edgelist=graph.edges, edge_color=edge_colours[:num_edges], node_size = 1000, arrows=True, connectionstyle='arc3, rad = 0.1')
+        path = os.path.join(Visualize.folder, name + "_graph_drawing")
+        plt.savefig(path) 
+
+
+
+    def visualize_graph(colorWeights, graph, name, edge_weights):
+        nodeNameLocation = os.path.join("datasets",name,"processed","nodeNames.pt")
+        divisionsLocation = os.path.join("datasets",name,"processed","divisions.pt")
+        nodeNames = torch.load(nodeNameLocation)
+        divisions = torch.load(divisionsLocation)
+        plt.clf()
+
+
+        largest_edge = max(edge_weights).item()
+        smallest_edge = min(edge_weights).item()
+
+        diff_edge = largest_edge - smallest_edge
+
+        edge_colours = []
+
+        for edge in edge_weights:
+            color = [0]*3
+            if((edge.item() - smallest_edge) / diff_edge > 0.9):
+                color[1] = 1.0
+            edge_colours.append(color)
+
+
+
+
+        inv_map = {v: k for k, v in nodeNames.items()}
+
+        graph = nx.relabel_nodes(graph, inv_map)
+        graph = graph.to_directed()
+
+
+        num_nodes = len(graph.nodes)
+
+        num_edges = len(graph.edges)
+
+        """ values = []
+        sampleSource = Visualize.nodeColourings(colorWeights, divisions)
+        
+        for i in range(len(graph.nodes)):
+            values.append(sampleSource[i])"""
+        
+        # get labels
+        labels = {}
+        for node in nodeNames:
+            labels[node] = node
+
+        pos = nx.shell_layout(graph)
         nx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'),  node_size = 1000)
         nx.draw_networkx_labels(graph, pos, labels, font_size=10, font_color="red")
         #nx.draw_networkx_labels(graph, pos, font_color = "red")
@@ -160,15 +210,10 @@ class Visualize:
         # we have an array that has the average of every gene. Now we need to average across nodes
         node_avg = []
         start = 0
-        print(division)
-        print(len(colorWeights[0]))
         1/0
         for end in division:
             total = 0
             for i in range(start, end): #average out, then print list, then return
-                print("stop")
-                print(i)
-                print(len(averages))
                 total += averages[i]
             average = total / (end - start)
             node_avg.append(average)

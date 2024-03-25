@@ -113,7 +113,12 @@ if __name__ == '__main__':
                     if(isinstance(object, Linear)):
                         for layer in object.children(): # we are at the Linear object
                             colorWeights = layer.weight
-    Visualize.visualize_graph(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
+    
+    visual_path = os.path.join("Visuals", name + "_graph_visuals.pt")
+    print("Graph visualization data stored at: " + visual_path)
+    graph_visuals = {'colours':colorWeights, 'graph': datasets[0].graphs[0].G, 'name': name, 'edge_weights': edge_weights}
+    torch.save(graph_visuals, visual_path)
+    Visualize.save_graph_pic(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
 
     print(args.save)
     print(args.save == '1')
