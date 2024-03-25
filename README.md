@@ -40,6 +40,37 @@ cd run
 bash custom.sh GSE40240_eset GSE40240_patients CCL2 False
 ````
 
+
+## Arguments explained
+
+There are seven arguments that can be passed to custom.sh in the command line. In order, they are:
+
+````
+bash custom.sh ESET PATIENT CYTO GRID MAP HYPERPARAM SAVE
+````
+
+Of these arguments, the first 4 are mandatory, while the other 3 are optional.
+
+
+The arguments in order:
+
+|Parameter       |  Explanation   |  
+| ---------------|----------------|
+| ESET           | This has 2 modes. If the word "ann" is passed, this library will read input in the form of AnnData (see "Using anndata" below for more details). Otherwise, if the name of an ESET file is passed, this will the file where all input data will be read from (See "Custom Data" below for more details.)|
+| PATIENT        |This also has 2 modes. If the word "ann" was passed to eset, then pass the name of the annfile to this parameter (see "Using anndata" below for detalis). Otherwise, pass the name of a file containing patient partition data (see "Custom Data" below for details).|
+| CYTO           | Pass the name of the cytokine who's biological information will be used to build the graph structure. See "Cytokines" below for details.    |
+| GRID           | Pass either "True" or "False" to this parameter. If true is passed, then the library will perform a grid search, trying multiple different hyper parameters. If "False" is passed, then only one set of hyperparameters will be run. See "Paralllelization" below for more details.    |
+| MAP            | Optional. Pass the name of the file that controls how eset data is mapped to nodes to this. See "Custom Mapping" below for details.    |
+| HYPERPARAM     | Optional. The file that controls the hyperpameters of this the neural network created. See "Custom Mapping" below for that.    |
+| SAVE           | Optional. Pass either "True" or "False" to this parameter. If "True" is passed, the program will save the model after is done training. See "Saving" below for details    |
+
+If you wish to pass a parameter to either SAVE or HYPERPARAM but wish to just use the default value for all optional parameters before it, pass "NULL" into the parameters as a placeholder. For example, to save the model, but use default map and hyperparameters, use the following command:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL2 NULL NULL True
+````
+
+
 ## Custom Data
 
 To use this library on your own custom data, you will need two csv files: a patients file, and an eset file.
