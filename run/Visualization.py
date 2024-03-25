@@ -82,10 +82,13 @@ class Visualize:
 
 
     def visualize_graph(colorWeights, graph, name, edge_weights):
-        nodeNameLocation = "datasets\\" + name + "\\processed\\nodeNames.pt"
-        divisionsLocation = "datasets\\" + name + "\\processed\\divisions.pt"
+        nodeNameLocation = os.path.join("datasets",name,"processed","nodeNames.pt")
+        divisionsLocation = os.path.join("datasets",name,"processed","divisions.pt")
         nodeNames = torch.load(nodeNameLocation)
         divisions = torch.load(divisionsLocation)
+        plt.clf()
+
+        print(nodeNames)
 
         largest_edge = max(edge_weights).item()
         smallest_edge = min(edge_weights).item()
@@ -111,9 +114,6 @@ class Visualize:
 
         num_nodes = len(graph.nodes)
 
-
-
-
         num_edges = len(graph.edges)
 
         """ values = []
@@ -121,9 +121,17 @@ class Visualize:
         
         for i in range(len(graph.nodes)):
             values.append(sampleSource[i])"""
+        
+        # get labels
+        labels = {}
+        print(type(nodeNames))
+        for node in nodeNames:
+            labels[node] = node
 
         pos = nx.shell_layout(graph)
-        nx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'),  node_color = 'black', node_size = 1000)
+        print(pos)
+        nx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'),  node_size = 1000)
+        nx.draw_networkx_labels(graph, pos, labels, font_size=10, font_color="red")
         #nx.draw_networkx_labels(graph, pos, font_color = "red")
         nx.draw_networkx_edges(graph, pos, edgelist=graph.edges, edge_color=edge_colours[:num_edges], node_size = 1000, arrows=True, connectionstyle='arc3, rad = 0.1')
         plt.show()

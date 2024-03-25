@@ -106,6 +106,15 @@ if __name__ == '__main__':
     Visualize.save_PCA(numpy_matrix, numpy_truth, name)
     Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
 
+    for child in model.children(): # We are at the network level.
+        if(isinstance(child, GeneralMultiLayer)): 
+            for grandchild in child.children(): # we are at the MultiLayer object
+                for object in grandchild.children(): # we are at the GeneralLayer object
+                    if(isinstance(object, Linear)):
+                        for layer in object.children(): # we are at the Linear object
+                            colorWeights = layer.weight
+    Visualize.visualize_graph(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
+
     print(args.save)
     print(args.save == '1')
     if(args.save == '1'):
