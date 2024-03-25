@@ -67,7 +67,7 @@ The arguments in order:
 If you wish to pass a parameter to either SAVE or HYPERPARAM but wish to just use the default value for all optional parameters before it, pass "NULL" into the parameters as a placeholder. For example, to save the model, but use default map and hyperparameters, use the following command:
 
 ````
-bash custom.sh GSE40240_eset GSE40240_patients CCL2 NULL NULL True
+bash custom.sh GSE40240_eset GSE40240_patients CCL2 False NULL NULL True
 ````
 
 
