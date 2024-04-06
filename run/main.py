@@ -102,10 +102,7 @@ if __name__ == '__main__':
     visualization_data['latent'] = numpy_matrix
     visualization_data['truth'] = numpy_truth
     visual_path = os.path.join("Visuals", name + "_visuals.pt")
-    torch.save(visualization_data, visual_path)
-    print("Visualization data stored at: " + visual_path)
-    Visualize.save_PCA(numpy_matrix, numpy_truth, name)
-    Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
+
 
     for child in model.children(): # We are at the network level.
         if(isinstance(child, GeneralMultiLayer)): 
@@ -115,10 +112,12 @@ if __name__ == '__main__':
                         for layer in object.children(): # we are at the Linear object
                             colorWeights = layer.weight
     
-    visual_path = os.path.join("Visuals", name + "_graph_visuals.pt")
-    print("Graph visualization data stored at: " + visual_path)
     graph_visuals = {'colours':colorWeights, 'graph': datasets[0].graphs[0].G, 'name': name, 'edge_weights': edge_weights}
-    torch.save(graph_visuals, visual_path)
+    visualization_data['graph_data'] = graph_visuals
+    torch.save(visualization_data, visual_path)
+    print("Visualization data stored at: " + visual_path)
+    Visualize.save_PCA(numpy_matrix, numpy_truth, name)
+    Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
     Visualize.save_graph_pic(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
 
     print(args.save)
@@ -129,6 +128,9 @@ if __name__ == '__main__':
         print("Model saved at " + model_path)
         model.edge_weights = edge_weights
         torch.save(model, model_path)
+
+    Print("Experiment name: " + name)
+    print()
 
 
     

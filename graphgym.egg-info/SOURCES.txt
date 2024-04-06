@@ -89,5 +89,6 @@ run/configs_gen.py
 run/generation.py
 run/main.py
 run/main_pyg.py
+run/replication.py
 run/Graphs/ALL_graph.py
 run/Graphs/__init__.py

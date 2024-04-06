@@ -27,8 +27,8 @@ Alternatively, run the following commands in the folder where you want the proje
 ````
 git clone https://github.com/luciancahil/iCypressParallel.git
 cd iCypressParallel
-conda create -n cypress-env python=3.7 -y
-conda activate cypress-env
+conda create -n cypress python=3.7 -y
+conda activate cypress
 pip install torch==1.8.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 CUDA=cu101
 TORCH=1.8.0
@@ -53,6 +53,37 @@ To make sure that all packages are installed properly type the following command
 cd run
 bash custom.sh GSE40240_eset GSE40240_patients CCL2 False
 ````
+
+
+## Arguments explained
+
+There are seven arguments that can be passed to custom.sh in the command line. In order, they are:
+
+````
+bash custom.sh ESET PATIENT CYTO GRID MAP HYPERPARAM SAVE
+````
+
+Of these arguments, the first 4 are mandatory, while the other 3 are optional.
+
+
+The arguments in order:
+
+|Parameter       |  Explanation   |  
+| ---------------|----------------|
+| ESET           | This has 2 modes. If the word "ann" is passed, this library will read input in the form of AnnData (see "Using anndata" below for more details). Otherwise, if the name of an ESET file is passed, this will the file where all input data will be read from (See "Custom Data" below for more details.)|
+| PATIENT        |This also has 2 modes. If the word "ann" was passed to eset, then pass the name of the annfile to this parameter (see "Using anndata" below for detalis). Otherwise, pass the name of a file containing patient partition data (see "Custom Data" below for details).|
+| CYTO           | Pass the name of the cytokine who's biological information will be used to build the graph structure. See "Cytokines" below for details.    |
+| GRID           | Pass either "True" or "False" to this parameter. If true is passed, then the library will perform a grid search, trying multiple different hyper parameters. If "False" is passed, then only one set of hyperparameters will be run. See "Paralllelization" below for more details.    |
+| MAP            | Optional. Pass the name of the file that controls how eset data is mapped to nodes to this. See "Custom Mapping" below for details.    |
+| HYPERPARAM     | Optional. The file that controls the hyperpameters of this the neural network created. See "Custom Mapping" below for that.    |
+| SAVE           | Optional. Pass either "True" or "False" to this parameter. If "True" is passed, the program will save the model after is done training. See "Saving" below for details    |
+
+If you wish to pass a parameter to either SAVE or HYPERPARAM but wish to just use the default value for all optional parameters before it, pass "NULL" into the parameters as a placeholder. For example, to save the model, but use default map and hyperparameters, use the following command:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL2 False NULL NULL True
+````
+
 
 ## Custom Data
 
@@ -142,6 +173,21 @@ If you had an anndata file called "data.h5ad", use the following command:
 bash custom.sh ANN info all False
 ````
 
+### Custom Graphs
+
+To use a custom graph, add a csv file with the suffix "_graph.csv" to the run/graphs folder. For example. If you want to add a graph called "DUMMY", add a csv file into the graphs folder called "DUMMY_graphs.csv". The format is important. It must end with _graphs.csv, and all letters before that must be capitalized. Otherwise, it will not show up.
+
+The csv should be structured with 2 collumns. The first collumn will be the source of a connection, and the second the destination of a particular connection. For example, see CCL1_graph.csv:
+
+`````
+intermediate monocyte,T-reg
+classical monocyte,T-reg
+`````
+
+This graph has 3 nodes and 2 edges; one edge starts at intermediate monocyte and the other starts at classical monocyte, while both end at T-reg.
+
+Make sure that any node name you have in your graph file shows up in your mapping file (see "Custom Mapping" below for more details).
+
 ## Parallelization
 
 Parallization is handled automatically by this library. The last command above dictates wether a single run will be done, or wether a grid search over many possible hyperparameters will be done. To run the library with parallel data using the supplied files, use the following command.
@@ -171,7 +217,9 @@ If you want to make your own file, follow the structure of alternating Node name
 
 If you want a node to have one space dedicated to it in the vectors the graph creates, have a data point name "N/A". This way, one space will be allocated just for that node, but it won't have any data.
 
-Any node name must appear in this graph. It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
+Any node name must appear in this file. If you deleted the 2 lines corresponding to T-REG, and then tried to use a cytokine that involves T-REG, the progam will throw an error. 
+
+It's fine if a data name doesn't appear in your list, though. For instance, if a data set has the name of a gene that isn't in "GeneToTissues.csv", the library will run, the gene will simply be ignored.
 
 To build a dataset using your custom mapping, simply use the following command, which adds a parameter onto the command:
 
@@ -269,6 +317,63 @@ If you wish to use default hyperparameters and mapping, insert "NULL" in place o
 ````
 bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL True
 ````
+
+## Replication
+
+To use a model you've saved, do the following.
+
+1. Note the path the model is saved to by looking at the terminal. You should see a message "Model saved at [PATH]".
+1. Write a new command with the same 4 parameters as your custom.sh command, but with "custom.sh" replaced with "replication.sh".
+1. Add the path you copied as a 5th parameter to the command. Paste that command in terminal, and you should see the output of the network on each data point.
+
+If you wanted to try the code on new input data, simply replace the first 2 parameters with what you wanted. However, the structure must be the same; same number of elements in each vector, same graph structure, etc.
+
+## Analysis
+
+The library also comes packaged with ways to evaluate the models that a grid search generates, and visualize them via violin plots.
+
+To use this functionality, edit the file "analysis/example.pynb" by creating a newcell with the following format:
+
+````
+experiment_name = '[NAME]'
+dataset = '[DATASET]'
+plot_analysis(experiment_name, division='val', dataset=dataset)
+````
+
+To find the correct value of the experiment_name parameter, go to "run/results" and see the name of the newly generated folder. Copy the name of the new folder into the "experiment_name" field above. For "dataset", do the same, but go to the "run/datasets" folder.
+
+Explanation of the parameters: 
+|         |   |
+|---------|---|
+| Name | Explanation|
+| experiment_name| Name of the experiment that was just run. Autogenerated for each experiment.|
+| dataset | Name of the dataset that the experiment ran on. Autogenerated by the library. |
+| division | Either "train" or "test". How the various structures will be ranked. Recommended to be set to "val".|
+
+Change the 
+
+### Example
+
+Let's say you started by running the following command:
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL2 False NULL NULL True
+````
+
+Then, you got the following message at the end of the runtime:
+
+````
+Model saved at models/CCL2_GSE40240_eset_1711341524.4664948_model.pt
+````
+
+You would then run the following command to try a replication:
+
+````
+bash replication.sh GSE40240_eset GSE40240_patients CCL2 False models/CCL2_GSE40240_eset_1711341524.4664948_model.pt
+````
+
+If you wanted to try the code on new input data, simply replace the first 2 parameters with what you wanted. However, the structure must be the same; same number of elements in each vector, same graph structure, etc.
+
 
 ## Results
 
