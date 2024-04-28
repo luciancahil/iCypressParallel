@@ -318,6 +318,14 @@ If you wanted to try the code on new input data, simply replace the first 2 para
 
 The library also comes packaged with ways to evaluate the models that a grid search generates, and visualize them via violin plots.
 
+To start, install the following library in your conda env
+
+````
+pip install seaborn==0.12.2
+````
+
+
+
 To use this functionality, edit the file "analysis/example.pynb" by creating a newcell with the following format:
 
 ````
@@ -327,6 +335,14 @@ plot_analysis(experiment_name, division='val', dataset=dataset)
 ````
 
 To find the correct value of the experiment_name parameter, go to "run/results" and see the name of the newly generated folder. Copy the name of the new folder into the "experiment_name" field above. For "dataset", do the same, but go to the "run/datasets" folder.
+
+For example, after a run, I had a new folder named "CCL2_GSE40240_eset" in the datasets file, and a new folder named "CCL2_GSE40240_eset_grid_CCL2_GSE40240_eset" in the results folder. Thus, I wrote the following cell:
+
+````
+experiment_name = 'CCL2_GSE40240_eset_grid_CCL2_GSE40240_eset'
+dataset = 'CCL2_GSE40240_eset'
+plot_analysis(experiment_name, division='val', dataset=dataset)
+````
 
 Explanation of the parameters: 
 |         |   |
