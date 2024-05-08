@@ -5,6 +5,7 @@ from CytokinesDataSet import CytokinesDataSet
 import sys
 from AnnDataProcessor import AnnDataProcessor
 import yaml
+import random
 
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
@@ -178,6 +179,8 @@ def normalize_vector(vector):
 def process_tissues():
     tissue_gene_dict = dict() # maps tissues to the genes associated with them
 
+    genes_per_tissue = 3
+
     gene_set = set()
 
     tissue_file = open(MAP_FILE)
@@ -192,6 +195,14 @@ def process_tissues():
         tissue = tissue_line_arr[0]
         if(len(tissue_lines[i + 1]) > 0):
             genes_array = tissue_lines[i + 1].split(',')
+
+            if genes_per_tissue == -1 or genes_per_tissue > len(genes_array):
+                pass
+            else:
+                random.seed(1234)
+                random_indicies = random.sample(range(len(genes_array)), genes_per_tissue)
+                genes_array = [genes_array[i] for i in random_indicies]
+
             tissue_gene_dict[tissue] = genes_array
         else:
             tissue_gene_dict[tissue] = []
