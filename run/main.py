@@ -129,7 +129,7 @@ if __name__ == '__main__':
         model.edge_weights = edge_weights
         torch.save(model, model_path)
 
-    Print("Experiment name: " + name)
+    print("Experiment name: " + name)
     print()
 
 

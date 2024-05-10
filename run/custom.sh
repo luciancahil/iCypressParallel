@@ -7,12 +7,13 @@ GRID=$4
 MAP=$5
 HYPERPARAM=$6
 SAVE=$7
+NUM_GENES=$8
 
 STARTTIME=`date +"%Y-%m-%d %T"`
 
 
 
-python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${MAP} ${HYPERPARAM} ${SAVE} 
+python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${MAP} ${HYPERPARAM} ${SAVE} $NUM_GENES
 wait
 
 

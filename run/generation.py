@@ -5,6 +5,7 @@ from CytokinesDataSet import CytokinesDataSet
 import sys
 from AnnDataProcessor import AnnDataProcessor
 import yaml
+import random
 
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
@@ -102,8 +103,8 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
 
 
         data = []
-        # create the information vector that goes into each node
-        for i, tissue in enumerate(tissues):
+        # create the information vector that goes into each node. 
+        for i, tissue in enumerate(tissues): # TODO modify this to avoid stacking?
             tissue_data = [0]*total_genes # initialize an empty vector
             start = sum(gene_count[:i]) # count number of genes before this tissue.
 
@@ -175,7 +176,7 @@ def normalize_vector(vector):
     normalized_vector = (vector - min_val) / (max_val - min_val)
     return normalized_vector    
 
-def process_tissues():
+def process_tissues(genes_per_tissue):
     tissue_gene_dict = dict() # maps tissues to the genes associated with them
 
     gene_set = set()
@@ -192,6 +193,14 @@ def process_tissues():
         tissue = tissue_line_arr[0]
         if(len(tissue_lines[i + 1]) > 0):
             genes_array = tissue_lines[i + 1].split(',')
+
+            if genes_per_tissue == 0 or genes_per_tissue > len(genes_array):
+                pass
+            else:
+                random.seed(1234)
+                random_indicies = random.sample(range(len(genes_array)), genes_per_tissue)
+                genes_array = [genes_array[i] for i in random_indicies]
+
             tissue_gene_dict[tissue] = genes_array
         else:
             tissue_gene_dict[tissue] = []
@@ -462,6 +471,10 @@ except(IndexError):
     save_model = False
 
 
+try:
+    num_genes = int(sys.argv[8][0])
+except(IndexError):
+    num_genes = 3
 
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
@@ -489,7 +502,7 @@ patient_dict, patient_list = process_patients(patients) # a dict that matches a 
 # process graph data
 cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(cyto) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
 
-tissue_gene_dict, gene_set = process_tissues() # dict that matches tissues to the genes associated with them, a set of all genes we have
+tissue_gene_dict, gene_set = process_tissues(num_genes) # dict that matches tissues to the genes associated with them, a set of all genes we have
 
 
 #process eset data
