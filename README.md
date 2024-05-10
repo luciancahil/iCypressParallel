@@ -63,6 +63,7 @@ The arguments in order:
 | MAP            | Optional. Pass the name of the file that controls how eset data is mapped to nodes to this. See "Custom Mapping" below for details.    |
 | HYPERPARAM     | Optional. The file that controls the hyperpameters of this the neural network created. See "Custom Mapping" below for that.    |
 | SAVE           | Optional. Pass either "True" or "False" to this parameter. If "True" is passed, the program will save the model after is done training. See "Saving" below for details    |
+| NUM_GENES      | Optional. The number of genes we randomly select to use, in order to prevent memory errors. Pass either a positive integer or 0. If 0 is passed, all genes will be used. If a positive number is passed, any tissue with more than that number of genes will have a random sample of genes included.
 
 If you wish to pass a parameter to either SAVE or HYPERPARAM but wish to just use the default value for all optional parameters before it, pass "NULL" into the parameters as a placeholder. For example, to save the model, but use default map and hyperparameters, use the following command:
 
