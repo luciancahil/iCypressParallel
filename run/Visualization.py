@@ -67,6 +67,14 @@ class Visualize:
         plt.colorbar()
         path = os.path.join(Visualize.folder, name + "_pca_plt")
         plt.savefig(path)
+    
+    def print_gene_chart(genes):
+        print("Gene \t\t\t | \t\t Tissue \t\t\t | \t\t Weight")
+        bar = "_"*112
+        print(bar)
+        for gene in genes:
+            parts = gene[0].split("@")
+            print(parts[0].ljust(15) + "\t\t | \t\t " + parts[1].ljust(15) + "\t\t | \t\t " + str(gene[1])) # gene, tissue, weight
 
     def save_TSNE(matrix, classification, name):
         # Apply t-SNE to the matrix

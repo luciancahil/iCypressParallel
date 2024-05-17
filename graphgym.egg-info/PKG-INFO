@@ -77,6 +77,7 @@ The arguments in order:
 | MAP            | Optional. Pass the name of the file that controls how eset data is mapped to nodes to this. See "Custom Mapping" below for details.    |
 | HYPERPARAM     | Optional. The file that controls the hyperpameters of this the neural network created. See "Custom Mapping" below for that.    |
 | SAVE           | Optional. Pass either "True" or "False" to this parameter. If "True" is passed, the program will save the model after is done training. See "Saving" below for details    |
+| NUM_GENES      | Optional. The number of genes we randomly select to use, in order to prevent memory errors. Pass either a positive integer or 0. If 0 is passed, all genes will be used. If a positive number is passed, any tissue with more than that number of genes will have a random sample of genes included.
 
 If you wish to pass a parameter to either SAVE or HYPERPARAM but wish to just use the default value for all optional parameters before it, pass "NULL" into the parameters as a placeholder. For example, to save the model, but use default map and hyperparameters, use the following command:
 
@@ -332,6 +333,14 @@ If you wanted to try the code on new input data, simply replace the first 2 para
 
 The library also comes packaged with ways to evaluate the models that a grid search generates, and visualize them via violin plots.
 
+To start, install the following library in your conda env
+
+````
+pip install seaborn==0.12.2
+````
+
+
+
 To use this functionality, edit the file "analysis/example.pynb" by creating a newcell with the following format:
 
 ````
@@ -341,6 +350,14 @@ plot_analysis(experiment_name, division='val', dataset=dataset)
 ````
 
 To find the correct value of the experiment_name parameter, go to "run/results" and see the name of the newly generated folder. Copy the name of the new folder into the "experiment_name" field above. For "dataset", do the same, but go to the "run/datasets" folder.
+
+For example, after a run, I had a new folder named "CCL2_GSE40240_eset" in the datasets file, and a new folder named "CCL2_GSE40240_eset_grid_CCL2_GSE40240_eset" in the results folder. Thus, I wrote the following cell:
+
+````
+experiment_name = 'CCL2_GSE40240_eset_grid_CCL2_GSE40240_eset'
+dataset = 'CCL2_GSE40240_eset'
+plot_analysis(experiment_name, division='val', dataset=dataset)
+````
 
 Explanation of the parameters: 
 |         |   |

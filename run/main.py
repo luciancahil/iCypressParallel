@@ -102,7 +102,9 @@ if __name__ == '__main__':
     visualization_data['latent'] = numpy_matrix
     visualization_data['truth'] = numpy_truth
     visual_path = os.path.join("Visuals", name + "_visuals.pt")
+    gene_weight_path = os.path.join("Visuals", name + "_genes.pt")
 
+    pre_message_layers = []
 
     for child in model.children(): # We are at the network level.
         if(isinstance(child, GeneralMultiLayer)): 
@@ -110,7 +112,33 @@ if __name__ == '__main__':
                 for object in grandchild.children(): # we are at the GeneralLayer object
                     if(isinstance(object, Linear)):
                         for layer in object.children(): # we are at the Linear object
+                            pre_message_layers.append(layer)
                             colorWeights = layer.weight
+                    
+    
+    first_layer = pre_message_layers[0]
+    first_weights = first_layer.weight.detach().numpy()
+    gene_weight_sum = [0] * len(first_weights[0])
+
+    for neuron in first_weights:
+        for index, value in enumerate(neuron):
+            gene_weight_sum[index] += value
+    
+    gene_weight_sum = [value / len(first_weights) for value in gene_weight_sum]
+    print(gene_weight_sum)
+    geneList = torch.load((os.path.join("datasets", name, "raw", "geneList.pt")))
+    print(name)
+    print(geneList)
+
+    gene_weight_dict = dict()
+
+    for i, weight in enumerate(gene_weight_sum):
+        gene_weight_dict[geneList[i][0] + "@" + geneList[i][1]] = weight
+    
+    
+    sorted_gene_list = sorted(gene_weight_dict.items(), key=lambda x:-abs(x[1]))
+    visualization_data['genes']  = sorted_gene_list
+
     
     graph_visuals = {'colours':colorWeights, 'graph': datasets[0].graphs[0].G, 'name': name, 'edge_weights': edge_weights}
     visualization_data['graph_data'] = graph_visuals

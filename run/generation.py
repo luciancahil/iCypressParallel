@@ -88,12 +88,16 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         else:
             count = len(active_tissue_gene_dict[tissue])
         
-        if(tissue == "CCL26"):
-            print(count)
-        
         gene_count.append(count)
     
     total_genes = sum(gene_count)
+
+    active_gene_list = []
+
+    for tissue in tissues:
+        for gene in active_tissue_gene_dict[tissue]:
+            pair = [gene, tissue]
+            active_gene_list.append(pair)
 
 
     for patient in patient_list:
@@ -168,6 +172,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
     
 
     torch.save(full_dataset, (os.path.join("datasets", graphName, "raw",  graphName + ".pt")))
+    torch.save(active_gene_list, (os.path.join("datasets", graphName, "raw", "geneList.pt")))
 
 
 def normalize_vector(vector):
