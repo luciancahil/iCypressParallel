@@ -76,6 +76,24 @@ class Visualize:
             parts = gene[0].split("@")
             print(parts[0].ljust(15) + "\t\t | \t\t " + parts[1].ljust(15) + "\t\t | \t\t " + str(gene[1])) # gene, tissue, weight
 
+
+    def print_edge_weights(name, graph, edge_weights):
+        nodeNameLocation = os.path.join("datasets",name,"processed","nodeNames.pt")
+        nodeNames = torch.load(nodeNameLocation)
+        inv_map = {v: k for k, v in nodeNames.items()}
+
+        graph = nx.relabel_nodes(graph, inv_map)
+        edges = list(graph.edges)  # Convert the generator to a list
+        first_edge = edges[0]      # Get the first element in the list
+        print("Source \t\t\t | \t\t Destination \t\t | \t\t Weight")
+        bar = "_"*112
+        print(bar)
+        weight_list = [(edges[i][0], edges[i][1], edge_weights[i].item()) for i in range(len(edge_weights))]
+        weight_list = sorted(weight_list, key=lambda x: -abs(x[2]))
+        for i, weight in enumerate(edge_weights):  
+            print(weight_list[i][0].ljust(20) + "\t | \t\t " + weight_list[i][1].ljust(20) + "\t | \t\t " + str(weight_list[i][2]))
+
+
     def save_TSNE(matrix, classification, name):
         # Apply t-SNE to the matrix
         tsne = TSNE(n_components=2)
