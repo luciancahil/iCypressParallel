@@ -73,6 +73,9 @@ if __name__ == '__main__':
         cfg.params = params_count(model)
         logging.info('Num parameters: %s', cfg.params)
         # Start training
+
+        print("Device: " + str(cfg.device))
+        print("Cuda available: " + str(torch.cuda.is_available()))
         if cfg.train.mode == 'standard':
             train(loggers, loaders, model, optimizer, scheduler)
         else:
