@@ -43,6 +43,7 @@ if __name__ == '__main__':
         auto_select_device()
         # Set machine learning pipeline
         datasets = create_dataset()
+        breakpoint()
         loaders = create_loader(datasets)
         loggers = create_logger()
         model = create_model()

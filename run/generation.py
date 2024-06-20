@@ -479,7 +479,7 @@ except(IndexError):
 try:
     num_genes = int(sys.argv[8][0])
 except(IndexError):
-    num_genes = 3
+    num_genes = 0
 
 config_path = os.path.join("Hyperparameters", parameter_file)
 with open(config_path, 'r') as file:
