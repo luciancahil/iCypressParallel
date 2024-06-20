@@ -81,6 +81,7 @@ graphgym/utils/tools.py
 run/AnnDataProcessor.py
 run/Cypress.py
 run/CytokinesDataSet.py
+run/Linear.py
 run/Process CSV.py
 run/Visualization.py
 run/__init__.py

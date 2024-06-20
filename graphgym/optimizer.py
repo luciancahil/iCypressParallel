@@ -14,7 +14,7 @@ def create_optimizer(params):
             return optimizer
     if cfg.optim.optimizer == 'adam':
         optimizer = optim.Adam(params,
-                               lr=cfg.optim.base_lr,
+                               lr=0.005,
                                weight_decay=cfg.optim.weight_decay)
     elif cfg.optim.optimizer == 'sgd':
         optimizer = optim.SGD(params,
