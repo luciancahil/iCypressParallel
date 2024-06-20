@@ -7,13 +7,15 @@ from graphgym.checkpoint import clean_ckpt, load_ckpt, save_ckpt, remove_ckpt
 from graphgym.config import cfg
 from graphgym.loss import compute_loss
 from graphgym.utils.epoch import is_ckpt_epoch, is_eval_epoch
-
+import gc
 
 def train_epoch(logger, loader, model, optimizer, scheduler):
     model.train()
     time_start = time.time()
     for batch in loader:
         optimizer.zero_grad()
+        torch.cuda.empty_cache() 
+        gc.collect()
         batch.to(torch.device(cfg.device))
         pred, true = model(batch)
         loss, pred_score = compute_loss(pred, true)
