@@ -6,13 +6,18 @@ class AnnDataProcessor:
     def __init__(self, filename):
         luad = ad.read_h5ad(filename)
         self.luad = luad
-        self.y_data_frame = luad.obs.y
+        try:
+            self.y_data_frame = luad.obs.y
+        except:
+            self.y_data_frame = luad.obs.response
         self.num_patients = len(self.y_data_frame)
 
         # get list of genes.
         self.geneArray = luad.var.to_numpy()
 
         self.geneArray = [x[0] for x in self.geneArray]
+
+        print("Initialized Anndata")
 
     """
     Returns a list of patient lines structured as if they were just read from a csv
@@ -82,8 +87,8 @@ print(y_data_frame.index[0])
 # access gene expression data
 #print(luad[0, :].X)
 
-path = os.path.join("rawData", "bulk_mrna_luad.h5ad")
+"""path = os.path.join("rawData", "bulk_mrna_luad.h5ad")
 
 adp = AnnDataProcessor(path)
 
-adp.esetLines()
+adp.esetLines()"""
