@@ -6,6 +6,8 @@ import sys
 from AnnDataProcessor import AnnDataProcessor
 import yaml
 import random
+from sklearn.decomposition import PCA
+
 
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
@@ -71,6 +73,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
     patientArray = []
     tissues = []
 
+
     if cyto == "all":
 
         for cyto in cyto_tissue_dict.keys():
@@ -90,7 +93,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         
         gene_count.append(count)
     
-    total_genes = sum(gene_count)
+    max_genes = max(gene_count)
 
     active_gene_list = []
 
@@ -109,8 +112,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         data = []
         # create the information vector that goes into each node. 
         for i, tissue in enumerate(tissues): # TODO modify this to avoid stacking?
-            tissue_data = [0]*total_genes # initialize an empty vector
-            start = sum(gene_count[:i]) # count number of genes before this tissue.
+            tissue_data = [0]*max_genes # initialize an empty vector
 
             if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
                 continue                  # we want everything to just be 0 here.
@@ -118,10 +120,11 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
             tissue_genes = active_tissue_gene_dict[tissue]  # get the list of genes that affect the give tissue.
 
             offset = 0
+            #TODO: ADD PCA here.
             for gene in tissue_genes: # set a part of vector data here to data we read, the rest is left as 0
                 if(gene == "N/A"): # N/A means "placeholder". We want a slot, but don't have any data for it.
                     continue
-                tissue_data[start + offset] = gene_to_patient[gene][patient] / 20
+                tissue_data[offset] = gene_to_patient[gene][patient] / 20
                 offset +=  1
             
             data.append(tissue_data) # add the vector to the matrix.
@@ -275,6 +278,10 @@ def process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_
                 if (gene in gene_to_patient.keys() or gene == "N/A"):
                     gene_array.append(gene)
             
+            # add PCA
+            
+
+            
             active_tissue_gene_dict[tissue] = gene_array
     
     return (gene_to_patient, active_tissue_gene_dict)
@@ -295,7 +302,7 @@ def process_graphs(cyto):
     graphLines = f.read().splitlines()
     
     for line in graphLines:
-        parts = line.upper().split(",") # remove newline, capitalize, and remove spaces
+        parts = line.split(",") # remove newline, capitalize, and remove spaces
         tissue_set.update(parts)
         graphAdjacency.append(parts)
         if sys.argv[3] != "all":
@@ -515,6 +522,32 @@ gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_
 
 eset_name = sys.argv[1]
 
+
+# below is for writing new data to stuff, to test multiomnics.
+"""file = open("data.csv", mode='w')
+genes = [gene for gene in gene_to_patient.keys()]
+genes.sort()
+tissues = [key for key in active_tissue_gene_dict.keys()]
+
+for tissue in tissues:
+    renamed_tissue = tissue.replace("/", "-")
+    file = open("newData/" + renamed_tissue + "_data.csv", mode = 'w')
+    genes = [gene for gene in active_tissue_gene_dict[tissue]]
+    for patient in patient_dict.keys():
+        line = ""
+        line += patient + "," + str(patient_dict[patient])
+        for gene in genes:
+            line += "," + str(gene_to_patient[gene][patient])
+        
+        line += "\n"
+        file.write(line)
+
+1/0"""
+
+# Now, I need to make a new list of every tissue
+
+
+# look at gene_to_patient and patient_dict
 # turns the information above into the dataset in the dataset/raw directory.
 create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
                             patient_dict, gene_to_patient, cyto_adjacency_dict)
