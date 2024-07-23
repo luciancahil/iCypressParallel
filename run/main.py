@@ -67,7 +67,8 @@ if __name__ == '__main__':
         for param in model.parameters():
             newParam.append(param)
         
-        newParam.append(edge_weights)
+        # Uncomment to add edge weights
+        #newParam.append(edge_weights)
 
         optimizer = create_optimizer(newParam)
         scheduler = create_scheduler(optimizer)
