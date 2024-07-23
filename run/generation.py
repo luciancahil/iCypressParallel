@@ -505,8 +505,12 @@ if sys.argv[1] == "ANN": # we have AnnData
     AnnData = True
     annPath = os.path.join("rawData", sys.argv[2]+".h5ad")
     adp = AnnDataProcessor(annPath)
+    eset_name = sys.argv[1] + "-" + sys.argv[2]
+
 else:
     AnnData = False
+    eset_name = sys.argv[1]
+
 
 #get patient data
 patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification
@@ -520,7 +524,6 @@ tissue_gene_dict, gene_set = process_tissues(num_genes) # dict that matches tiss
 #process eset data
 gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict) # 2 layer deep dict. First layer maps gene name to a dict. Second layer matches patient code to gene expresion data of the given gene.
 
-eset_name = sys.argv[1]
 
 
 # below is for writing new data to stuff, to test multiomnics.
