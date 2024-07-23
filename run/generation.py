@@ -93,7 +93,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         
         gene_count.append(count)
     
-    max_genes = max(gene_count)
+    total_genes = sum(gene_count)
 
     active_gene_list = []
 
@@ -112,7 +112,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         data = []
         # create the information vector that goes into each node. 
         for i, tissue in enumerate(tissues): # TODO modify this to avoid stacking?
-            tissue_data = [0]*max_genes # initialize an empty vector
+            tissue_data = [0]*total_genes # initialize an empty vector
 
             if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
                 continue                  # we want everything to just be 0 here.
@@ -544,6 +544,23 @@ for tissue in tissues:
 
 1/0"""
 
+# below is for writing new data to stuff, to test linear and KNN
+"""file = open("data_tcga.csv", mode='w')
+genes = [gene for gene in gene_to_patient.keys()]
+genes.sort()
+tissues = [key for key in active_tissue_gene_dict.keys()]
+
+for patient in patient_dict.keys():
+        line = ""
+        line += patient + "," + str(patient_dict[patient])
+        for gene in genes:
+            line += "," + str(gene_to_patient[gene][patient])
+        
+        line += "\n"
+        file.write(line)
+
+
+1/0"""
 # Now, I need to make a new list of every tissue
 
 

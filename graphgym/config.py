@@ -438,7 +438,7 @@ def set_cfg(cfg):
     cfg.optim.lr_decay = 0.1
 
     # Maximal number of epochs
-    cfg.optim.max_epoch = 200
+    cfg.optim.max_epoch = 100
 
     # ----------------------------------------------------------------------- #
     # Batch norm options

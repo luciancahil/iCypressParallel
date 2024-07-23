@@ -33,6 +33,7 @@ if __name__ == '__main__':
     # Set Pytorch environment
     torch.set_num_threads(cfg.num_threads)
     dump_cfg(cfg)
+    cfg.optim.max_epoch = 100
     # Repeat for different random seeds
     for i in range(args.repeat):
         set_run_dir(cfg.out_dir)
@@ -53,6 +54,9 @@ if __name__ == '__main__':
         # Add edge_weights attribute to the datasets so that they can be accessed in batches
         num_edges = len(datasets[0][0].edge_index[0])
         edge_weights = torch.nn.Parameter(torch.ones(num_edges))
+        name = cfg.dataset.name.split(",")[1]
+        visual_path = os.path.join("Visuals", name + "_edges.pt")
+        torch.save(datasets[0][0].edge_index, visual_path)
         for loader in loaders:
             for dataset in loader.dataset:
                 dataset.edge_weights = edge_weights
@@ -89,6 +93,8 @@ if __name__ == '__main__':
         os.rename(args.cfg_file, f'{args.cfg_file}_done')
     
     name = cfg.dataset.name.split(",")[1]
+    visual_path = os.path.join("Visuals", name + "_visuals.pt")
+
     last_layers_pooled = []
     truths = []
     for loader in loaders:
@@ -128,10 +134,8 @@ if __name__ == '__main__':
             gene_weight_sum[index] += value
     
     gene_weight_sum = [value / len(first_weights) for value in gene_weight_sum]
-    print(gene_weight_sum)
     geneList = torch.load((os.path.join("datasets", name, "raw", "geneList.pt")))
-    print(name)
-    print(geneList)
+
 
     gene_weight_dict = dict()
 
