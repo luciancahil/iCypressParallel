@@ -168,6 +168,8 @@ class GNN(nn.Module):
         self.preprocess = Preprocess(dim_in)
         d_in = self.preprocess.dim_out
         if cfg.gnn.layers_pre_mp > 0:
+            if (d_in == 0):
+                raise(ValueError("Input dimension cannot be 0"))
             self.pre_mp = GNNPreMP(d_in, cfg.gnn.dim_inner)
             d_in = cfg.gnn.dim_inner
         if cfg.gnn.layers_mp > 0:
