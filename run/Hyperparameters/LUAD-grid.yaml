@@ -1,0 +1,5 @@
+l_pre : [1]
+l_mp : [2]
+l_post : [2]
+stage : ['skipconcat']
+agg : ['add']
