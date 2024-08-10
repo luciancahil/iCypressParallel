@@ -81,6 +81,7 @@ class Visualize:
         nodeNameLocation = os.path.join("datasets",name,"processed","nodeNames.pt")
         nodeNames = torch.load(nodeNameLocation)
         inv_map = {v: k for k, v in nodeNames.items()}
+        graph = graph.to_directed()
 
         graph = nx.relabel_nodes(graph, inv_map)
         edges = list(graph.edges)  # Convert the generator to a list
@@ -204,11 +205,17 @@ class Visualize:
         labels = {}
         for node in nodeNames:
             labels[node] = node
+        
+
+        
 
         pos = nx.shell_layout(graph)
         nx.draw_networkx_nodes(graph, pos, cmap=plt.get_cmap('jet'),  node_size = 1000)
         nx.draw_networkx_labels(graph, pos, labels, font_size=10, font_color="red")
         #nx.draw_networkx_labels(graph, pos, font_color = "red")
+
+        print((graph.edges))
+        print((edge_weights))
         nx.draw_networkx_edges(graph, pos, edgelist=graph.edges, edge_color=edge_colours[:num_edges], node_size = 1000, arrows=True, connectionstyle='arc3, rad = 0.1')
         plt.show()
 
