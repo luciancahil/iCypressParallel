@@ -170,7 +170,6 @@ def agg_batch(dir, metric_best='auto'):
     '''
     import pandas as pd
     results = {'train': [], 'val': [], 'test': []}
-    breakpoint()
     for run in os.listdir(dir):
         if run != 'agg':
             dict_name = name_to_dict(run)
@@ -186,6 +185,7 @@ def agg_batch(dir, metric_best='auto'):
                     results[split].append({**dict_name, **dict_stats})
     dir_out = os.path.join(dir, 'agg')
     makedirs_rm_exist(dir_out)
+    breakpoint()
     for key in results:
         if len(results[key]) > 0:
             results[key] = pd.DataFrame(results[key])
@@ -248,5 +248,6 @@ def agg_batch(dir, metric_best='auto'):
                 list(dict_name.keys()), ascending=[True] * len(dict_name))
             fname = os.path.join(dir_out, '{}_bestepoch.csv'.format(key))
             results[key].to_csv(fname, index=False)
+    breakpoint()
 
     print('Results aggregated across models saved in {}'.format(dir_out))
