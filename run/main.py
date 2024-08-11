@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
         # Add edge_weights attribute to the datasets so that they can be accessed in batches
         num_edges = len(datasets[0][0].edge_index[0])
-        edge_weights = torch.nn.Parameter(torch.ones(num_edges))
+        edge_weights = torch.nn.Parameter(torch.zeros(num_edges))
         name = cfg.dataset.name.split(",")[1]
         visual_path = os.path.join("Visuals", name + "_edges.pt")
         torch.save(datasets[0][0].edge_index, visual_path)
