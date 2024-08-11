@@ -59,10 +59,11 @@ def name_to_dict(run):
     for col in cols:
         try:
             key, val = col.split('=')
+            keys.append(key)
+            vals.append(string_to_python(val))
         except Exception:
             print(col)
-        keys.append(key)
-        vals.append(string_to_python(val))
+
     return dict(zip(keys, vals))
 
 
@@ -169,6 +170,7 @@ def agg_batch(dir, metric_best='auto'):
     '''
     import pandas as pd
     results = {'train': [], 'val': [], 'test': []}
+    breakpoint()
     for run in os.listdir(dir):
         if run != 'agg':
             dict_name = name_to_dict(run)

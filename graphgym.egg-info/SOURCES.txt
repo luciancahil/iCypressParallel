@@ -88,6 +88,7 @@ run/__init__.py
 run/agg_batch.py
 run/configs_gen.py
 run/generation.py
+run/knn.py
 run/main.py
 run/main_pyg.py
 run/replication.py
