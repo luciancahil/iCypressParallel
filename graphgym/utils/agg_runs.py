@@ -185,7 +185,6 @@ def agg_batch(dir, metric_best='auto'):
                     results[split].append({**dict_name, **dict_stats})
     dir_out = os.path.join(dir, 'agg')
     makedirs_rm_exist(dir_out)
-    breakpoint()
     for key in results:
         if len(results[key]) > 0:
             results[key] = pd.DataFrame(results[key])
