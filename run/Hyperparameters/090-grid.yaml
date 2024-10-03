@@ -1,0 +1,5 @@
+l_pre : [2]                           # How many layers exist before the message passing phase
+l_mp : [8]                        # How many rounds of message passing do we do
+l_post : [6]                          # How many layers deep is the neural network after we do all the message passing
+stage : ['skipsum']        # How Staging is achieved
+agg : ['add']                           # How data in each hidden layer is pooled after message passing is finished
