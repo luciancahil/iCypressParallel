@@ -13,7 +13,7 @@ from sklearn.decomposition import PCA
 
 
 
-def makeConfigFile(name, configs):
+def makeConfigFile(name, configs, isGraph = True):
     if (not os.path.exists(os.path.abspath("configs"))):
         os.makedirs(os.path.abspath("configs"))
     # using with statement
@@ -22,7 +22,10 @@ def makeConfigFile(name, configs):
         file.write('dataset:\n')
         file.write(' format: PyG\n')
         file.write(' name: Custom,' + name + ',,\n')
-        file.write(' task: graph\n')
+        if(isGraph):
+            file.write(' task: graph\n')
+        else:
+            file.write(' task: node\n')
         file.write(' task_type: classification\n')
         file.write(' transductive: True\n')
         file.write(' split: [0.8, 0.2]\n')
@@ -362,7 +365,7 @@ def write_lines_to_file(self, input_file, output_file_name):
         print(f"Error: An unexpected error occurred - {e}")
 
 
-def make_grid(name, configs):
+def make_grid(name, configs, isGraph = True):
     if (not os.path.exists(os.path.abspath("customGrids"))):
         os.makedirs(os.path.abspath("customGrids"))
 
@@ -370,7 +373,10 @@ def make_grid(name, configs):
     with open(os.path.join('customGrids', name + ".txt"), 'w') as file:
         file.write("dataset.format format ['PyG']\n")
         file.write("dataset.name dataset ['Custom," + name + ",','Custom," + name + ",']\n")
-        file.write("dataset.task task ['graph']\n")
+        if (isGraph == True):
+            file.write("dataset.task task ['graph']\n")
+        else:
+            file.write("dataset.task task ['node']\n")
         file.write("dataset.transductive trans [False]\n")
         file.write("dataset.augment_feature feature [[]]\n")
         file.write("dataset.augment_label label ['']\n")
@@ -415,7 +421,7 @@ def make_grid_sh(eset_name, cyto, name):
         file.write("python agg_batch.py --dir results/${CONFIG}_grid_${GRID}\n")
 
 
-def make_single_sh(eset_name, cyto, config_name):
+def make_single_sh(eset_name, cyto, config_name, save_model = False):
     # using with statement
     path = os.path.join("customScripts", "run_custom_" + eset_name + "_" + cyto + ".sh")
     with open(path, 'w') as file:
@@ -441,152 +447,155 @@ def make_replication(eset_name, cyto, config_name):
 
 #MAIN
 # things we need to be provided
+if __name__ == '__main__':
 
-eset = sys.argv[1]
-eset = os.path.join("rawData", eset + ".csv")
+    eset = sys.argv[1]
+    eset = os.path.join("rawData", eset + ".csv")
 
-patients = sys.argv[2]
-patients = os.path.join("rawData", patients + ".csv")
+    patients = sys.argv[2]
+    patients = os.path.join("rawData", patients + ".csv")
 
-cyto = sys.argv[3]
+    cyto = sys.argv[3]
 
-grid = sys.argv[4]
-if grid[0] == "F":
-    grid = False
-else:
-    grid = True
-
-
-
-try:
-    MAP_FILE = sys.argv[5]
-    if(MAP_FILE.upper() == "NULL"):
-        raise IndexError
-    MAP_FILE = sys.argv[5]
-except(IndexError):
-    MAP_FILE = "GenesToTissues.csv"
-
-try:
-    if(sys.argv[6].upper() == "NULL"):
-        raise IndexError
-    parameter_file = sys.argv[6] + ".yaml"
-except(IndexError):
-    if(grid):
-        parameter_file = "Default Grid.yaml"
+    grid = sys.argv[4]
+    if grid[0] == "F":
+        grid = False
     else:
-        parameter_file = "Default Config.yaml"
-
-# do we save the model
-try:
-    save_model = sys.argv[7][0].upper()=="T"
-except(IndexError):
-    save_model = False
-
-
-try:
-    num_genes = int(sys.argv[8][0])
-except(IndexError):
-    num_genes = 0
-
-config_path = os.path.join("Hyperparameters", parameter_file)
-with open(config_path, 'r') as file:
-    configs = yaml.safe_load(file)
-
-if(grid):
-    single_config_path = os.path.join("Hyperparameters", "Default Config.yaml")
-    with open(single_config_path, 'r') as file:
-        single_configs = yaml.safe_load(file)
-
-
-# general configs that we can keep as they are, unless changed.
-
-#check to see if we have the csv or AnnData Files by looking at the first input
-if sys.argv[1] == "ANN": # we have AnnData
-    AnnData = True
-    annPath = os.path.join("rawData", sys.argv[2]+".h5ad")
-    adp = AnnDataProcessor(annPath)
-    eset_name = sys.argv[1] + "-" + sys.argv[2]
-
-else:
-    AnnData = False
-    eset_name = sys.argv[1]
-
-
-#get patient data
-patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification
-
-# process graph data
-cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(cyto) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
-
-tissue_gene_dict, gene_set = process_tissues(num_genes) # dict that matches tissues to the genes associated with them, a set of all genes we have
-
-
-#process eset data
-gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict) # 2 layer deep dict. First layer maps gene name to a dict. Second layer matches patient code to gene expresion data of the given gene.
+        grid = True
 
 
 
-# below is for writing new data to stuff, to test multiomnics.
-"""file = open("data.csv", mode='w')
-genes = [gene for gene in gene_to_patient.keys()]
-genes.sort()
-tissues = [key for key in active_tissue_gene_dict.keys()]
+    try:
+        MAP_FILE = sys.argv[5]
+        if(MAP_FILE.upper() == "NULL"):
+            raise IndexError
+        MAP_FILE = sys.argv[5]
+    except(IndexError):
+        MAP_FILE = "GenesToTissues.csv"
 
-for tissue in tissues:
-    renamed_tissue = tissue.replace("/", "-")
-    file = open("newData/" + renamed_tissue + "_data.csv", mode = 'w')
-    genes = [gene for gene in active_tissue_gene_dict[tissue]]
+    try:
+        if(sys.argv[6].upper() == "NULL"):
+            raise IndexError
+        parameter_file = sys.argv[6] + ".yaml"
+    except(IndexError):
+        if(grid):
+            parameter_file = "Default Grid.yaml"
+        else:
+            parameter_file = "Default Config.yaml"
+
+    # do we save the model
+    try:
+        save_model = sys.argv[7][0].upper()=="T"
+    except(IndexError):
+        save_model = False
+
+
+    try:
+        num_genes = int(sys.argv[8][0])
+    except(IndexError):
+        num_genes = 0
+
+    config_path = os.path.join("Hyperparameters", parameter_file)
+    with open(config_path, 'r') as file:
+        configs = yaml.safe_load(file)
+
+    if(grid):
+        single_config_path = os.path.join("Hyperparameters", "Default Config.yaml")
+        with open(single_config_path, 'r') as file:
+            single_configs = yaml.safe_load(file)
+
+
+    # general configs that we can keep as they are, unless changed.
+
+    #check to see if we have the csv or AnnData Files by looking at the first input
+    if sys.argv[1] == "ANN": # we have AnnData
+        AnnData = True
+        annPath = os.path.join("rawData", sys.argv[2]+".h5ad")
+        adp = AnnDataProcessor(annPath)
+        eset_name = sys.argv[1] + "-" + sys.argv[2]
+
+    else:
+        AnnData = False
+        eset_name = sys.argv[1]
+
+
+    #get patient data
+    patient_dict, patient_list = process_patients(patients) # a dict that matches a patient name to their classification
+
+    # process graph data
+    cyto_adjacency_dict,cyto_tissue_dict  = process_graphs(cyto) # list of cytokines, maps a cytokine's name to their adjacency matrix, maps a cytokine's name to the tissues they need
+
+    tissue_gene_dict, gene_set = process_tissues(num_genes) # dict that matches tissues to the genes associated with them, a set of all genes we have
+
+
+    #process eset data
+    gene_to_patient, active_tissue_gene_dict = process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_dict) # 2 layer deep dict. First layer maps gene name to a dict. Second layer matches patient code to gene expresion data of the given gene.
+
+
+
+    # below is for writing new data to stuff, to test multiomnics.
+    """file = open("data.csv", mode='w')
+    genes = [gene for gene in gene_to_patient.keys()]
+    genes.sort()
+    tissues = [key for key in active_tissue_gene_dict.keys()]
+
+    for tissue in tissues:
+        renamed_tissue = tissue.replace("/", "-")
+        file = open("newData/" + renamed_tissue + "_data.csv", mode = 'w')
+        genes = [gene for gene in active_tissue_gene_dict[tissue]]
+        for patient in patient_dict.keys():
+            line = ""
+            line += patient + "," + str(patient_dict[patient])
+            for gene in genes:
+                line += "," + str(gene_to_patient[gene][patient])
+            
+            line += "\n"
+            file.write(line)
+
+    1/0"""
+
+    # below is for writing new data to stuff, to test linear and KNN
+    """file = open("data_tcga.csv", mode='w')
+    genes = [gene for gene in gene_to_patient.keys()]
+    genes.sort()
+    tissues = [key for key in active_tissue_gene_dict.keys()]
+
     for patient in patient_dict.keys():
-        line = ""
-        line += patient + "," + str(patient_dict[patient])
-        for gene in genes:
-            line += "," + str(gene_to_patient[gene][patient])
-        
-        line += "\n"
-        file.write(line)
-
-1/0"""
-
-# below is for writing new data to stuff, to test linear and KNN
-"""file = open("data_tcga.csv", mode='w')
-genes = [gene for gene in gene_to_patient.keys()]
-genes.sort()
-tissues = [key for key in active_tissue_gene_dict.keys()]
-
-for patient in patient_dict.keys():
-        line = ""
-        line += patient + "," + str(patient_dict[patient])
-        for gene in genes:
-            line += "," + str(gene_to_patient[gene][patient])
-        
-        line += "\n"
-        file.write(line)
+            line = ""
+            line += patient + "," + str(patient_dict[patient])
+            for gene in genes:
+                line += "," + str(gene_to_patient[gene][patient])
+            
+            line += "\n"
+            file.write(line)
 
 
-1/0"""
-# Now, I need to make a new list of every tissue
+    1/0"""
+    # Now, I need to make a new list of every tissue
 
 
-# look at gene_to_patient and patient_dict
-# turns the information above into the dataset in the dataset/raw directory.
-create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
-                            patient_dict, gene_to_patient, cyto_adjacency_dict)
+    # look at gene_to_patient and patient_dict
+    # turns the information above into the dataset in the dataset/raw directory.
+    create_cyto_dataset(cyto, eset_name, cyto_tissue_dict, active_tissue_gene_dict, patient_list, 
+                                patient_dict, gene_to_patient, cyto_adjacency_dict)
 
-name = cyto + "_" + eset_name
+    name = cyto + "_" + eset_name
 
+    # below is good. Keep it.
 
+    # All the reading and writing to the dataset needs to be redone. Wonderful.
 
+    # In fact, I wager I probably need a new dataset
 
+    if (grid) :
+        make_grid_sh(sys.argv[1], cyto, name)
+        make_grid(name, configs)
+        makeConfigFile(name, single_configs)
+    else:
+        config_name = makeConfigFile(name, configs)
+        make_single_sh(sys.argv[1], cyto, config_name)
 
-if (grid) :
-    make_grid_sh(sys.argv[1], cyto, name)
-    make_grid(name, configs)
-    makeConfigFile(name, single_configs)
-else:
-    config_name = makeConfigFile(name, configs)
-    make_single_sh(sys.argv[1], cyto, config_name)
-
-    # write a replication script if we save the model
-    if(save_model):
-        make_replication(sys.argv[1], cyto, config_name)
-#also need to make the grid file and the sh file
+        # write a replication script if we save the model
+        if(save_model):
+            make_replication(sys.argv[1], cyto, config_name)
+    #also need to make the grid file and the sh file

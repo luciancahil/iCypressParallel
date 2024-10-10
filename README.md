@@ -417,6 +417,44 @@ Enter either, and you will see "stats.json". The folder will contain all the inf
 To run this library on UBC Sockeye, enter a scratch folder, clone this library, enter the main directory, and then follow the same steps as in installation
 
 
+## Node Classification
+
+To run a node classification job, use the following:
+
+
+````
+bash custom_node.sh [NODE_FILE] [EDGE_FILE] [NAME] [GRID]
+````
+The arguments in order, with the first 4 being mandatory:
+
+|Parameter       |  Explanation   |  
+| ---------------|----------------|
+| NODE_FILE      | The name of the file that contains information about the nodes.|
+| EDGE_FILE      | The name of the file that contains infomration about the edges.|
+| NAME           | Anthing goes here. Just the name of the project. Again, any name works  |
+| GRID           | Pass either "True" or "False" to this parameter. If true is passed, then the library will perform a grid search, trying multiple different hyper parameters. If "False" is passed, then only one set of hyperparameters will be run. See "Paralllelization" below for more details.    |
+| HYPERPARAM     | Optional. The file that controls the hyperpameters of this the neural network created. See "Custom Mapping" below for that.    |
+| SAVE           | Optional. Pass either "True" or "False" to this parameter. If "True" is passed, the program will save the model after is done training. See "Saving" below for details    |
+
+For example, to run a job with "CORA", try below.
+````
+bash custom_node.sh Cora-nodes Cora-edges CORA False
+````
+
+### Structuring Files for Node Classification
+
+#### Nodes
+
+The nodes should be structured in a CSV, with each row representing one node. In each row, the first element represents the class that node is, and every element after should represent an element in the input vector. See "run/rawData/Cora-nodes.csv" for an example.
+
+For edge purposes, the first row is called node "0", then node "1", and so on.
+
+#### Edges
+
+The edges should be a csv. Each line is one edge. Each line shoudl only have 2 elemnets, with the first element representing the source, and the send element represeting the destination.
+
+See "run/rawData/Cora-edges.csv"
+
 ## Jupyter Notebook on Sockeye
 
 To use Jupyter Notebook on sockey, first, pull a custom docker image into your project file. Then, clone the follwing docker image from docker hub:

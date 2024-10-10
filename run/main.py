@@ -45,20 +45,21 @@ if __name__ == '__main__':
         # Set machine learning pipeline
         datasets = create_dataset()
         #
-        if(len(datasets[0]) % cfg.train.batch_size == 1):
-            graph_list = list(datasets[0])
-            if graph_list:
-                datasets[0] = GraphDataset(
-                                graph_list[:-1],
-                                task=cfg.dataset.task,
-                                edge_train_mode=cfg.dataset.edge_train_mode,
-                                edge_message_ratio=cfg.dataset.edge_message_ratio,
-                                edge_negative_sampling_ratio=cfg.dataset.edge_negative_sampling_ratio,
-                                resample_disjoint=cfg.dataset.resample_disjoint,
-                                minimum_node_per_graph=0)
+        if(cfg.dataset.task != 'node'):
+            if(len(datasets[0]) % cfg.train.batch_size == 1):
+                graph_list = list(datasets[0])
+                if graph_list:
+                    datasets[0] = GraphDataset(
+                                    graph_list[:-1],
+                                    task=cfg.dataset.task,
+                                    edge_train_mode=cfg.dataset.edge_train_mode,
+                                    edge_message_ratio=cfg.dataset.edge_message_ratio,
+                                    edge_negative_sampling_ratio=cfg.dataset.edge_negative_sampling_ratio,
+                                    resample_disjoint=cfg.dataset.resample_disjoint,
+                                    minimum_node_per_graph=0)
 
-            else:
-                print("The dataset would be empty; no new dataset created.")
+                else:
+                    print("The dataset would be empty; no new dataset created.")
 
 
         loaders = create_loader(datasets)

@@ -51,7 +51,7 @@ class custom_dataset(InMemoryDataset):
         extract_zip(path, self.raw_dir)
         os.unlink(path)
 
-    def process(self):
+    def process(self): # this does nothing. All processing is done during generation
         inputs = torch.load(self.raw_paths[0])
         inputs.process()
         self.data = inputs

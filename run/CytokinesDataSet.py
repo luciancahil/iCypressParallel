@@ -99,6 +99,7 @@ class CytokinesDataSet(Dataset):
             all_x_slice.append(num_nodes*i)
             all_edge_index_slice.append(num_edges * i)
         
+        # slices tell where data ends
         train_slices['y'] = torch.tensor(train_y_slice)
         train_slices['x'] = torch.tensor(train_x_slice)
         train_slices['edge_index'] = torch.tensor(train_edge_index_slice)

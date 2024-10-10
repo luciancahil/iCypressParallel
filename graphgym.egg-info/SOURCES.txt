@@ -82,11 +82,13 @@ run/AnnDataProcessor.py
 run/Cypress.py
 run/CytokinesDataSet.py
 run/Linear.py
+run/NodeClassifyDataset.py
 run/Process CSV.py
 run/Visualization.py
 run/__init__.py
 run/agg_batch.py
 run/configs_gen.py
+run/generate-node.py
 run/generation.py
 run/knn.py
 run/main.py
