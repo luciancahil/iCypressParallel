@@ -86,7 +86,7 @@ if __name__ == '__main__':
             newParam.append(param)
         
         # Uncomment to add edge weights
-        # newParam.append(edge_weights)
+        newParam.append(edge_weights)
 
         optimizer = create_optimizer(newParam)
         scheduler = create_scheduler(optimizer)
