@@ -80,6 +80,28 @@ else:
     grid = True
 
 
+try:
+    if(sys.argv[5].upper() == "NULL"):
+        raise IndexError
+    parameter_file = sys.argv[6] + ".yaml"
+except(IndexError):
+    if(grid):
+        parameter_file = "Default Grid.yaml"
+    else:
+        parameter_file = "Default Config.yaml"
+
+config_path = os.path.join("Hyperparameters", parameter_file)
+
+with open(config_path, 'r') as file:
+    configs = yaml.safe_load(file)
+
+
+
+try:
+    save_model = sys.argv[6][0].upper()=="T"
+except(IndexError):
+    save_model = False
+
 
 try:
     MAP_FILE = sys.argv[5]
@@ -136,10 +158,10 @@ make_dataset(name, data, labels, edges)
 
 
 if (grid) :
-    make_grid_sh(sys.argv[1], name, name)
+    make_grid_sh(sys.argv[1], name, name, save_model)
     make_grid(name, configs, False)
     makeConfigFile(name, single_configs)
 else:
     config_name = makeConfigFile(name, configs, False)
-    make_single_sh(sys.argv[1], name, config_name)
+    make_single_sh(sys.argv[1], name, config_name, save_model)
 #also need to make the grid file and the sh file

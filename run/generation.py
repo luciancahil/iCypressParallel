@@ -388,7 +388,7 @@ def make_grid(name, configs, isGraph = True):
 
 
 
-def make_grid_sh(eset_name, cyto, name):
+def make_grid_sh(eset_name, cyto, name, save_model):
     grid_sh_path = os.path.join("customScripts", "run_custom_batch_" + eset_name + "_" + cyto + ".sh")
     with open(grid_sh_path, 'w') as file:
         file.write("#!/usr/bin/env bash\n")
@@ -588,12 +588,12 @@ if __name__ == '__main__':
     # In fact, I wager I probably need a new dataset
 
     if (grid) :
-        make_grid_sh(sys.argv[1], cyto, name)
+        make_grid_sh(sys.argv[1], cyto, name, save_model)
         make_grid(name, configs)
         makeConfigFile(name, single_configs)
     else:
         config_name = makeConfigFile(name, configs)
-        make_single_sh(sys.argv[1], cyto, config_name)
+        make_single_sh(sys.argv[1], cyto, config_name, save_model)
 
         # write a replication script if we save the model
         if(save_model):
