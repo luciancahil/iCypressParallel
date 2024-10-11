@@ -247,6 +247,5 @@ def agg_batch(dir, metric_best='auto'):
                 list(dict_name.keys()), ascending=[True] * len(dict_name))
             fname = os.path.join(dir_out, '{}_bestepoch.csv'.format(key))
             results[key].to_csv(fname, index=False)
-    breakpoint()
 
     print('Results aggregated across models saved in {}'.format(dir_out))
