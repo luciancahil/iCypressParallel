@@ -238,6 +238,8 @@ layers_mp : 6           # How many rounds of message passing do we do
 layers_post_mp : 2      # HOw many layers deep is the neural network after we do all the message passing
 dim_inner : 137         # How many neurons are in the hidden layers
 max_epoch : 400         # How many epochs we train for
+stage_type: skipsum     # How information is passed from one layer to another
+agg: mean               # How information from each node is aggregated into a single vector after message passing
 ````
 
 If you wish to change these hyperparameters, it is recommended that you make a new file. The new file must be of .yaml type. For instance, if you wanted to train for 500 epochs, you could make a new file called "Train_500.yaml" with the following content:

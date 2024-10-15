@@ -12,7 +12,7 @@ from sklearn.decomposition import PCA
 # A file that is meant to generate all the files needed to run the underlying graphgym.
 
 
-
+#TODO Edit this for more flexibility
 def makeConfigFile(name, configs, isGraph = True):
     if (not os.path.exists(os.path.abspath("configs"))):
         os.makedirs(os.path.abspath("configs"))
@@ -50,11 +50,11 @@ def makeConfigFile(name, configs, isGraph = True):
         file.write(' layers_post_mp: ' + str(configs['layers_post_mp']) + '\n')
         file.write(' dim_inner: ' + str(configs['dim_inner']) + '\n')
         file.write(' layer_type: generalconv\n')
-        file.write(' stage_type: skipsum\n')
+        file.write(' stage_type: ' + str(configs['stage_type']) + ' \n')
         file.write(' batchnorm: True\n')
         file.write(' act: prelu\n')
         file.write(' dropout: 0.0\n')
-        file.write(' agg: add\n')
+        file.write(' agg: ' + configs['agg'] + '\n')
         file.write(' normalize_adj: False\n')
         file.write('optim:\n')
         file.write(' optimizer: adam\n')
