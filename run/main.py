@@ -114,77 +114,81 @@ if __name__ == '__main__':
     name = cfg.dataset.name.split(",")[1]
     visual_path = os.path.join("Visuals", name + "_visuals.pt")
 
-    last_layers_pooled = []
-    truths = []
-    for loader in loaders:
-        for batch in loader:
-            last_layer_pooled, truth = model.get_last_hidden_layer_pooled(batch) # first one gives me the vector output of the neural network. 
-            last_layers_pooled += last_layer_pooled
-            truths.append(truth)
-    last_layer_tensor = torch.stack(last_layers_pooled)
-    truths_tensor = torch.cat(truths)
-    numpy_matrix = last_layer_tensor.numpy()
-    numpy_truth = truths_tensor.numpy()
-    # save data
-    visualization_data = {}
-    visualization_data['latent'] = numpy_matrix
-    visualization_data['truth'] = numpy_truth
-    visual_path = os.path.join("Visuals", name + "_visuals.pt")
-    gene_weight_path = os.path.join("Visuals", name + "_genes.pt")
+    if(cfg.dataset.task != 'node'):
+        # visualization for node classification
+        torch.save(edge_weights, visual_path)
+    else: #visualization for graph classification
+        last_layers_pooled = []
+        truths = []
+        for loader in loaders:
+            for batch in loader:
+                last_layer_pooled, truth = model.get_last_hidden_layer_pooled(batch) # first one gives me the vector output of the neural network. 
+                last_layers_pooled += last_layer_pooled
+                truths.append(truth)
+        last_layer_tensor = torch.stack(last_layers_pooled)
+        truths_tensor = torch.cat(truths)
+        numpy_matrix = last_layer_tensor.numpy()
+        numpy_truth = truths_tensor.numpy()
+        # save data
+        visualization_data = {}
+        visualization_data['latent'] = numpy_matrix
+        visualization_data['truth'] = numpy_truth
+        visual_path = os.path.join("Visuals", name + "_visuals.pt")
+        gene_weight_path = os.path.join("Visuals", name + "_genes.pt")
 
-    pre_message_layers = []
+        pre_message_layers = []
 
-    for child in model.children(): # We are at the network level.
-        if(isinstance(child, GeneralMultiLayer)): 
-            for grandchild in child.children(): # we are at the MultiLayer object
-                for object in grandchild.children(): # we are at the GeneralLayer object
-                    if(isinstance(object, Linear)):
-                        for layer in object.children(): # we are at the Linear object
-                            pre_message_layers.append(layer)
-                            colorWeights = layer.weight
-                    
-    
-    first_layer = pre_message_layers[0]
-    first_weights = first_layer.weight.detach().numpy()
-    gene_weight_sum = [0] * len(first_weights[0])
+        for child in model.children(): # We are at the network level.
+            if(isinstance(child, GeneralMultiLayer)): 
+                for grandchild in child.children(): # we are at the MultiLayer object
+                    for object in grandchild.children(): # we are at the GeneralLayer object
+                        if(isinstance(object, Linear)):
+                            for layer in object.children(): # we are at the Linear object
+                                pre_message_layers.append(layer)
+                                colorWeights = layer.weight
+                        
+        
+        first_layer = pre_message_layers[0]
+        first_weights = first_layer.weight.detach().numpy()
+        gene_weight_sum = [0] * len(first_weights[0])
 
-    for neuron in first_weights:
-        for index, value in enumerate(neuron):
-            gene_weight_sum[index] += value
-    
-    gene_weight_sum = [value / len(first_weights) for value in gene_weight_sum]
-    geneList = torch.load((os.path.join("datasets", name, "raw", "geneList.pt")))
+        for neuron in first_weights:
+            for index, value in enumerate(neuron):
+                gene_weight_sum[index] += value
+        
+        gene_weight_sum = [value / len(first_weights) for value in gene_weight_sum]
+        geneList = torch.load((os.path.join("datasets", name, "raw", "geneList.pt")))
 
 
-    gene_weight_dict = dict()
+        gene_weight_dict = dict()
 
-    for i, weight in enumerate(gene_weight_sum):
-        gene_weight_dict[geneList[i][0] + "@" + geneList[i][1]] = weight
-    
-    
-    sorted_gene_list = sorted(gene_weight_dict.items(), key=lambda x:-abs(x[1]))
-    visualization_data['genes']  = sorted_gene_list
+        for i, weight in enumerate(gene_weight_sum):
+            gene_weight_dict[geneList[i][0] + "@" + geneList[i][1]] = weight
+        
+        
+        sorted_gene_list = sorted(gene_weight_dict.items(), key=lambda x:-abs(x[1]))
+        visualization_data['genes']  = sorted_gene_list
 
-    
-    graph_visuals = {'colours':colorWeights, 'graph': datasets[0].graphs[0].G, 'name': name, 'edge_weights': edge_weights}
-    visualization_data['graph_data'] = graph_visuals
-    torch.save(visualization_data, visual_path)
-    print("Visualization data stored at: " + visual_path)
-    Visualize.save_PCA(numpy_matrix, numpy_truth, name)
-    Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
-    Visualize.save_graph_pic(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
+        
+        graph_visuals = {'colours':colorWeights, 'graph': datasets[0].graphs[0].G, 'name': name, 'edge_weights': edge_weights}
+        visualization_data['graph_data'] = graph_visuals
+        torch.save(visualization_data, visual_path)
+        print("Visualization data stored at: " + visual_path)
+        Visualize.save_PCA(numpy_matrix, numpy_truth, name)
+        Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
+        Visualize.save_graph_pic(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
 
-    print(args.save)
-    print(args.save == '1')
-    if(args.save == '1'):
-        now = time.time() # unix time stamp, to save anohter if need be
-        model_path = os.path.join("models", name + "_" + str(now) +"_model.pt")
-        print("Model saved at " + model_path)
-        model.edge_weights = edge_weights
-        torch.save(model, model_path)
+        print(args.save)
+        print(args.save == '1')
+        if(args.save == '1'):
+            now = time.time() # unix time stamp, to save anohter if need be
+            model_path = os.path.join("models", name + "_" + str(now) +"_model.pt")
+            print("Model saved at " + model_path)
+            model.edge_weights = edge_weights
+            torch.save(model, model_path)
 
-    print("Experiment name: " + name)
-    print(edge_weights)
+        print("Experiment name: " + name)
+        print(edge_weights)
 
 
     
