@@ -24,6 +24,9 @@ import time
 
 from Visualization import Visualize
 
+
+#TODO: Fix old genes_to_tissues
+#TODO; Add edge option to hyperparameters
 if __name__ == '__main__':
     # Load cmd line args
     args = parse_args()
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     dump_cfg(cfg)
     cfg.optim.max_epoch = 100
     # Repeat for different random seeds
-    for i in range(args.repeat):
+    for i in range(3):
         set_run_dir(cfg.out_dir)
         setup_printing()
         # Set configurations for each run
@@ -43,6 +46,7 @@ if __name__ == '__main__':
         seed_everything(cfg.seed)
         auto_select_device()
         # Set machine learning pipeline
+        # wonderful! I'm going to have to do this myself.
         datasets = create_dataset()
         #
         if(cfg.dataset.task != 'node'):
@@ -114,7 +118,7 @@ if __name__ == '__main__':
     name = cfg.dataset.name.split(",")[1]
     visual_path = os.path.join("Visuals", name + "_visuals.pt")
 
-    if(cfg.dataset.task != 'node'):
+    if(cfg.dataset.task == 'node'):
         # visualization for node classification
         torch.save(edge_weights, visual_path)
     else: #visualization for graph classification
