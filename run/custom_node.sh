@@ -15,10 +15,10 @@ STARTTIME=`date +"%Y-%m-%d %T"`
 python generate-node.py ${NODE_FILE} ${EDGE_FILE} ${NAME} ${GRID} ${HYPERPARAM} ${SAVE}
 wait
 
-if [ $GRID = "TRUE" ]; then
+if [ $GRID = "True" ]; then
     echo "Here!!"
     bash ./customScripts/run_custom_batch_${NODE_FILE}_${NAME}.sh
-elif [ $GRID = "FALSE" ]; then
+elif [ $GRID = "False" ]; then
     bash ./customScripts/run_custom_${NODE_FILE}_${NAME}.sh
 fi
 

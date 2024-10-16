@@ -38,7 +38,8 @@ if __name__ == '__main__':
     dump_cfg(cfg)
     cfg.optim.max_epoch = 100
     # Repeat for different random seeds
-    for i in range(3):
+    datasets = None
+    for i in range(5):
         set_run_dir(cfg.out_dir)
         setup_printing()
         # Set configurations for each run
@@ -47,7 +48,46 @@ if __name__ == '__main__':
         auto_select_device()
         # Set machine learning pipeline
         # wonderful! I'm going to have to do this myself.
-        datasets = create_dataset()
+        if datasets != None and cfg.dataset.task == 'node':
+            # manually change the labels
+            num_nodes = len(datasets[1][0].node_feature)
+            node_labels = [0]*num_nodes
+
+            for dataset in datasets:
+                for j in range(len(dataset[0].node_label)):
+                    node_labels[dataset[0].node_label_index[j]] = dataset[0].node_label[j]
+
+            start = int(num_nodes - num_nodes * (i+1) / 5)
+            end = int(num_nodes - num_nodes * (i) / 5)
+            node_labels = torch.tensor(node_labels)
+            # get indicies
+            test_indicies = [k for k in range(start, end)]
+            train_indicies = [k for k in range(num_nodes) if k not in test_indicies]
+
+            # get labels
+            test_labels = [node_labels[k] for k in test_indicies]
+            train_labels = [node_labels[k] for k in train_indicies]
+
+            # convert to tensors
+            train_labels = torch.tensor(train_labels)
+            train_indicies = torch.tensor(train_indicies)
+            test_labels = torch.tensor(test_labels)
+            test_indicies = torch.tensor(test_indicies)
+
+            # write to dataset
+            datasets[0][0].node_label = train_labels
+            datasets[0][0].node_label_index = train_indicies
+
+            datasets[1][0].node_label = test_labels
+            datasets[1][0].node_label_index = test_indicies
+
+            print(datasets[0][0].node_label)
+            print(datasets[0][0].node_label_index)
+            print(datasets[1][0].node_label)
+            print(datasets[1][0].node_label_index)
+        else:
+            datasets = create_dataset()
+
         #
         if(cfg.dataset.task != 'node'):
             if(len(datasets[0]) % cfg.train.batch_size == 1):

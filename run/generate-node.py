@@ -79,11 +79,10 @@ if grid[0] == "F":
 else:
     grid = True
 
-
 try:
     if(sys.argv[5].upper() == "NULL"):
         raise IndexError
-    parameter_file = sys.argv[6] + ".yaml"
+    parameter_file = sys.argv[5] + ".yaml"
 except(IndexError):
     if(grid):
         parameter_file = "Default Grid.yaml"
@@ -110,17 +109,6 @@ try:
     MAP_FILE = sys.argv[5]
 except(IndexError):
     MAP_FILE = "GenesToTissues.csv"
-
-try:
-    if(sys.argv[6].upper() == "NULL"):
-        raise IndexError
-    parameter_file = sys.argv[6] + ".yaml"
-except(IndexError):
-    if(grid):
-        parameter_file = "Default Grid.yaml"
-    else:
-        parameter_file = "Default Config.yaml"
-
 
 try:
     num_genes = int(sys.argv[8][0])
@@ -155,7 +143,6 @@ data, labels = process_nodes(nodes)
 edges = process_edges(edges)
 
 make_dataset(name, data, labels, edges)
-
 
 if (grid) :
     make_grid_sh(sys.argv[1], name, name, save_model)
