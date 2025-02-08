@@ -80,7 +80,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
     if cyto == "all":
 
         for cyto in cyto_tissue_dict.keys():
-            tissues += cyto_tissue_dict[cyto]
+            tissues += cyto_tissue_dict[cyto].upper()
         
     else:
         tissues = cyto_tissue_dict[cyto]
@@ -92,7 +92,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
             count = 1
         else:
-            count = len(active_tissue_gene_dict[tissue])
+            count = len(active_tissue_gene_dict[tissue.upper()])
         
         gene_count.append(count)
     
@@ -305,7 +305,7 @@ def process_graphs(cyto):
     graphLines = f.read().splitlines()
     
     for line in graphLines:
-        parts = line.split(",") # remove newline, capitalize, and remove spaces
+        parts = line.upper().split(",") # remove newline, capitalize, and remove spaces
         tissue_set.update(parts)
         graphAdjacency.append(parts)
         if sys.argv[3] != "all":
@@ -316,7 +316,7 @@ def process_graphs(cyto):
     # put the tissues into a list, and then sort them
     tissue_list = []
     for tissue in tissue_set:
-        tissue_list.append(tissue)
+        tissue_list.append(tissue.upper())
     
     tissue_list.sort()
 
