@@ -1,5 +1,6 @@
 import logging
 import os
+from deepsnap.batch import Batch
 
 import torch
 from torch_geometric import seed_everything
@@ -21,6 +22,7 @@ from graphgym.models.layer import GeneralMultiLayer, Linear, GeneralConv
 from graphgym.models.gnn import GNNStackStage
 import numpy as np
 import time
+from torch.utils.data import DataLoader
 
 from Visualization import Visualize
 
@@ -36,7 +38,6 @@ if __name__ == '__main__':
     # Set Pytorch environment
     torch.set_num_threads(cfg.num_threads)
     dump_cfg(cfg)
-    cfg.optim.max_epoch = 100
     # Repeat for different random seeds
     datasets = None
     for i in range(5):
@@ -149,6 +150,77 @@ if __name__ == '__main__':
             train_dict[cfg.train.mode](loggers, loaders, model, optimizer,
                                         scheduler)
         
+        loaders = [None]*2
+        loaders[0] = DataLoader(datasets[0],
+                        collate_fn=Batch.collate(),
+                        batch_size=1,
+                        shuffle=True,
+                        num_workers=cfg.num_workers,
+                        pin_memory=False)
+        
+        loaders[1] = DataLoader(datasets[1],
+                        collate_fn=Batch.collate(),
+                        batch_size=1,
+                        shuffle=True,
+                        num_workers=cfg.num_workers,
+                        pin_memory=False)
+
+    
+    print(args.get_edge_weights)
+    print(type(args.get_edge_weights))
+    if(args.get_edge_weights == '1'):
+        print("Hello!")
+
+        for batch in loaders[0]:
+            model(batch)
+        
+        node_name_location = os.path.join("datasets", name, "processed", "nodeNames.pt")
+        node_to_num = torch.load(node_name_location)
+        num_to_node = dict()
+        weight_path = os.path.join("EdgeWeights", "{}_edge_weights.csv".format(name))
+        file = open(weight_path, mode='w')
+        
+        for key in node_to_num.keys():
+            num_to_node[node_to_num[key]] = key
+
+
+        edge_list =  model._modules['mp']._modules["block0"]._modules['f']._modules['0']._modules['layer'].edge_weights[0]
+
+
+
+        # write top row. First elemetn is source, next is dest
+        file.write("Patient Name")
+        for k in range(len(edge_list[0])):
+            source = num_to_node[edge_list[0][k].item()]
+            dest = num_to_node[edge_list[1][k].item()]
+
+            file.write(",{}-{}".format(source, dest))
+
+
+        file.write("\n")
+        number = 0
+
+        for loader in loaders:
+            for batch in loader:
+                if(number % 100 == 0):
+                    print(str(number))
+                
+                number += 1
+                model(batch)
+                # get the message passing layers
+                message_passing_layers = model._modules['mp']
+                # get the last message_passing layer
+                num_mp_layers = len([c for c in message_passing_layers.children()])
+                for k in range(num_mp_layers):
+                    block_name = "block{}".format(k)
+                    gan = message_passing_layers._modules[block_name]._modules['f']._modules['0']._modules['layer']
+                    weight_list = gan.edge_weights[1].squeeze().tolist()
+                    weight_list = str(weight_list)
+                    file.write("{}:{},{}\n".format(batch.name[0], block_name, weight_list.replace("[","").replace("]","").replace(" ","")))
+
+                file.write("\n")
+        print("Edge Weights Saved to {}".format(weight_path))
+
 # Aggregate results from different seeds
     agg_runs(cfg.out_dir, cfg.metric_best)
     # When being launched in batch mode, mark a yaml as done
@@ -220,7 +292,6 @@ if __name__ == '__main__':
         print("Visualization data stored at: " + visual_path)
         Visualize.save_PCA(numpy_matrix, numpy_truth, name)
         Visualize.save_TSNE(numpy_matrix, numpy_truth, name)
-        Visualize.save_graph_pic(colorWeights, datasets[0].graphs[0].G, name, edge_weights)
 
         print(args.save)
         print(args.save == '1')
@@ -232,7 +303,6 @@ if __name__ == '__main__':
             torch.save(model, model_path)
 
         print("Experiment name: " + name)
-        print(edge_weights)
 
 
     

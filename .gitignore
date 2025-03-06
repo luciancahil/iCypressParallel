@@ -7,6 +7,12 @@ run/datasets/data/
 
 
 # Ignore everything in the folder
+run/EdgeWeights/*
+
+# But not these files...
+!run/EdgeWeights/dummy.txt
+
+# Ignore everything in the folder
 run/customScripts/*
 
 # But not these files...

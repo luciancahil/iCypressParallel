@@ -72,43 +72,52 @@ class CytokinesDataSet(Dataset):
         
         
         # prepare the slices
+        train_name_slice = []
         train_y_slice = []
         train_x_slice = []
         train_edge_index_slice = []
 
+        test_name_slice = []
         test_y_slice = []
         test_x_slice = []
         test_edge_index_slice = []
 
+
+        all_name_slice = []
         all_y_slice = []
         all_x_slice = []
         all_edge_index_slice = []
 
         for i in range(num_training + 1):
+            train_name_slice.append(i)
             train_y_slice.append(i)
             train_x_slice.append(num_nodes*i)
             train_edge_index_slice.append(num_edges * i)
 
         for i in range(num_testing + 1):
+            test_name_slice.append(i)
             test_y_slice.append(i)
             test_x_slice.append(num_nodes*i)
             test_edge_index_slice.append(num_edges * i)
 
         for i in range(num_patients + 1):
+            all_name_slice.append(i)
             all_y_slice.append(i)
             all_x_slice.append(num_nodes*i)
             all_edge_index_slice.append(num_edges * i)
         
         # slices tell where data ends
+        train_slices['name'] = torch.tensor(train_name_slice)
         train_slices['y'] = torch.tensor(train_y_slice)
         train_slices['x'] = torch.tensor(train_x_slice)
         train_slices['edge_index'] = torch.tensor(train_edge_index_slice)
 
+        test_slices['name'] = torch.tensor(test_name_slice)
         test_slices['y'] = torch.tensor(test_y_slice)
         test_slices['x'] = torch.tensor(test_x_slice)
         test_slices['edge_index'] = torch.tensor(test_edge_index_slice)
 
-
+        all_slices['name'] = torch.tensor(all_name_slice)
         all_slices['y'] = torch.tensor(all_y_slice)
         all_slices['x'] = torch.tensor(all_x_slice)
         all_slices['edge_index'] = torch.tensor(all_edge_index_slice)
@@ -119,16 +128,17 @@ class CytokinesDataSet(Dataset):
         train_x_tensor = torch.empty((0, node_vector_len), dtype=torch.float32)
         train_edge_index_tensor = torch.empty((2, 0), dtype=torch.int32)
         train_y_list = [] # It's just easier to make a list than figure out how to do 1d concats
+        train_name_list = []
 
         test_x_tensor = torch.empty((0, node_vector_len), dtype=torch.float32)
         test_edge_index_tensor = torch.empty((2, 0), dtype=torch.int32)
         test_y_list = [] # It's just easier to make a list than figure out how to do 1d concats
-
+        test_name_list = []
 
         all_x_tensor = torch.empty((0, node_vector_len), dtype=torch.float32)
         all_edge_index_tensor = torch.empty((2, 0), dtype=torch.int32)
         all_y_list = [] # It's just easier to make a list than figure out how to do 1d concats
-
+        all_name_list = []
 
         # runs once for each patient
         index = 0
@@ -146,14 +156,17 @@ class CytokinesDataSet(Dataset):
                 train_x_tensor = torch.cat((train_x_tensor,node_feats), 0)
                 train_edge_index_tensor = torch.cat((train_edge_index_tensor,edge_index), 1)
                 train_y_list.append(int(patient[CLASS_NAME]))
+                train_name_list.append(patient['NAME'])
             else:
                 test_x_tensor = torch.cat((test_x_tensor,node_feats), 0)
                 test_edge_index_tensor = torch.cat((test_edge_index_tensor,edge_index), 1)
                 test_y_list.append(int(patient[CLASS_NAME]))
+                test_name_list.append(patient['NAME'])
             
             all_x_tensor = torch.cat((all_x_tensor,node_feats), 0)
             all_edge_index_tensor = torch.cat((all_edge_index_tensor,edge_index), 1)
             all_y_list.append(int(patient[CLASS_NAME]))
+            all_name_list.append(patient['NAME'])
 
             index += 1
 
@@ -165,16 +178,19 @@ class CytokinesDataSet(Dataset):
         train_data.x = train_x_tensor
         train_data.y = train_y_tensor
         train_data.edge_index = train_edge_index_tensor
+        train_data.names = train_name_list
 
 
         test_data.x = test_x_tensor
         test_data.y = test_y_tensor
         test_data.edge_index = test_edge_index_tensor
+        test_data.names = test_name_list
 
 
         all_data.x = all_x_tensor
         all_data.y = all_y_tensor
         all_data.edge_index = all_edge_index_tensor
+        all_data.names = all_name_list
 
         torch.save(self.divisions, os.path.join(self.new_dir, 'divisions.pt')) # states which genes belong to which cytokine
         torch.save(self.nodeNames, os.path.join(self.new_dir, 'nodeNames.pt'))
@@ -200,7 +216,7 @@ class CytokinesDataSet(Dataset):
         [Number of Nodes, Node Feature size]
         """
         all_node_feats = np.asarray(patient['data'])
-
+        
         return torch.tensor(all_node_feats, dtype=torch.float)
 
     # todo: REturn list of 1 each time

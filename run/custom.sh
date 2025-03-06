@@ -8,14 +8,13 @@ MAP=$5
 HYPERPARAM=$6
 SAVE=$7
 NUM_GENES=$8
+GET_EDGE_WEIGHTS=$9
 
 STARTTIME=`date +"%Y-%m-%d %T"`
 
 
-
-python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${MAP} ${HYPERPARAM} ${SAVE} $NUM_GENES
+python generation.py ${ESET} ${PATIENT} ${CYTO} ${GRID} ${MAP} ${HYPERPARAM} ${SAVE} $NUM_GENES ${GET_EDGE_WEIGHTS}
 wait
-
 
 if [ $GRID = "True" ]; then
     bash ./customScripts/run_custom_batch_${ESET}_${CYTO}.sh

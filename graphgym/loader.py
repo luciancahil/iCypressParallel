@@ -29,6 +29,7 @@ def load_pyg(name, dataset_dir):
     :param dataset_dir: data directory
     :return: a list of networkx/deepsnap graphs
     '''
+    has_names = False
     if not str(name[0:6]) == "Custom":
         dataset_dir = '{}/{}'.format(dataset_dir, name)
     else:
@@ -78,9 +79,16 @@ def load_pyg(name, dataset_dir):
         parts = name.split(",")     # in custom sets, the names field must contain names and urls
         dataset_raw = custom_dataset(root=dataset_dir, name=parts[1], url=parts[2])
         name = parts[1] # give it a new name
+        has_names = True
     else:
         raise ValueError('{} not support'.format(name))
     graphs = GraphDataset.pyg_to_graphs(dataset_raw)
+
+    if has_names:
+        for i, graph in enumerate(graphs):
+            graph.name = dataset_raw.data.names[i]
+
+    # graphs[0].name works, even if you can't see it.
     return graphs
 
 

@@ -49,7 +49,7 @@ def makeConfigFile(name, configs, isGraph = True):
         file.write(' layers_mp: ' + str(configs['layers_mp']) + '\n')
         file.write(' layers_post_mp: ' + str(configs['layers_post_mp']) + '\n')
         file.write(' dim_inner: ' + str(configs['dim_inner']) + '\n')
-        file.write(' layer_type: generalconv\n')
+        file.write(' layer_type: gatconv\n')
         file.write(' stage_type: ' + str(configs['stage_type']) + ' \n')
         file.write(' batchnorm: True\n')
         file.write(' act: prelu\n')
@@ -110,7 +110,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         patient_data = {}
 
         patient_data["DISEASE"] = str(patient_dict[patient])
-
+        patient_data["NAME"] = patient
 
         data = []
         # create the information vector that goes into each node. 
@@ -230,7 +230,6 @@ def process_eset(eset, gene_set, patient_dict, tissue_gene_dict, cyto_adjacency_
         eset_file = open(eset, 'r')
         eset_lines = eset_file.read().splitlines()
 
-    
     # read the first line, and see if it matches with the patient file provided
     patients = eset_lines[0].replace("\"", "").split(",")[2:]
     
@@ -433,6 +432,13 @@ def make_single_sh(eset_name, cyto, config_name, save_model = False):
         if(save_model):
             file.write(' --save 1')
 
+        file.write(' --get_edge_weights ')
+
+        if(get_edge_weights):
+            file.write('1')
+        else:
+            file.write('0')
+
 
 def make_replication(eset_name, cyto, config_name):
     # using with statement
@@ -492,8 +498,15 @@ if __name__ == '__main__':
 
     try:
         num_genes = int(sys.argv[8][0])
-    except(IndexError):
+    except(IndexError, ValueError):
         num_genes = 0
+
+
+    try:
+        get_edge_weights = sys.argv[9][0].upper()=="T"
+    except:
+        get_edge_weights = False
+
 
     config_path = os.path.join("Hyperparameters", parameter_file)
     with open(config_path, 'r') as file:

@@ -175,9 +175,12 @@ class GATConv(nn.Module):
     def __init__(self, dim_in, dim_out, bias=False, **kwargs):
         super(GATConv, self).__init__()
         self.model = pyg.nn.GATConv(dim_in, dim_out, bias=bias)
+        self.edge_weights = -1
 
-    def forward(self, batch):
-        batch.node_feature = self.model(batch.node_feature, batch.edge_index)
+    def forward(self, batch):  
+        returned_data = self.model(batch.node_feature, batch.edge_index, return_attention_weights=True)
+        self.edge_weights = returned_data[1]
+        batch.node_feature = returned_data[0]
         return batch
 
 

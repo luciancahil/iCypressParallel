@@ -27,7 +27,9 @@ def parse_args() -> argparse.Namespace:
                     default=None,
                     nargs=argparse.REMAINDER,
                     help='See graphgym/config.py for remaining options.')
-    
+    parser.add_argument('--get_edge_weights',
+                    default=0,
+                    help='Do we save edge weights') 
 
 
     return parser.parse_args()

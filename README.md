@@ -299,13 +299,54 @@ Note: If you don't see the new hyperparameters taking affect, it may because the
 
 ## Saving
 
-To save, simply pass "True" as the sixth parameter. If you wish to use custom hyperparameters, simply add "True" to the end of the command.
+To save, simply pass "True" as the sixth parameter.
 
 If you wish to use default hyperparameters and mapping, insert "NULL" in place of the hyperparameter command.
 
 ````
 bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL True
 ````
+
+## Capped Number of Genes
+
+To set a maximum number of genes each node can have, pass a number as the 7th parameter.
+
+Any node with more than that many genes will have a random selection of genes selected to run. Any nodes with that many or fewer will proceed as normal.
+
+
+If you wish to use default hyperparameters and mapping, insert "NULL" in place of the hyperparameter command.
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL NULL True
+
+````
+
+## Saving Edge Weights
+
+If you want to save edge weights, pass "true" as the 8th parameter.
+
+This library will gneerate a csv with information about edge weights for each patient in each GNN run.
+
+If you wish to use default hyperparameters and mapping, insert "NULL" in place of the hyperparameter command.
+
+````
+bash custom.sh GSE40240_eset GSE40240_patients CCL1 False NULL NULL NULL Null True
+
+````
+
+The files will be in run/EdgeWeights, and will look something like so:
+|         |   |  |
+|---------|---|--|
+Patient Name|BASOPHIL-EOSINOPHIL|BASOPHIL-CLASSICAL MONOCYTE|
+GSM989165:block0|0.16812413930892944|0.1679607480764389
+GSM989165:block1|0.1689884215593338|0.1689884066581726
+| | | |
+GSM989157:block0|0.16848771274089813|0.1685510277748108
+GSM989157:block1|0.16860821843147278|0.16860821843147278
+
+The first collumn denotes the patient and the block the attention weights are from. "Block" refers the the order of message passing. For example, if 4 rounds of message passing are done, the GAN in the first round is block0, the 2nd block 1, and so forth.
+
+Every additional collumn refers to a given weight. The top of that collumn is the source and destination. For example, BASOPHIL-EOSINOPHIL refers to an edge that starts at Basophil and ends at Eosionphil
 
 ## Replication
 
