@@ -4,7 +4,11 @@ run/datasets/data/
 **/.ipynb_checkpoints
 .idea/
 
+# Ignore everything in the folder
+run/Attention Weights/*
 
+# But not these files...
+!run/Attention Weights/dummy.txt
 
 # Ignore everything in the folder
 run/EdgeWeights/*

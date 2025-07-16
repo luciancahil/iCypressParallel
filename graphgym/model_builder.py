@@ -24,8 +24,11 @@ def create_model(to_device=True, dim_in=None, dim_out=None):
     # binary classification, output dim = 1
     if 'classification' in cfg.dataset.task_type and dim_out == 2:
         dim_out = 1
-
-    model = network_dict[cfg.model.type](dim_in=dim_in, dim_out=dim_out)
+    
+    try:
+        model = network_dict[cfg.model.type](dim_in=dim_in, dim_out=dim_out)
+    except(ValueError):
+        raise(ValueError("No genes in your map file appear in your ESET DATA"))
     if to_device:
         model.to(torch.device(cfg.device))
     return model

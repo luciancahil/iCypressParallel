@@ -37,6 +37,7 @@ if __name__ == '__main__':
     set_out_dir(cfg.out_dir, args.cfg_file)
     # Set Pytorch environment
     torch.set_num_threads(cfg.num_threads)
+    print("dumping")
     dump_cfg(cfg)
     # Repeat for different random seeds
     datasets = None

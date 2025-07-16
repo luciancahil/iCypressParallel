@@ -80,6 +80,7 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
     if cyto == "all":
 
         for cyto in cyto_tissue_dict.keys():
+            # seems to be causing a bug. Rememove UPPer?
             tissues += cyto_tissue_dict[cyto].upper()
         
     else:
@@ -92,8 +93,10 @@ def create_cyto_dataset(cyto, eset, cyto_tissue_dict, active_tissue_gene_dict, p
         if tissue in cyto_adjacency_dict: # the tissue is actually a cytokine.
             count = 1
         else:
-            count = len(active_tissue_gene_dict[tissue.upper()])
-        
+            try:
+                count = len(active_tissue_gene_dict[tissue.upper()])
+            except(KeyError):
+                raise(ValueError("{} is in your graph, but is not found in the gene-to-tissue-map".format(tissue.upper())))    
         gene_count.append(count)
     
     total_genes = sum(gene_count)
